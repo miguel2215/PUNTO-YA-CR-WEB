@@ -2806,3 +2806,38 @@ h2{
   }
 
 }
+/* =====================================================
+   AJUSTE FINAL IMÁGENES DE DISPOSITIVOS
+   ===================================================== */
+
+.device-preview {
+  width: 100%;
+  height: 180px;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #f3f8fa;
+}
+
+.device-preview img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Android: centramos el teléfono */
+.phone-preview img {
+  object-position: center center;
+}
+
+/* Computadora */
+.pc-preview img {
+  object-position: center center;
+}
+
+/* Tablet */
+.tablet-preview img {
+  object-position: center center;
+}
