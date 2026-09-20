@@ -2734,3 +2734,75 @@ h2{
 .cr-card-title .flag{
   flex:0 0 auto;
 }
+/* =========================================================
+   DISPOSITIVOS — IMÁGENES FINALES APROBADAS
+   ========================================================= */
+
+.device-downloads{
+  align-items:stretch;
+}
+
+.device-card{
+  height:100%;
+}
+
+.device-scene{
+  width:100%;
+  height:290px;
+
+  padding:0;
+  margin-bottom:14px;
+
+  overflow:hidden;
+
+  border-radius:17px;
+  background:#eef5f6;
+}
+
+.device-scene img{
+  display:block;
+
+  width:100%;
+  height:100%;
+
+  max-width:none;
+  max-height:none;
+
+  object-fit:cover;
+  object-position:center;
+
+  border:0;
+}
+
+
+/* TABLET */
+
+@media(max-width:900px){
+
+  .device-scene{
+    height:320px;
+  }
+
+}
+
+
+/* MÓVIL */
+
+@media(max-width:600px){
+
+  .device-scene{
+    height:315px;
+  }
+
+}
+
+
+/* IPHONE */
+
+@media(max-width:480px){
+
+  .device-scene{
+    height:305px;
+  }
+
+}
