@@ -1453,5 +1453,371 @@ body {
         #f7fbfb 0%,
         #edf9f7 100%
       );
+  /* =========================================================
+   PUNTO YA CR — HERO RESTAURANTE DEFINITIVO
+   ========================================================= */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+
+  width: 100%;
+  min-height: 650px;
+
+  padding: 80px 5%;
+
+  display: grid;
+  grid-template-columns: minmax(380px, .85fr) minmax(500px, 1.15fr);
+  align-items: center;
+  gap: 40px;
+
+  overflow: hidden;
+
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.96) 0%,
+      rgba(255,255,255,.91) 27%,
+      rgba(255,255,255,.48) 45%,
+      rgba(255,255,255,.06) 67%,
+      rgba(255,255,255,0) 100%
+    ),
+    url("assets/D7754774-9D5B-4AF1-B4F7-9476FD923EA1.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+/* =========================================================
+   TEXTO DEL HERO
+   ========================================================= */
+
+.hero .hero-copy {
+  position: relative;
+  z-index: 5;
+
+  width: 100%;
+  max-width: 620px;
+}
+
+.hero .cr-pill {
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.hero h1 {
+  text-shadow: 0 2px 20px rgba(255,255,255,.4);
+}
+
+.hero .hero-copy > p {
+  max-width: 610px;
+}
+
+
+/* =========================================================
+   PRODUCTO REAL SOBRE LA MESA
+   ========================================================= */
+
+.hero .hero-ui.real-product {
+  position: relative;
+  z-index: 4;
+
+  width: 100%;
+  min-width: 0;
+
+  align-self: center;
+
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.hero .real-stage {
+  position: relative;
+
+  width: 100%;
+  max-width: 780px;
+  height: 470px;
+
+  margin: 0 auto;
+
+  background: transparent;
+}
+
+
+/* PC REAL */
+
+.hero .desktop-real {
+  position: absolute;
+
+  width: 82%;
+  max-width: 680px;
+
+  right: 4%;
+  bottom: 34px;
+
+  z-index: 2;
+
+  border-radius: 16px;
+
+  filter:
+    drop-shadow(0 22px 24px rgba(0,0,0,.22))
+    drop-shadow(0 5px 8px rgba(0,0,0,.15));
+}
+
+.hero .desktop-real img {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  border-radius: 12px;
+}
+
+
+/* ETIQUETA DEL SISTEMA */
+
+.hero .desktop-real .screen-label {
+  display: inline-block;
+
+  margin: 0 0 8px 8px;
+  padding: 7px 12px;
+
+  border-radius: 8px;
+
+  background: rgba(255,255,255,.92);
+  color: #078f7d;
+
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .12em;
+
+  box-shadow: 0 5px 18px rgba(0,0,0,.08);
+}
+
+
+/* TELÉFONO REAL */
+
+.hero .phone-real {
+  position: absolute;
+
+  width: 23%;
+  max-width: 180px;
+
+  left: 3%;
+  bottom: 18px;
+
+  z-index: 4;
+
+  filter:
+    drop-shadow(0 18px 20px rgba(0,0,0,.25))
+    drop-shadow(0 4px 6px rgba(0,0,0,.18));
+}
+
+.hero .phone-real img {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  border-radius: 18px;
+}
+
+
+/* NOTA DEL PRODUCTO */
+
+.hero .real-note {
+  position: absolute;
+
+  right: 5%;
+  bottom: 0;
+
+  z-index: 5;
+
+  padding: 12px 16px;
+
+  border-radius: 12px;
+
+  background: rgba(7,31,54,.92);
+  color: #ffffff;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,.18);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.hero .real-note b,
+.hero .real-note span {
+  display: block;
+}
+
+.hero .real-note b {
+  font-size: 13px;
+}
+
+.hero .real-note span {
+  margin-top: 3px;
+
+  font-size: 10px;
+  color: #c8d8e5;
+}
+
+
+/* QUITAMOS LA LEYENDA QUE PODRÍA TAPAR EL FONDO */
+
+.hero .made {
+  display: none;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1050px) {
+
+  .hero {
+    grid-template-columns: 1fr 1fr;
+
+    min-height: 620px;
+
+    padding: 65px 4%;
   }
+
+  .hero .real-stage {
+    height: 410px;
+  }
+
+}
+
+
+/* =========================================================
+   MÓVIL
+   ========================================================= */
+
+@media (max-width: 760px) {
+
+  .hero {
+    display: block;
+
+    min-height: auto;
+
+    padding: 34px 20px 46px;
+
+    background-image:
+      linear-gradient(
+        180deg,
+        rgba(255,255,255,.94) 0%,
+        rgba(255,255,255,.90) 40%,
+        rgba(255,255,255,.48) 66%,
+        rgba(255,255,255,.10) 100%
+      ),
+      url("assets/D7754774-9D5B-4AF1-B4F7-9476FD923EA1.png");
+
+    background-size: auto 100%;
+    background-position: 43% center;
+  }
+
+
+  /* TEXTO */
+
+  .hero .hero-copy {
+    max-width: none;
+  }
+
+  .hero .cr-pill {
+    width: fit-content;
+    max-width: 100%;
+  }
+
+
+  /* PRODUCTO */
+
+  .hero .hero-ui.real-product {
+    margin-top: 38px;
+  }
+
+  .hero .real-stage {
+    width: 100%;
+    max-width: 560px;
+    height: 360px;
+
+    margin: 0 auto;
+  }
+
+  .hero .desktop-real {
+    width: 88%;
+
+    right: 0;
+    bottom: 38px;
+  }
+
+  .hero .phone-real {
+    width: 27%;
+
+    left: 0;
+    bottom: 24px;
+  }
+
+  .hero .real-note {
+    right: 0;
+    bottom: 0;
+  }
+
+}
+
+
+/* =========================================================
+   IPHONE / TELÉFONO PEQUEÑO
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+  .hero {
+    padding: 28px 18px 38px;
+
+    background-size: auto 100%;
+    background-position: 40% center;
+  }
+
+  .hero .real-stage {
+    height: 285px;
+  }
+
+  .hero .desktop-real {
+    width: 91%;
+
+    right: -3%;
+    bottom: 40px;
+  }
+
+  .hero .phone-real {
+    width: 29%;
+
+    left: -1%;
+    bottom: 28px;
+  }
+
+  .hero .desktop-real .screen-label {
+    font-size: 8px;
+
+    padding: 5px 8px;
+  }
+
+  .hero .real-note {
+    padding: 9px 11px;
+  }
+
+  .hero .real-note b {
+    font-size: 10px;
+  }
+
+  .hero .real-note span {
+    font-size: 8px;
+  }
+
 }
