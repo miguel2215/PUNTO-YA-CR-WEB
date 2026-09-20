@@ -983,11 +983,11 @@ h2{
 .device-card.android-card .android-real-screen{
   position:absolute;
 
-  left:28.5%;
-  top:17.5%;
+  left:27.5%;
+  top:16.5%;
 
-  width:30.5%;
-  height:64%;
+  width:32%;
+  height:66%;
 
   display:block;
   max-width:none;
