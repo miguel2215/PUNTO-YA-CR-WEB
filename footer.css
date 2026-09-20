@@ -1,6 +1,6 @@
 /* =========================================================
    PUNTO YA CR
-   FOOTER AISLADO
+   FOOTER AISLADO Y RESPONSIVE
    ========================================================= */
 
 .py-footer {
@@ -20,7 +20,9 @@
 }
 
 
-/* CONTENEDOR PRINCIPAL */
+/* =========================================================
+   CONTENEDOR PRINCIPAL
+   ========================================================= */
 
 .py-footer .py-footer-inner {
   width: min(1450px, 90%);
@@ -28,6 +30,7 @@
   padding: 58px 0 48px;
 
   display: grid;
+
   grid-template-columns:
     minmax(260px, 1.3fr)
     minmax(130px, .65fr)
@@ -53,7 +56,6 @@
 
 .py-footer .py-footer-logo {
   display: block;
-
   width: 205px;
   max-width: 100%;
   height: auto;
@@ -62,8 +64,6 @@
   padding: 0;
 
   object-fit: contain;
-
-  /* Anula el filtro del footer antiguo */
   filter: none;
 }
 
@@ -82,7 +82,6 @@
 
 .py-footer .py-footer-description {
   display: block;
-
   max-width: 265px;
 
   margin: 0 0 22px;
@@ -95,7 +94,9 @@
 }
 
 
-/* COSTA RICA */
+/* =========================================================
+   COSTA RICA
+   ========================================================= */
 
 .py-footer .py-footer-cr {
   display: flex;
@@ -158,7 +159,6 @@
 .py-footer .py-footer-column h3,
 .py-footer .py-footer-news h3 {
   position: relative;
-
   display: block;
 
   margin: 0 0 25px;
@@ -190,7 +190,6 @@
 
 .py-footer .py-footer-column a {
   display: block;
-
   width: auto;
 
   margin: 0 0 15px;
@@ -481,12 +480,49 @@
 @media (max-width: 480px) {
 
   .py-footer .py-footer-inner {
+    width: calc(100% - 32px);
+
+    padding: 38px 0 30px;
+
     grid-template-columns: 1fr;
+
+    gap: 32px;
   }
 
   .py-footer .py-footer-brand,
   .py-footer .py-footer-news {
     grid-column: auto;
+  }
+
+  .py-footer .py-footer-logo {
+    width: 175px;
+    max-width: 175px;
+
+    margin-bottom: 16px;
+  }
+
+  .py-footer .py-footer-slogan {
+    font-size: 15px;
+  }
+
+  .py-footer .py-footer-description {
+    max-width: 100%;
+
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .py-footer .py-footer-column h3,
+  .py-footer .py-footer-news h3 {
+    margin-bottom: 20px;
+
+    font-size: 15px;
+  }
+
+  .py-footer .py-footer-column a {
+    margin-bottom: 13px;
+
+    font-size: 13px;
   }
 
   .py-footer .py-footer-form {
@@ -514,71 +550,167 @@
     min-height: 48px;
 
     border-radius: 10px;
-     /* =========================================================
+  }
+
+  .py-footer .py-footer-bottom {
+    padding: 20px 16px;
+
+    gap: 18px;
+  }
+
+  .py-footer .py-footer-social {
+    gap: 15px;
+
+    flex-wrap: wrap;
+  }
+
+  .py-footer .py-footer-country {
+    white-space: normal;
+  }
+
+}
+
+
+/* =========================================================
    AISLAMIENTO DEL FOOTER
-   Neutraliza las reglas antiguas de styles.css
+   EVITA QUE EL FOOTER ANTIGUO DE styles.css LO DEFORME
    ========================================================= */
 
 footer.py-footer {
   display: block !important;
+
   width: 100% !important;
   max-width: 100% !important;
+
   padding: 0 !important;
   margin: 0 !important;
+
   overflow: hidden !important;
+
   background: #071f36 !important;
+  color: #c8d8e5 !important;
 }
 
 footer.py-footer img.py-footer-logo {
+  display: block !important;
+
   width: 205px !important;
   max-width: 100% !important;
   height: auto !important;
+
   filter: none !important;
+
   margin: 0 0 18px 0 !important;
 }
 
 footer.py-footer .py-footer-inner {
   display: grid !important;
+
   margin: 0 auto !important;
 }
 
 footer.py-footer .py-footer-brand {
   display: block !important;
+
   margin: 0 !important;
 }
 
 footer.py-footer .py-footer-column {
   display: flex !important;
+
+  flex-direction: column !important;
+
   margin: 0 !important;
 }
 
 footer.py-footer .py-footer-news {
   display: block !important;
+
   margin: 0 !important;
 }
 
 footer.py-footer .py-footer-bottom {
   display: grid !important;
+
   margin: 0 !important;
 }
 
 footer.py-footer .py-footer-social {
   display: flex !important;
+
   margin: 0 !important;
 }
 
 footer.py-footer .py-footer-cr {
   display: flex !important;
+
   margin: 0 !important;
 }
 
 footer.py-footer a {
+  color: #c8d8e5;
+
+  text-decoration: none;
+
   font-size: 13px;
 }
 
 footer.py-footer span {
   margin-left: 0;
 }
+
+
+/* =========================================================
+   CORRECCIONES RESPONSIVE DEL AISLAMIENTO
+   Estas van DESPUÉS de los !important anteriores
+   ========================================================= */
+
+@media (max-width: 760px) {
+
+  footer.py-footer img.py-footer-logo {
+    width: 190px !important;
   }
 
+}
+
+@media (max-width: 480px) {
+
+  footer.py-footer img.py-footer-logo {
+    width: 175px !important;
+    max-width: 175px !important;
+  }
+
+  footer.py-footer .py-footer-inner {
+    width: calc(100% - 32px) !important;
+
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  footer.py-footer .py-footer-brand,
+  footer.py-footer .py-footer-column,
+  footer.py-footer .py-footer-news {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  footer.py-footer .py-footer-bottom {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  footer.py-footer .py-footer-social {
+    flex-wrap: wrap !important;
+  }
+
+}
+
+
+/* =========================================================
+   PROTECCIÓN CONTRA SCROLL HORIZONTAL
+   ========================================================= */
+
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
