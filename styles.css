@@ -2472,3 +2472,251 @@ h2{
   }
 
 }
+/* =========================================================
+   CÓMO FUNCIONA — PUNTO YA CR
+   ========================================================= */
+
+.simple.simple-v2{
+  position:relative;
+  padding:82px 5vw 88px;
+  text-align:left;
+  overflow:hidden;
+
+  background:
+    radial-gradient(
+      circle at 88% 12%,
+      rgba(8,184,159,.09),
+      transparent 28%
+    ),
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #f7fbfc 100%
+    );
+}
+
+.simple-v2 .simple-heading{
+  max-width:760px;
+  margin:0 auto 42px;
+  text-align:center;
+}
+
+.simple-v2 .simple-heading .eyebrow{
+  display:block;
+  margin-bottom:10px;
+}
+
+.simple-v2 .simple-heading h2{
+  margin:0;
+  color:#082944;
+}
+
+.simple-v2 .simple-heading p{
+  max-width:620px;
+  margin:14px auto 0;
+
+  color:#61758a;
+  font-size:17px;
+  line-height:1.6;
+}
+
+
+/* TARJETAS */
+
+.simple-v2 .steps{
+  width:100%;
+  max-width:1500px;
+
+  margin:0 auto;
+
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:20px;
+}
+
+.simple-v2 .steps article{
+  position:relative;
+
+  min-height:230px;
+
+  margin:0;
+  padding:30px;
+
+  display:flex;
+  align-items:flex-start;
+  gap:20px;
+
+  background:#ffffff;
+
+  border:1px solid #dce7ef;
+  border-radius:22px;
+
+  box-shadow:0 12px 35px rgba(8,45,88,.06);
+
+  text-align:left;
+}
+
+
+/* NÚMERO */
+
+.simple-v2 .steps article > b{
+  flex:0 0 auto;
+
+  width:48px;
+  height:48px;
+
+  margin:0;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:14px;
+
+  background:#082d58;
+  color:#ffffff;
+
+  font-size:18px;
+  font-weight:900;
+}
+
+
+/* CONTENIDO */
+
+.simple-v2 .step-content{
+  min-width:0;
+}
+
+.simple-v2 .step-content > span{
+  display:block;
+
+  margin:3px 0 8px;
+
+  color:#08a98f;
+
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1.2px;
+}
+
+.simple-v2 .step-content h3{
+  margin:0 0 10px;
+
+  color:#082944;
+
+  font-size:24px;
+  line-height:1.15;
+}
+
+.simple-v2 .step-content p{
+  margin:0;
+
+  color:#61758a;
+
+  font-size:15px;
+  line-height:1.6;
+}
+
+
+/* DETALLE VERDE */
+
+.simple-v2 .steps article::after{
+  content:"";
+
+  position:absolute;
+
+  left:30px;
+  bottom:0;
+
+  width:58px;
+  height:4px;
+
+  border-radius:4px 4px 0 0;
+
+  background:#08b89f;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media(max-width:900px){
+
+  .simple.simple-v2{
+    padding:65px 30px;
+  }
+
+  .simple-v2 .steps{
+    grid-template-columns:1fr;
+    max-width:700px;
+  }
+
+  .simple-v2 .steps article{
+    min-height:auto;
+  }
+
+}
+
+
+/* =========================================================
+   TELÉFONO
+   ========================================================= */
+
+@media(max-width:600px){
+
+  .simple.simple-v2{
+    padding:54px 20px 58px;
+  }
+
+  .simple-v2 .simple-heading{
+    margin-bottom:28px;
+    text-align:left;
+  }
+
+  .simple-v2 .simple-heading h2{
+    font-size:36px;
+    line-height:1.05;
+  }
+
+  .simple-v2 .simple-heading p{
+    margin-left:0;
+    margin-right:0;
+
+    font-size:16px;
+  }
+
+  .simple-v2 .steps{
+    gap:14px;
+  }
+
+  .simple-v2 .steps article{
+    padding:22px 20px;
+
+    gap:16px;
+
+    border-radius:18px;
+  }
+
+  .simple-v2 .steps article > b{
+    width:42px;
+    height:42px;
+
+    border-radius:12px;
+
+    font-size:16px;
+  }
+
+  .simple-v2 .step-content h3{
+    font-size:21px;
+  }
+
+  .simple-v2 .step-content p{
+    font-size:14px;
+  }
+
+  .simple-v2 .steps article::after{
+    left:20px;
+    width:48px;
+  }
+
+}
