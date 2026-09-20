@@ -729,3 +729,11 @@ body {
   width:26px;
   height:16px;
 }
+/* =========================================================
+   LOGO FOOTER — MEJOR CONTRASTE
+   ========================================================= */
+
+.py-footer-logo{
+  filter: brightness(0) invert(1);
+  opacity: 1;
+}
