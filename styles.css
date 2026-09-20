@@ -2841,3 +2841,36 @@ h2{
 .tablet-preview img {
   object-position: center center;
 }
+/* =====================================================
+   ESPACIADO FINAL TARJETAS DE DISPOSITIVOS
+   ===================================================== */
+
+.device-card {
+  padding: 14px;
+}
+
+.device-card h3 {
+  margin: 16px 0 4px;
+}
+
+.device-card > p {
+  margin: 0 0 14px;
+}
+
+.device-card .primary {
+  width: 100%;
+  margin-top: auto;
+  min-height: 44px;
+}
+
+.device-card > small {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 2px;
+}
+
+.device-card {
+  display: flex;
+  flex-direction: column;
+}
