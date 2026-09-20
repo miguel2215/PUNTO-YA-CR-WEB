@@ -1789,8 +1789,8 @@ body {
   .hero {
     padding: 28px 18px 38px;
 
-    background-size: auto 95%;
-    background-position: 80% center;
+    background-size: auto 100%;
+    background-position: 95% center;
   }
 
   .hero .real-stage {
