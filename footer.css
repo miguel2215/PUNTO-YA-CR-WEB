@@ -718,3 +718,14 @@ body {
 .py-footer h3 {
   overflow-wrap: break-word;
 }
+.py-footer-country{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.py-footer-country .flag{
+  flex:0 0 auto;
+  width:26px;
+  height:16px;
+}
