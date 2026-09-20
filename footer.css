@@ -1,0 +1,519 @@
+/* =========================================================
+   PUNTO YA CR
+   FOOTER AISLADO
+   ========================================================= */
+
+.py-footer {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #071f36;
+  color: #c8d8e5;
+}
+
+.py-footer,
+.py-footer * {
+  box-sizing: border-box;
+}
+
+
+/* CONTENEDOR PRINCIPAL */
+
+.py-footer .py-footer-inner {
+  width: min(1450px, 90%);
+  margin: 0 auto;
+  padding: 58px 0 48px;
+
+  display: grid;
+  grid-template-columns:
+    minmax(260px, 1.3fr)
+    minmax(130px, .65fr)
+    minmax(130px, .65fr)
+    minmax(170px, .8fr)
+    minmax(270px, 1.2fr);
+
+  gap: 48px;
+  align-items: start;
+}
+
+
+/* =========================================================
+   MARCA
+   ========================================================= */
+
+.py-footer .py-footer-brand {
+  display: block;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.py-footer .py-footer-logo {
+  display: block;
+
+  width: 205px;
+  max-width: 100%;
+  height: auto;
+
+  margin: 0 0 18px;
+  padding: 0;
+
+  object-fit: contain;
+
+  /* Anula el filtro del footer antiguo */
+  filter: none;
+}
+
+.py-footer .py-footer-slogan {
+  display: block;
+
+  margin: 0 0 10px;
+  padding: 0;
+
+  color: #ffffff;
+
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.py-footer .py-footer-description {
+  display: block;
+
+  max-width: 265px;
+
+  margin: 0 0 22px;
+  padding: 0;
+
+  color: #b8cad8;
+
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+
+/* COSTA RICA */
+
+.py-footer .py-footer-cr {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  margin: 0;
+  padding: 0;
+}
+
+.py-footer .py-footer-cr .flag {
+  display: block;
+  flex: 0 0 30px;
+
+  width: 30px;
+  height: 18px;
+}
+
+.py-footer .py-footer-cr div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+
+  margin: 0;
+  padding: 0;
+}
+
+.py-footer .py-footer-cr strong {
+  color: #ffffff;
+
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.py-footer .py-footer-cr small {
+  color: #8da8ba;
+
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+
+/* =========================================================
+   COLUMNAS
+   ========================================================= */
+
+.py-footer .py-footer-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  min-width: 0;
+
+  margin: 0;
+  padding: 0;
+}
+
+.py-footer .py-footer-column h3,
+.py-footer .py-footer-news h3 {
+  position: relative;
+
+  display: block;
+
+  margin: 0 0 25px;
+  padding: 0 0 12px;
+
+  color: #ffffff;
+
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.py-footer .py-footer-column h3::after,
+.py-footer .py-footer-news h3::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  bottom: 0;
+
+  width: 31px;
+  height: 3px;
+
+  border-radius: 10px;
+
+  background: #08b89f;
+}
+
+.py-footer .py-footer-column a {
+  display: block;
+
+  width: auto;
+
+  margin: 0 0 15px;
+  padding: 0;
+
+  color: #c8d8e5;
+
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+
+  white-space: normal;
+}
+
+.py-footer .py-footer-column a:hover {
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   MANTENTE AL DÍA
+   ========================================================= */
+
+.py-footer .py-footer-news {
+  display: block;
+
+  min-width: 0;
+
+  margin: 0;
+  padding: 0;
+}
+
+.py-footer .py-footer-news p {
+  display: block;
+
+  margin: 0 0 18px;
+  padding: 0;
+
+  color: #b8cad8;
+
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.py-footer .py-footer-form {
+  display: grid;
+
+  width: 100%;
+
+  grid-template-columns: minmax(0, 1fr) auto;
+
+  margin: 0 0 10px;
+  padding: 0;
+
+  overflow: hidden;
+
+  border: 1px solid #148aa3;
+  border-radius: 11px;
+
+  background: #0b3552;
+}
+
+.py-footer .py-footer-form input {
+  width: 100%;
+  min-width: 0;
+
+  margin: 0;
+  padding: 14px 15px;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.py-footer .py-footer-form input::placeholder {
+  color: #afc4d2;
+}
+
+.py-footer .py-footer-form button {
+  min-width: 110px;
+
+  margin: 0;
+  padding: 0 18px;
+
+  border: 0;
+
+  background: #08b89f;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+.py-footer .py-footer-news > small {
+  display: block;
+
+  margin: 0;
+  padding: 0;
+
+  color: #809caf;
+
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   BARRA INFERIOR
+   ========================================================= */
+
+.py-footer .py-footer-bottom {
+  width: 100%;
+
+  margin: 0;
+  padding: 19px 5%;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(280px, 1fr)
+    auto
+    auto;
+
+  gap: 30px;
+
+  align-items: center;
+
+  border-top: 1px solid rgba(72, 168, 191, .32);
+}
+
+.py-footer .py-footer-bottom p {
+  display: block;
+
+  margin: 0;
+  padding: 0;
+
+  color: #c8d8e5;
+
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.py-footer .py-footer-social {
+  display: flex;
+  align-items: center;
+
+  gap: 22px;
+
+  margin: 0;
+  padding: 0;
+}
+
+.py-footer .py-footer-social a {
+  display: inline-block;
+
+  margin: 0;
+  padding: 0;
+
+  color: #ffffff;
+
+  text-decoration: none;
+
+  font-size: 11px;
+  line-height: 1.4;
+
+  white-space: nowrap;
+}
+
+.py-footer .py-footer-social a:hover {
+  color: #08b89f;
+}
+
+.py-footer .py-footer-country {
+  display: block;
+
+  margin: 0;
+  padding: 0 0 0 23px;
+
+  border-left: 1px solid rgba(72, 168, 191, .4);
+
+  color: #ffffff;
+
+  font-size: 11px;
+  line-height: 1.4;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   TABLET / LAPTOP PEQUEÑO
+   ========================================================= */
+
+@media (max-width: 1150px) {
+
+  .py-footer .py-footer-inner {
+    width: 90%;
+
+    grid-template-columns:
+      minmax(240px, 1.2fr)
+      repeat(3, minmax(125px, .7fr));
+
+    gap: 38px;
+  }
+
+  .py-footer .py-footer-news {
+    grid-column: 1 / -1;
+
+    width: min(600px, 100%);
+
+    margin-top: 5px;
+  }
+
+}
+
+
+/* =========================================================
+   TABLET VERTICAL / MÓVIL
+   ========================================================= */
+
+@media (max-width: 760px) {
+
+  .py-footer .py-footer-inner {
+    width: calc(100% - 40px);
+
+    padding: 44px 0 34px;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 35px 24px;
+  }
+
+  .py-footer .py-footer-brand {
+    grid-column: 1 / -1;
+  }
+
+  .py-footer .py-footer-logo {
+    width: 190px;
+  }
+
+  .py-footer .py-footer-description {
+    max-width: 420px;
+  }
+
+  .py-footer .py-footer-news {
+    grid-column: 1 / -1;
+
+    width: 100%;
+  }
+
+  .py-footer .py-footer-bottom {
+    padding: 21px 20px;
+
+    grid-template-columns: 1fr;
+
+    gap: 16px;
+  }
+
+  .py-footer .py-footer-social {
+    flex-wrap: wrap;
+
+    gap: 17px;
+  }
+
+  .py-footer .py-footer-country {
+    padding-left: 0;
+
+    border-left: 0;
+  }
+
+}
+
+
+/* =========================================================
+   TELÉFONOS PEQUEÑOS
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+  .py-footer .py-footer-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .py-footer .py-footer-brand,
+  .py-footer .py-footer-news {
+    grid-column: auto;
+  }
+
+  .py-footer .py-footer-form {
+    grid-template-columns: 1fr;
+
+    gap: 8px;
+
+    overflow: visible;
+
+    border: 0;
+
+    background: transparent;
+  }
+
+  .py-footer .py-footer-form input {
+    min-height: 48px;
+
+    border: 1px solid #148aa3;
+    border-radius: 10px;
+
+    background: #0b3552;
+  }
+
+  .py-footer .py-footer-form button {
+    min-height: 48px;
+
+    border-radius: 10px;
+  }
+
+}
