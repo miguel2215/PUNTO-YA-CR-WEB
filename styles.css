@@ -2720,3 +2720,17 @@ h2{
   }
 
 }
+
+/* =========================================================
+   AJUSTE SECCIÓN COSTA RICA
+   ========================================================= */
+
+.cr-card-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.cr-card-title .flag{
+  flex:0 0 auto;
+}
