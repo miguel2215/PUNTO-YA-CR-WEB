@@ -1891,15 +1891,71 @@ body {
 
 
 /* =========================================================
-   PANTALLA REAL DE PUNTO YA CR
+   PUNTO YA CR
+   ANDROID — ESCENA + SISTEMA REAL AJUSTADO
    ========================================================= */
+
+.device-card.android-card {
+  overflow: hidden;
+}
+
+
+/* ESCENA */
+
+.device-card.android-card .android-scene {
+  position: relative;
+  display: block;
+
+  width: 100%;
+  height: 290px;
+
+  margin: 0 0 14px;
+  padding: 0;
+
+  overflow: hidden;
+
+  border-radius: 17px;
+  background: #eef5f6;
+}
+
+
+/* FOTO BASE */
+
+.device-card.android-card .android-scene-bg {
+  position: absolute;
+  inset: 0;
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  max-width: none;
+  max-height: none;
+
+  margin: 0;
+  padding: 0;
+
+  object-fit: cover;
+
+  /* Muestra teléfono + impresora + ambiente */
+  object-position: 52% center;
+
+  border: 0;
+  border-radius: 0;
+
+  z-index: 1;
+}
+
+
+/* PANTALLA REAL PUNTO YA CR */
 
 .device-card.android-card .android-real-screen {
   position: absolute;
 
   /*
-     Esta imagen se coloca encima de la
-     pantalla negra del teléfono.
+     Ajustada al teléfono de la fotografía.
+     Mantener proporcional con el fondo.
   */
 
   left: 37.7%;
@@ -1920,7 +1976,7 @@ body {
   object-position: top center;
 
   border: 0;
-  border-radius: 12px;
+  border-radius: 11px;
 
   z-index: 3;
 }
@@ -1933,31 +1989,33 @@ body {
 @media (max-width: 900px) {
 
   .device-card.android-card .android-scene {
-    height: 300px;
+    height: 320px;
   }
 
 }
 
 
 /* =========================================================
-   TELÉFONO
+   MÓVIL
    ========================================================= */
 
 @media (max-width: 600px) {
 
   .device-card.android-card .android-scene {
     width: 100%;
-    height: 280px;
+    height: 315px;
 
-    border-radius: 16px;
+    border-radius: 17px;
   }
 
   .device-card.android-card .android-scene-bg {
-    width: 100%;
-    height: 100%;
-
     object-fit: cover;
-    object-position: center center;
+
+    /*
+       Un poco más abierta hacia la izquierda.
+       Conserva teléfono, impresora y taza.
+    */
+    object-position: 50% center;
   }
 
   .device-card.android-card .android-real-screen {
@@ -1967,9 +2025,6 @@ body {
     width: 20.5%;
     height: 65%;
 
-    object-fit: cover;
-    object-position: top center;
-
     border-radius: 9px;
   }
 
@@ -1977,13 +2032,17 @@ body {
 
 
 /* =========================================================
-   IPHONE / TELÉFONO PEQUEÑO
+   IPHONE
    ========================================================= */
 
 @media (max-width: 480px) {
 
   .device-card.android-card .android-scene {
-    height: 270px;
+    height: 305px;
+  }
+
+  .device-card.android-card .android-scene-bg {
+    object-position: 50% center;
   }
 
   .device-card.android-card .android-real-screen {
