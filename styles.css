@@ -2874,3 +2874,12 @@ h2{
   display: flex;
   flex-direction: column;
 }
+.device-link {
+  width: 100%;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-sizing: border-box;
+}
