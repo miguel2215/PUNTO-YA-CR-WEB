@@ -1202,4 +1202,256 @@ h2{
   .footer-made{
     margin-left:0
   }
+  /* =========================================================
+   PUNTO YA CR — FONDO GENERAL
+   ========================================================= */
+
+html {
+  background: #ffffff;
+}
+
+body {
+  position: relative;
+  background:
+    radial-gradient(
+      circle at 92% 8%,
+      rgba(16, 185, 160, 0.10) 0,
+      rgba(16, 185, 160, 0.04) 18%,
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 5% 48%,
+      rgba(9, 50, 88, 0.045) 0,
+      transparent 28%
+    ),
+    #ffffff;
+}
+
+
+/* HERO */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 82% 35%,
+      rgba(13, 190, 164, 0.15) 0,
+      rgba(13, 190, 164, 0.07) 28%,
+      transparent 58%
+    ),
+    linear-gradient(
+      115deg,
+      #ffffff 0%,
+      #f8fbfc 48%,
+      #effbf8 100%
+    );
+}
+
+.hero::before {
+  content: "";
+
+  position: absolute;
+  width: 520px;
+  height: 520px;
+
+  right: -180px;
+  top: -230px;
+
+  border-radius: 50%;
+
+  background: rgba(14, 184, 159, 0.055);
+
+  pointer-events: none;
+}
+
+.hero::after {
+  content: "";
+
+  position: absolute;
+  width: 380px;
+  height: 380px;
+
+  right: 18%;
+  bottom: -300px;
+
+  border-radius: 50%;
+
+  background: rgba(7, 31, 54, 0.035);
+
+  pointer-events: none;
+}
+
+.hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* DESCARGAS */
+
+.downloads {
+  position: relative;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #fbfdfd 100%
+    );
+}
+
+
+/* RESTAURANTE / RETAIL */
+
+.business {
+  position: relative;
+
+  background:
+    radial-gradient(
+      circle at 10% 15%,
+      rgba(10, 184, 158, 0.07),
+      transparent 30%
+    ),
+    linear-gradient(
+      180deg,
+      #f7fbfb 0%,
+      #ffffff 100%
+    );
+}
+
+
+/* PUNTO YA PRO */
+
+.pro {
+  position: relative;
+
+  background:
+    radial-gradient(
+      circle at 85% 15%,
+      rgba(12, 190, 163, 0.08),
+      transparent 34%
+    ),
+    linear-gradient(
+      135deg,
+      #071f36 0%,
+      #0a2c49 100%
+    );
+}
+
+
+/* CÓMO FUNCIONA */
+
+.simple {
+  position: relative;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(10, 184, 158, 0.07),
+      transparent 35%
+    ),
+    #ffffff;
+}
+
+
+/* COSTA RICA */
+
+.cr-section {
+  position: relative;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 90% 20%,
+      rgba(8, 184, 159, 0.12),
+      transparent 34%
+    ),
+    linear-gradient(
+      120deg,
+      #f8fcfc 0%,
+      #eef9f7 100%
+    );
+}
+
+.cr-section::after {
+  content: "";
+
+  position: absolute;
+
+  width: 320px;
+  height: 320px;
+
+  right: -150px;
+  bottom: -190px;
+
+  border-radius: 50%;
+
+  background: rgba(8, 184, 159, 0.06);
+
+  pointer-events: none;
+}
+
+.cr-section > * {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* =========================================================
+   MÓVIL
+   ========================================================= */
+
+@media (max-width: 760px) {
+
+  body {
+    background:
+      radial-gradient(
+        circle at 100% 6%,
+        rgba(16, 185, 160, 0.07),
+        transparent 22%
+      ),
+      #ffffff;
+  }
+
+  .hero {
+    background:
+      radial-gradient(
+        circle at 95% 15%,
+        rgba(13, 190, 164, 0.12),
+        transparent 35%
+      ),
+      linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #f5fbfa 100%
+      );
+  }
+
+  .hero::before {
+    width: 280px;
+    height: 280px;
+
+    right: -150px;
+    top: -100px;
+  }
+
+  .business {
+    background:
+      linear-gradient(
+        180deg,
+        #f8fcfc 0%,
+        #ffffff 100%
+      );
+  }
+
+  .cr-section {
+    background:
+      linear-gradient(
+        180deg,
+        #f7fbfb 0%,
+        #edf9f7 100%
+      );
+  }
 }
