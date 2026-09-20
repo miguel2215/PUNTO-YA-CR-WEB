@@ -983,25 +983,13 @@ h2{
 .device-card.android-card .android-real-screen{
   position:absolute;
 
-  /*
-     AJUSTE PRINCIPAL DE LA PANTALLA
-
-     left   = posición horizontal
-     top    = posición vertical
-     width  = ancho
-     height = alto
-  */
-
   left:35.8%;
-
   top:17%;
 
   width:24.3%;
-
   height:67%;
 
   display:block;
-
   max-width:none;
   max-height:none;
 
@@ -1014,7 +1002,6 @@ h2{
   border-radius:9px;
 
   z-index:3;
-
   box-shadow:none;
 }
 
