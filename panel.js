@@ -952,6 +952,9 @@ const canton =
 const address =
   businessProfile.address || "";
 
+const businessLogoUrl =
+  businessProfile.logo_url || "";
+
 
   document.body.innerHTML = `
 
@@ -1295,6 +1298,37 @@ const address =
 
 
 
+          <!-- IDENTIDAD VISUAL -->
+
+          <div class="business-settings-block business-logo-block">
+            <div class="business-settings-title">
+              <div class="business-settings-icon">▣</div>
+              <div>
+                <h2>Identidad del negocio</h2>
+                <p>Sube tu logo una sola vez. PUNTO YA CR podrá usarlo en reportes y documentos compatibles.</p>
+              </div>
+            </div>
+
+            <div class="business-logo-manager">
+              <div class="business-logo-preview" id="businessLogoPreview">
+                ${businessLogoUrl
+                  ? `<img src="${escapePanelHTML(businessLogoUrl)}" alt="Logo de ${escapePanelHTML(businessName)}">`
+                  : `<div class="business-logo-placeholder"><strong>${escapePanelHTML((businessName || "N").slice(0,1).toUpperCase())}</strong><span>Sin logo</span></div>`}
+              </div>
+              <div class="business-logo-controls">
+                <strong>Logo del negocio</strong>
+                <p>PNG, JPG o WebP. Máximo 2 MB. Recomendado: formato cuadrado o horizontal con fondo limpio.</p>
+                <input id="businessLogoFile" class="business-logo-file" type="file" accept="image/png,image/jpeg,image/webp" onchange="previewBusinessLogo(this)">
+                <div class="business-logo-actions">
+                  <label for="businessLogoFile" class="account-secondary-button business-logo-upload">${businessLogoUrl ? "Cambiar logo" : "Subir logo"}</label>
+                  ${businessLogoUrl ? `<button type="button" class="account-secondary-button danger-soft" onclick="removeBusinessLogo()">Eliminar logo</button>` : ""}
+                </div>
+                <small id="businessLogoStatus">El logo se guarda para este negocio.</small>
+              </div>
+            </div>
+          </div>
+
+
           <!-- MENSAJE -->
 
           <div
@@ -1341,6 +1375,69 @@ const address =
 /* =========================================================
    GUARDAR MI NEGOCIO
    ========================================================= */
+
+function previewBusinessLogo(input) {
+  const file = input?.files?.[0];
+  if (!file) return;
+  const status = document.querySelector("#businessLogoStatus");
+  if (!["image/png","image/jpeg","image/webp"].includes(file.type)) {
+    if (status) status.textContent = "Usa un archivo PNG, JPG o WebP.";
+    input.value = "";
+    return;
+  }
+  if (file.size > 2 * 1024 * 1024) {
+    if (status) status.textContent = "El logo no puede superar 2 MB.";
+    input.value = "";
+    return;
+  }
+  const preview = document.querySelector("#businessLogoPreview");
+  if (preview) preview.innerHTML = `<img src="${URL.createObjectURL(file)}" alt="Vista previa del logo">`;
+  if (status) status.textContent = "Vista previa lista. Pulsa Guardar cambios para subirlo.";
+}
+
+async function uploadPendingBusinessLogo() {
+  const input = document.querySelector("#businessLogoFile");
+  const file = input?.files?.[0];
+  if (!file) return null;
+  if (!["image/png","image/jpeg","image/webp"].includes(file.type)) throw new Error("Formato de logo no permitido.");
+  if (file.size > 2 * 1024 * 1024) throw new Error("El logo no puede superar 2 MB.");
+
+  const ext = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
+  const path = `${panelBusiness.id}/logo.${ext}`;
+  const { error } = await panelCloud.storage.from("business-logos").upload(path, file, {
+    upsert: true,
+    contentType: file.type,
+    cacheControl: "3600"
+  });
+  if (error) throw error;
+  const { data } = panelCloud.storage.from("business-logos").getPublicUrl(path);
+  return `${data.publicUrl}?v=${Date.now()}`;
+}
+
+async function removeBusinessLogo() {
+  if (!panelCloud || !panelBusiness?.id) return;
+  const profile = panelBusiness.settings?.business_profile || {};
+  const current = profile.logo_path || "";
+  try {
+    if (current) await panelCloud.storage.from("business-logos").remove([current]);
+    const currentSettings = panelBusiness.settings && typeof panelBusiness.settings === "object" ? panelBusiness.settings : {};
+    const nextProfile = { ...profile };
+    delete nextProfile.logo_url;
+    delete nextProfile.logo_path;
+    const { data, error } = await panelCloud.from("businesses").update({
+      settings: { ...currentSettings, business_profile: nextProfile },
+      updated_at: new Date().toISOString()
+    }).eq("id", panelBusiness.id).select("*").single();
+    if (error) throw error;
+    panelBusiness = data;
+    renderBusinessSection();
+  } catch (error) {
+    console.error("No se pudo eliminar el logo:", error);
+    showBusinessMessage(error?.message || "No se pudo eliminar el logo.", "error");
+  }
+}
+window.previewBusinessLogo = previewBusinessLogo;
+window.removeBusinessLogo = removeBusinessLogo;
 
 async function saveBusinessSettings() {
 
@@ -1450,6 +1547,10 @@ const currentBusinessProfile =
     ? currentSettings.business_profile
     : {};
 
+const uploadedLogoUrl = await uploadPendingBusinessLogo();
+const logoFile = document.querySelector("#businessLogoFile")?.files?.[0];
+const logoExt = logoFile ? (logoFile.type === "image/png" ? "png" : logoFile.type === "image/webp" ? "webp" : "jpg") : "";
+
 const updates = {
   name: businessName,
   business_type: businessType,
@@ -1464,7 +1565,11 @@ const updates = {
       email,
       province,
       canton,
-      address
+      address,
+      ...(uploadedLogoUrl ? {
+        logo_url: uploadedLogoUrl,
+        logo_path: `${panelBusiness.id}/logo.${logoExt}`
+      } : {})
     }
   }
 };
