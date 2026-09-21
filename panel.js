@@ -1858,6 +1858,713 @@ window.renderBusinessSection =
 
 window.saveBusinessSettings =
   saveBusinessSettings;
+/* =========================================================
+   MI CUENTA
+   Panel del Emprendedor
+   ========================================================= */
+
+async function renderAccountSection() {
+
+  if (!panelCloud || !panelUser || !panelBusiness) {
+    renderPanelDashboard();
+    return;
+  }
+
+  let accountMember = null;
+
+  try {
+
+    const { data, error } = await panelCloud
+      .from("business_members")
+      .select("business_id,user_id,display_name,email,role,active")
+      .eq("business_id", panelBusiness.id)
+      .eq("user_id", panelUser.id)
+      .maybeSingle();
+
+    if (error) throw error;
+
+    accountMember = data;
+
+  } catch (error) {
+
+    console.error(
+      "No se pudo cargar Mi cuenta:",
+      error
+    );
+
+  }
+
+
+  const displayName =
+    accountMember?.display_name ||
+    panelUser?.user_metadata?.full_name ||
+    panelUser?.user_metadata?.name ||
+    "";
+
+  const email =
+    panelUser?.email ||
+    accountMember?.email ||
+    "";
+
+  const businessName =
+    panelBusiness?.name ||
+    "Mi negocio";
+
+
+  document.body.innerHTML = `
+
+    <div class="entrepreneur-dashboard">
+
+      <!-- HEADER -->
+
+      <header class="dashboard-header">
+
+        <div class="dashboard-header-inner">
+
+          <button
+            type="button"
+            class="dashboard-brand dashboard-brand-button"
+            onclick="renderPanelDashboard()">
+
+            <img
+              src="assets/logo-horizontal.png"
+              alt="PUNTO YA CR">
+
+          </button>
+
+
+          <div class="dashboard-account">
+
+            <div class="dashboard-business-mini">
+
+              <strong>
+                ${escapePanelHTML(businessName)}
+              </strong>
+
+              <span>
+                Panel del Emprendedor
+              </span>
+
+            </div>
+
+
+            <button
+              type="button"
+              class="dashboard-logout"
+              onclick="panelLogout()">
+
+              Cerrar sesión
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </header>
+
+
+
+      <!-- CONTENIDO -->
+
+      <main class="dashboard-main account-settings-main">
+
+        <button
+          type="button"
+          class="business-back"
+          onclick="renderPanelDashboard()">
+
+          ← Volver al panel
+
+        </button>
+
+
+        <section class="business-settings-heading">
+
+          <span class="dashboard-eyebrow">
+            MI CUENTA
+          </span>
+
+          <h1>
+            Tu cuenta
+          </h1>
+
+          <p>
+            Tus datos y seguridad, sin complicaciones.
+          </p>
+
+        </section>
+
+
+
+        <section class="business-settings-card">
+
+
+          <!-- PERFIL -->
+
+          <div class="business-settings-block">
+
+            <div class="business-settings-title">
+
+              <div class="business-settings-icon">
+                👤
+              </div>
+
+              <div>
+
+                <h2>
+                  Tu perfil
+                </h2>
+
+                <p>
+                  La información asociada a tu cuenta.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="business-form-grid">
+
+              <div class="business-field">
+
+                <label for="accountDisplayName">
+                  Tu nombre
+                </label>
+
+                <input
+                  id="accountDisplayName"
+                  type="text"
+                  maxlength="80"
+                  autocomplete="name"
+                  value="${escapePanelHTML(displayName)}"
+                  placeholder="Tu nombre">
+
+              </div>
+
+
+              <div class="business-field">
+
+                <label for="accountEmail">
+                  Correo de acceso
+                </label>
+
+                <input
+                  id="accountEmail"
+                  type="email"
+                  value="${escapePanelHTML(email)}"
+                  readonly>
+
+                <small class="account-field-help">
+                  Este es el correo con el que ingresas a PUNTO YA CR.
+                </small>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- SEGURIDAD -->
+
+          <div class="business-settings-block">
+
+            <div class="business-settings-title">
+
+              <div class="business-settings-icon">
+                🔒
+              </div>
+
+              <div>
+
+                <h2>
+                  Seguridad
+                </h2>
+
+                <p>
+                  Cambia tu contraseña cuando lo necesites.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="account-security-row">
+
+              <div>
+
+                <strong>
+                  Contraseña
+                </strong>
+
+                <p>
+                  Usa una contraseña que no utilices en otros servicios.
+                </p>
+
+              </div>
+
+
+              <button
+                type="button"
+                class="account-secondary-button"
+                onclick="showPasswordChange()">
+
+                Cambiar contraseña
+
+              </button>
+
+            </div>
+
+
+            <div
+              id="passwordChangeBox"
+              class="password-change-box"
+              hidden>
+
+              <div class="business-form-grid">
+
+                <div class="business-field">
+
+                  <label for="accountNewPassword">
+                    Nueva contraseña
+                  </label>
+
+                  <input
+                    id="accountNewPassword"
+                    type="password"
+                    autocomplete="new-password"
+                    minlength="8"
+                    placeholder="Mínimo 8 caracteres">
+
+                </div>
+
+
+                <div class="business-field">
+
+                  <label for="accountConfirmPassword">
+                    Confirmar contraseña
+                  </label>
+
+                  <input
+                    id="accountConfirmPassword"
+                    type="password"
+                    autocomplete="new-password"
+                    minlength="8"
+                    placeholder="Repite la contraseña">
+
+                </div>
+
+              </div>
+
+
+              <div class="password-change-actions">
+
+                <button
+                  type="button"
+                  class="account-cancel-button"
+                  onclick="hidePasswordChange()">
+
+                  Cancelar
+
+                </button>
+
+
+                <button
+                  id="changePasswordButton"
+                  type="button"
+                  class="business-save-button"
+                  onclick="changeAccountPassword()">
+
+                  Actualizar contraseña
+
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- ESTADO -->
+
+          <div class="business-settings-block">
+
+            <div class="business-settings-title">
+
+              <div class="business-settings-icon">
+                ✓
+              </div>
+
+              <div>
+
+                <h2>
+                  Estado de la cuenta
+                </h2>
+
+                <p>
+                  Tu acceso al negocio.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="account-status-card">
+
+              <div>
+
+                <span class="account-status-dot"></span>
+
+                <strong>
+                  Cuenta activa
+                </strong>
+
+              </div>
+
+              <span class="account-owner-badge">
+                Propietario
+              </span>
+
+            </div>
+
+          </div>
+
+
+
+          <div
+            id="accountSaveMessage"
+            class="business-save-message"
+            hidden>
+          </div>
+
+
+
+          <div class="business-settings-actions">
+
+            <button
+              id="saveAccountButton"
+              type="button"
+              class="business-save-button"
+              onclick="saveAccountProfile()">
+
+              Guardar cambios
+
+            </button>
+
+          </div>
+
+        </section>
+
+
+        <p class="business-simple-note">
+          PUNTO YA CR · Tu negocio, más simple.
+        </p>
+
+      </main>
+
+    </div>
+
+  `;
+}
+
+
+/* =========================================================
+   GUARDAR PERFIL
+   ========================================================= */
+
+async function saveAccountProfile() {
+
+  if (!panelCloud || !panelUser || !panelBusiness) return;
+
+  const button =
+    document.querySelector("#saveAccountButton");
+
+  const displayName =
+    document
+      .querySelector("#accountDisplayName")
+      ?.value
+      .trim();
+
+
+  if (!displayName) {
+
+    showAccountMessage(
+      "Escribe tu nombre.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  try {
+
+    if (button) {
+      button.disabled = true;
+      button.textContent = "Guardando...";
+    }
+
+
+    const { error } = await panelCloud
+      .from("business_members")
+      .update({
+        display_name: displayName
+      })
+      .eq("business_id", panelBusiness.id)
+      .eq("user_id", panelUser.id);
+
+
+    if (error) throw error;
+
+
+    /*
+      También actualizamos el nombre en Auth.
+      Así la misma cuenta conserva el nombre
+      fuera de business_members.
+    */
+
+    const {
+      data: authData,
+      error: authError
+    } = await panelCloud.auth.updateUser({
+
+      data: {
+        full_name: displayName
+      }
+
+    });
+
+
+    if (authError) throw authError;
+
+
+    if (authData?.user) {
+      panelUser = authData.user;
+    }
+
+
+    showAccountMessage(
+      "Cambios guardados.",
+      "success"
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "No se pudo actualizar Mi cuenta:",
+      error
+    );
+
+    showAccountMessage(
+      error?.message ||
+      "No se pudieron guardar los cambios.",
+      "error"
+    );
+
+
+  } finally {
+
+    if (button) {
+      button.disabled = false;
+      button.textContent = "Guardar cambios";
+    }
+
+  }
+}
+
+
+/* =========================================================
+   CAMBIAR CONTRASEÑA
+   ========================================================= */
+
+function showPasswordChange() {
+
+  const box =
+    document.querySelector("#passwordChangeBox");
+
+  if (box) {
+    box.hidden = false;
+  }
+}
+
+
+function hidePasswordChange() {
+
+  const box =
+    document.querySelector("#passwordChangeBox");
+
+  const password =
+    document.querySelector("#accountNewPassword");
+
+  const confirmPassword =
+    document.querySelector("#accountConfirmPassword");
+
+
+  if (password) password.value = "";
+  if (confirmPassword) confirmPassword.value = "";
+
+  if (box) {
+    box.hidden = true;
+  }
+}
+
+
+async function changeAccountPassword() {
+
+  if (!panelCloud) return;
+
+
+  const password =
+    document
+      .querySelector("#accountNewPassword")
+      ?.value || "";
+
+  const confirmPassword =
+    document
+      .querySelector("#accountConfirmPassword")
+      ?.value || "";
+
+  const button =
+    document.querySelector("#changePasswordButton");
+
+
+  if (password.length < 8) {
+
+    showAccountMessage(
+      "La contraseña debe tener al menos 8 caracteres.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if (password !== confirmPassword) {
+
+    showAccountMessage(
+      "Las contraseñas no coinciden.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  try {
+
+    if (button) {
+      button.disabled = true;
+      button.textContent = "Actualizando...";
+    }
+
+
+    const { error } =
+      await panelCloud.auth.updateUser({
+        password
+      });
+
+
+    if (error) throw error;
+
+
+    hidePasswordChange();
+
+
+    showAccountMessage(
+      "Contraseña actualizada.",
+      "success"
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "No se pudo cambiar la contraseña:",
+      error
+    );
+
+
+    showAccountMessage(
+      error?.message ||
+      "No se pudo actualizar la contraseña.",
+      "error"
+    );
+
+
+  } finally {
+
+    if (button) {
+      button.disabled = false;
+      button.textContent = "Actualizar contraseña";
+    }
+
+  }
+}
+
+
+/* =========================================================
+   MENSAJES MI CUENTA
+   ========================================================= */
+
+function showAccountMessage(
+  message,
+  type = "success"
+) {
+
+  const box =
+    document.querySelector("#accountSaveMessage");
+
+  if (!box) return;
+
+
+  box.textContent = message;
+
+  box.className =
+    `business-save-message ${type}`;
+
+  box.hidden = false;
+
+
+  if (type === "success") {
+
+    setTimeout(() => {
+
+      if (box) {
+        box.hidden = true;
+      }
+
+    }, 3000);
+
+  }
+}
+
+
+/* =========================================================
+   EXPONER FUNCIONES
+   ========================================================= */
+
+window.renderAccountSection =
+  renderAccountSection;
+
+window.saveAccountProfile =
+  saveAccountProfile;
+
+window.showPasswordChange =
+  showPasswordChange;
+
+window.hidePasswordChange =
+  hidePasswordChange;
+
+window.changeAccountPassword =
+  changeAccountPassword;
 
 /* =========================================================
    ESCAPAR TEXTO
