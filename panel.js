@@ -313,17 +313,21 @@ function listenPanelAuth() {
 
 
       if (
-        panelUser &&
-        (
-          event === "SIGNED_IN" ||
-          event === "INITIAL_SESSION" ||
-          event === "TOKEN_REFRESHED" ||
-          event === "USER_UPDATED"
-        )
-      ) {
+  panelUser &&
+  (
+    event === "SIGNED_IN" ||
+    event === "INITIAL_SESSION" ||
+    event === "TOKEN_REFRESHED" ||
+    event === "USER_UPDATED"
+  )
+) {
 
-        await loadPanelBusiness(panelUser);
-      }
+  await loadPanelBusiness(panelUser);
+
+  if (panelBusiness) {
+    renderPanelDashboard();
+  }
+}
 
     }
   );
