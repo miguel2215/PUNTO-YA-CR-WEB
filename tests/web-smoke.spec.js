@@ -33,7 +33,12 @@ test('botones públicos principales responden', async ({ page }) => {
   expect(count).toBeGreaterThan(0);
 
   // Botones que deben navegar a registro/login.
-  await page.getByRole('button', {name:/Iniciar sesión/i}).first().click();
+  const loginControl = page.getByRole('link', {name:/Iniciar sesión/i}).or(
+  page.getByRole('button', {name:/Iniciar sesión/i})
+).first();
+
+await expect(loginControl).toBeVisible();
+await loginControl.click();
   await expect(page).toHaveURL(/panel\.html\?access=login/);
   await page.goto('/index.html');
   await page.getByRole('button', {name:/Crear mi negocio gratis/i}).first().click();
