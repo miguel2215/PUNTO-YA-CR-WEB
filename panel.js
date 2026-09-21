@@ -561,17 +561,14 @@ async function panelLogin() {
     */
 
     console.log(
-      "Acceso correcto al Panel:",
-      {
-        user: panelUser.id,
-        business: panelBusiness.id
-      }
-    );
+  "Acceso correcto al Panel:",
+  {
+    user: panelUser.id,
+    business: panelBusiness.id
+  }
+);
 
-
-    alert(
-      `Bienvenido a ${panelBusiness.name || "tu negocio"}`
-    );
+renderPanelDashboard();
 
 
   } catch (error) {
@@ -706,3 +703,508 @@ window.openPanelLogin = openPanelLogin;
 window.closePanelLogin = closePanelLogin;
 window.panelLogin = panelLogin;
 window.panelForgotPassword = panelForgotPassword;
+/* =========================================================
+   DASHBOARD DEL EMPRENDEDOR
+   ========================================================= */
+
+function renderPanelDashboard() {
+
+  if (!panelUser || !panelBusiness) return;
+
+  const businessName =
+    panelBusiness.name ||
+    panelBusiness.business_name ||
+    "Mi negocio";
+
+  const ownerName =
+    panelBusiness.owner_name ||
+    panelUser.user_metadata?.full_name ||
+    panelUser.user_metadata?.name ||
+    "";
+
+  const businessType =
+    panelBusiness.business_type ||
+    panelBusiness.type ||
+    "";
+
+  const plan =
+    panelBusiness.plan_tier ||
+    panelBusiness.plan ||
+    "free";
+
+  const typeLabel =
+    businessType === "food"
+      ? "Restaurante"
+      : businessType === "products"
+        ? "Retail"
+        : "Negocio";
+
+  const planLabel =
+    String(plan).toLowerCase() === "pro"
+      ? "PUNTO YA CR Pro"
+      : "PUNTO YA CR Free";
+
+
+  document.body.innerHTML = `
+
+    <div class="entrepreneur-dashboard">
+
+      <!-- ================================================
+           HEADER
+           ================================================ -->
+
+      <header class="dashboard-header">
+
+        <div class="dashboard-header-inner">
+
+          <a
+            href="index.html"
+            class="dashboard-brand">
+
+            <img
+              src="assets/logo-horizontal.png"
+              alt="PUNTO YA CR">
+
+          </a>
+
+
+          <div class="dashboard-account">
+
+            <div class="dashboard-business-mini">
+
+              <strong>${escapePanelHTML(businessName)}</strong>
+
+              <span>
+                ${escapePanelHTML(planLabel)}
+              </span>
+
+            </div>
+
+
+            <button
+              type="button"
+              class="dashboard-logout"
+              onclick="panelLogout()">
+
+              Cerrar sesión
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </header>
+
+
+
+      <!-- ================================================
+           CONTENIDO
+           ================================================ -->
+
+      <main class="dashboard-main">
+
+
+        <!-- BIENVENIDA -->
+
+        <section class="dashboard-welcome">
+
+          <span class="dashboard-eyebrow">
+            PANEL DEL EMPRENDEDOR
+          </span>
+
+          <h1>
+            ${
+              ownerName
+                ? `Hola, ${escapePanelHTML(ownerName)}.`
+                : "Hola."
+            }
+          </h1>
+
+          <p>
+            Aquí tienes el control de
+            <strong>${escapePanelHTML(businessName)}</strong>.
+          </p>
+
+        </section>
+
+
+
+        <!-- ================================================
+             TARJETAS PRINCIPALES
+             ================================================ -->
+
+        <section class="dashboard-summary">
+
+
+          <!-- NEGOCIO -->
+
+          <article class="dashboard-card">
+
+            <div class="dashboard-card-icon">
+              🏪
+            </div>
+
+            <span class="dashboard-card-label">
+              MI NEGOCIO
+            </span>
+
+            <h2>
+              ${escapePanelHTML(businessName)}
+            </h2>
+
+            <p>
+              ${escapePanelHTML(typeLabel)}
+            </p>
+
+            <button
+              type="button"
+              class="dashboard-card-link"
+              onclick="openDashboardSection('business')">
+
+              Administrar negocio →
+
+            </button>
+
+          </article>
+
+
+
+          <!-- PLAN -->
+
+          <article class="dashboard-card">
+
+            <div class="dashboard-card-icon">
+              ✦
+            </div>
+
+            <span class="dashboard-card-label">
+              PLAN ACTUAL
+            </span>
+
+            <h2>
+              ${escapePanelHTML(planLabel)}
+            </h2>
+
+            <p>
+              Consulta las funciones disponibles
+              para tu negocio.
+            </p>
+
+            <button
+              type="button"
+              class="dashboard-card-link"
+              onclick="openDashboardSection('plan')">
+
+              Ver mi plan →
+
+            </button>
+
+          </article>
+
+
+
+          <!-- POS -->
+
+          <article class="dashboard-card dashboard-card-pos">
+
+            <div class="dashboard-card-icon">
+              PY
+            </div>
+
+            <span class="dashboard-card-label">
+              PUNTO YA CR
+            </span>
+
+            <h2>
+              Punto de venta
+            </h2>
+
+            <p>
+              Entra directamente a tu sistema
+              de ventas.
+            </p>
+
+            <a
+              class="dashboard-open-pos"
+              href="${PUNTO_YA_APP}">
+
+              Abrir PUNTO YA CR →
+
+            </a>
+
+          </article>
+
+        </section>
+
+
+
+        <!-- ================================================
+             HERRAMIENTAS
+             ================================================ -->
+
+        <section class="dashboard-tools">
+
+          <div class="dashboard-section-title">
+
+            <div>
+
+              <span class="dashboard-eyebrow">
+                ADMINISTRACIÓN
+              </span>
+
+              <h2>
+                Tu cuenta y tu negocio
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="dashboard-tool-grid">
+
+
+            <button
+              class="dashboard-tool"
+              onclick="openDashboardSection('business')">
+
+              <span class="dashboard-tool-icon">
+                🏪
+              </span>
+
+              <span>
+
+                <strong>
+                  Mi negocio
+                </strong>
+
+                <small>
+                  Información y configuración
+                  de ${escapePanelHTML(businessName)}.
+                </small>
+
+              </span>
+
+              <b>→</b>
+
+            </button>
+
+
+
+            <button
+              class="dashboard-tool"
+              onclick="openDashboardSection('account')">
+
+              <span class="dashboard-tool-icon">
+                👤
+              </span>
+
+              <span>
+
+                <strong>
+                  Mi cuenta
+                </strong>
+
+                <small>
+                  Datos del propietario y seguridad.
+                </small>
+
+              </span>
+
+              <b>→</b>
+
+            </button>
+
+
+
+            <button
+              class="dashboard-tool"
+              onclick="openDashboardSection('devices')">
+
+              <span class="dashboard-tool-icon">
+                ▣
+              </span>
+
+              <span>
+
+                <strong>
+                  Dispositivos
+                </strong>
+
+                <small>
+                  Acceso y sincronización
+                  entre tus equipos.
+                </small>
+
+              </span>
+
+              <b>→</b>
+
+            </button>
+
+
+
+            <button
+              class="dashboard-tool"
+              onclick="openDashboardSection('billing')">
+
+              <span class="dashboard-tool-icon">
+                ₡
+              </span>
+
+              <span>
+
+                <strong>
+                  Facturación
+                </strong>
+
+                <small>
+                  Configuración fiscal
+                  y funciones disponibles.
+                </small>
+
+              </span>
+
+              <b>→</b>
+
+            </button>
+
+
+
+            <button
+              class="dashboard-tool"
+              onclick="openDashboardSection('plan')">
+
+              <span class="dashboard-tool-icon">
+                ✦
+              </span>
+
+              <span>
+
+                <strong>
+                  PUNTO YA CR Pro
+                </strong>
+
+                <small>
+                  Consulta tu plan y
+                  herramientas adicionales.
+                </small>
+
+              </span>
+
+              <b>→</b>
+
+            </button>
+
+
+
+            <button
+              class="dashboard-tool"
+              onclick="openDashboardSection('support')">
+
+              <span class="dashboard-tool-icon">
+                ?
+              </span>
+
+              <span>
+
+                <strong>
+                  Soporte
+                </strong>
+
+                <small>
+                  Ayuda para utilizar
+                  PUNTO YA CR.
+                </small>
+
+              </span>
+
+              <b>→</b>
+
+            </button>
+
+
+          </div>
+
+        </section>
+
+
+      </main>
+
+
+
+      <!-- ================================================
+           FOOTER
+           ================================================ -->
+
+      <footer class="dashboard-footer">
+
+        <img
+          src="assets/logo-horizontal.png"
+          alt="PUNTO YA CR">
+
+        <p>
+          © 2026 PUNTO YA CR · Hecho en Costa Rica.
+        </p>
+
+      </footer>
+
+
+    </div>
+
+  `;
+}
+
+
+/* =========================================================
+   SECCIONES DEL DASHBOARD
+   ========================================================= */
+
+function openDashboardSection(section) {
+
+  /*
+    Por ahora comprobamos la navegación.
+    Después construiremos cada módulo.
+  */
+
+  const sections = {
+
+    business: "Mi negocio",
+    account: "Mi cuenta",
+    devices: "Dispositivos",
+    billing: "Facturación",
+    plan: "PUNTO YA CR Pro",
+    support: "Soporte"
+
+  };
+
+
+  console.log(
+    "Abrir sección:",
+    sections[section] || section
+  );
+}
+
+
+/* =========================================================
+   ESCAPAR TEXTO
+   ========================================================= */
+
+function escapePanelHTML(value) {
+
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+}
+
+
+window.renderPanelDashboard =
+  renderPanelDashboard;
+
+window.openDashboardSection =
+  openDashboardSection;
