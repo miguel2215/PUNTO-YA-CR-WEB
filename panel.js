@@ -342,3 +342,367 @@ document.addEventListener(
 
   }
 );
+/* =========================================================
+   LOGIN DEL PANEL DEL EMPRENDEDOR
+   ========================================================= */
+
+function openPanelLogin() {
+
+  const existing = document.querySelector("#panelLoginModal");
+
+  if (existing) {
+    existing.remove();
+  }
+
+  const modal = document.createElement("div");
+
+  modal.id = "panelLoginModal";
+  modal.className = "panel-login-overlay";
+
+  modal.innerHTML = `
+    <div class="panel-login-modal">
+
+      <button
+        type="button"
+        class="panel-login-close"
+        onclick="closePanelLogin()"
+        aria-label="Cerrar">
+        ×
+      </button>
+
+      <span class="access-tag">
+        PUNTO YA CR
+      </span>
+
+      <h2>Iniciar sesión</h2>
+
+      <p>
+        Usa la misma cuenta de PUNTO YA CR.
+      </p>
+
+      <div class="panel-login-field">
+        <label for="panelLoginEmail">
+          Correo
+        </label>
+
+        <input
+          id="panelLoginEmail"
+          type="email"
+          autocomplete="email"
+          placeholder="correo@ejemplo.com">
+      </div>
+
+      <div class="panel-login-field">
+        <label for="panelLoginPassword">
+          Contraseña
+        </label>
+
+        <input
+          id="panelLoginPassword"
+          type="password"
+          autocomplete="current-password"
+          placeholder="Tu contraseña">
+      </div>
+
+      <div
+        id="panelLoginError"
+        class="panel-login-error"
+        hidden>
+      </div>
+
+      <button
+        id="panelLoginSubmit"
+        type="button"
+        class="panel-button primary-button panel-login-submit"
+        onclick="panelLogin()">
+        Iniciar sesión
+      </button>
+
+      <button
+        type="button"
+        class="panel-login-forgot"
+        onclick="panelForgotPassword()">
+        ¿Olvidaste tu contraseña?
+      </button>
+
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+
+  setTimeout(() => {
+
+    document
+      .querySelector("#panelLoginEmail")
+      ?.focus();
+
+  }, 50);
+}
+
+
+function closePanelLogin() {
+
+  document
+    .querySelector("#panelLoginModal")
+    ?.remove();
+}
+
+
+/* =========================================================
+   INICIAR SESIÓN CON SUPABASE
+   ========================================================= */
+
+async function panelLogin() {
+
+  if (!initPanelCloud()) {
+    return;
+  }
+
+
+  const email =
+    document
+      .querySelector("#panelLoginEmail")
+      ?.value
+      .trim()
+      .toLowerCase();
+
+
+  const password =
+    document
+      .querySelector("#panelLoginPassword")
+      ?.value || "";
+
+
+  const errorBox =
+    document.querySelector("#panelLoginError");
+
+
+  const button =
+    document.querySelector("#panelLoginSubmit");
+
+
+  if (!email || !password) {
+
+    showPanelLoginError(
+      "Escribe tu correo y contraseña."
+    );
+
+    return;
+  }
+
+
+  try {
+
+    if (button) {
+
+      button.disabled = true;
+      button.textContent = "Ingresando...";
+
+    }
+
+
+    const {
+      data,
+      error
+    } = await panelCloud.auth.signInWithPassword({
+      email,
+      password
+    });
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    if (!data?.session?.user) {
+
+      throw new Error(
+        "No se pudo iniciar la sesión."
+      );
+
+    }
+
+
+    panelSession = data.session;
+    panelUser = data.session.user;
+
+
+    await loadPanelBusiness(panelUser);
+
+
+    if (!panelBusiness) {
+
+      await panelCloud.auth.signOut();
+
+      throw new Error(
+        "No encontramos un negocio asociado a esta cuenta."
+      );
+
+    }
+
+
+    closePanelLogin();
+
+
+    document.body.classList.remove(
+      "panel-guest"
+    );
+
+    document.body.classList.add(
+      "panel-authenticated"
+    );
+
+
+    /*
+      En el siguiente paso sustituiremos esto
+      por renderPanelDashboard().
+    */
+
+    console.log(
+      "Acceso correcto al Panel:",
+      {
+        user: panelUser.id,
+        business: panelBusiness.id
+      }
+    );
+
+
+    alert(
+      `Bienvenido a ${panelBusiness.name || "tu negocio"}`
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Login del Panel:",
+      error
+    );
+
+
+    const message =
+      String(error?.message || "")
+        .toLowerCase();
+
+
+    if (
+      message.includes(
+        "invalid login credentials"
+      )
+    ) {
+
+      showPanelLoginError(
+        "Correo o contraseña incorrectos."
+      );
+
+    } else if (
+      message.includes(
+        "email not confirmed"
+      )
+    ) {
+
+      showPanelLoginError(
+        "Primero confirma tu correo electrónico."
+      );
+
+    } else {
+
+      showPanelLoginError(
+        error?.message ||
+        "No se pudo iniciar sesión."
+      );
+
+    }
+
+  } finally {
+
+    if (button) {
+
+      button.disabled = false;
+      button.textContent = "Iniciar sesión";
+
+    }
+
+  }
+}
+
+
+function showPanelLoginError(message) {
+
+  const box =
+    document.querySelector("#panelLoginError");
+
+
+  if (!box) return;
+
+
+  box.textContent = message;
+  box.hidden = false;
+}
+
+
+/* =========================================================
+   RECUPERAR CONTRASEÑA
+   ========================================================= */
+
+async function panelForgotPassword() {
+
+  const email =
+    document
+      .querySelector("#panelLoginEmail")
+      ?.value
+      .trim()
+      .toLowerCase();
+
+
+  if (!email) {
+
+    showPanelLoginError(
+      "Escribe primero tu correo."
+    );
+
+    return;
+  }
+
+
+  try {
+
+    const {
+      error
+    } = await panelCloud.auth.resetPasswordForEmail(
+      email,
+      {
+        redirectTo:
+          window.location.origin +
+          window.location.pathname
+      }
+    );
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    showPanelLoginError(
+      "Te enviamos un correo para recuperar tu contraseña."
+    );
+
+
+  } catch (error) {
+
+    showPanelLoginError(
+      error?.message ||
+      "No se pudo enviar el correo."
+    );
+
+  }
+}
+
+
+window.openPanelLogin = openPanelLogin;
+window.closePanelLogin = closePanelLogin;
+window.panelLogin = panelLogin;
+window.panelForgotPassword = panelForgotPassword;
