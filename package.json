@@ -4,7 +4,10 @@
   "scripts": {
     "test:web": "playwright test",
     "test:web:ui": "playwright test --ui",
-    "test:web:report": "playwright show-report"
+    "test:web:report": "playwright show-report",
+    "test:aggressive": "playwright test tests/errores-agresivos.spec.js",
+    "test:security": "playwright test tests/seguridad-supabase.spec.js",
+    "test:all": "playwright test"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0"
