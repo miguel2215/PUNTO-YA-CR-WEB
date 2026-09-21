@@ -2461,6 +2461,7 @@ function renderDevicesSection() {
         <div class="business-settings-title"><div class="business-settings-icon">↻</div><div><h2>Sincronización</h2><p>Tu cuenta está conectada a PUNTO YA CR.</p></div></div>
         <div class="panel-info-card"><strong>Conectado con la nube</strong><p>Los datos compatibles con tu plan se mantienen asociados a tu cuenta y negocio.</p></div>
       </div>
+      <div class="code-activation-box"><div class="business-settings-title"><div class="business-settings-icon">⌁</div><div><h2>Activar código PRO</h2><p>Canjea aquí un código de Beta Fundadores, regalo o promoción. Cada código se valida en el servidor y queda ligado a este negocio.</p></div></div><div class="code-row"><input id="proActivationCode" autocomplete="off" maxlength="32" placeholder="PYCR-XXXX-XXXX"><button class="business-save-button" type="button" onclick="redeemProCode()">Activar PRO</button></div><div id="proCodeMessage" class="code-message"></div></div>
       <div class="business-settings-actions"><a class="business-save-button panel-link-button" href="${PUNTO_YA_APP}">Abrir PUNTO YA CR</a></div>
     </section>`
   );
@@ -2592,6 +2593,18 @@ function panelProShell(title, eyebrow, intro, body) {
   const name=panelBusiness?.name||"Mi negocio";
   document.body.innerHTML=`<div class="entrepreneur-dashboard plan-pro"><header class="dashboard-header"><div class="dashboard-header-inner"><button class="dashboard-brand dashboard-brand-button" onclick="renderPanelDashboard()"><img src="assets/logo-horizontal.png" alt="PUNTO YA CR"></button><div class="dashboard-account"><div class="dashboard-business-mini"><strong>${escapePanelHTML(name)}</strong><span>PUNTO YA CR Pro</span></div><button class="dashboard-logout" onclick="panelLogout()">Cerrar sesión</button></div></div></header><main class="dashboard-main pro-detail-main"><button class="business-back" onclick="renderPanelDashboard()">← Volver al panel</button><section class="business-settings-heading"><span class="dashboard-eyebrow">${eyebrow}</span><h1>${title}</h1><p>${intro}</p></section>${body}<p class="business-simple-note">PUNTO YA CR · Tu negocio, más simple.</p></main></div>`;
 }
+
+async function redeemProCode(){
+  const input=document.getElementById("proActivationCode"), msg=document.getElementById("proCodeMessage");
+  if(!input||!msg||!panelBusiness)return; const code=String(input.value||"").trim().toUpperCase();
+  if(code.length<8){msg.className="code-message error";msg.textContent="Ingresa un código válido.";return;}
+  msg.className="code-message";msg.textContent="Validando código…";
+  try{const {data,error}=await panelCloud.rpc("redeem_pro_code",{p_business_id:panelBusiness.id,p_code:code});if(error)throw error;
+    if(!data?.ok){msg.className="code-message error";msg.textContent=data?.message||"No se pudo activar el código.";return;}
+    __pycrResetMemo?.(); msg.className="code-message ok";msg.textContent=data.message||"PUNTO YA CR Pro activado.";setTimeout(()=>renderPlanSection(),900);
+  }catch(e){msg.className="code-message error";msg.textContent=e?.message||"No se pudo validar el código.";}
+}
+window.redeemProCode=redeemProCode;
 async function requireProData(){ const d=await loadEntrepreneurSnapshot("full"); if(String(d.planTier)!=="pro"){renderPlanSection(); return null;} return {d,m:buildEntrepreneurMetrics(d)}; }
 
 async function renderMoneySection(){

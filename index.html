@@ -640,28 +640,42 @@
 
 
     <!-- ===================================================
-         GRATIS VS PRO
+         PLANES Y PRECIOS
          =================================================== -->
     <section id="planes" class="plans-section">
       <div class="section-heading centered">
-        <span class="eyebrow">CRECE A TU RITMO</span>
-        <h2>Empieza simple. Activa más cuando lo necesites.</h2>
-        <p>PUNTO YA CR mantiene la operación diaria sencilla y deja las herramientas avanzadas de administración en Pro.</p>
+        <span class="eyebrow">PLANES PUNTO YA CR</span>
+        <h2>Empieza gratis. Pasa a Pro cuando tu negocio lo necesite.</h2>
+        <p>El mismo PUNTO YA CR, con más herramientas para entender y administrar tu negocio.</p>
       </div>
-      <div class="plan-grid">
-        <article class="plan-card">
-          <span class="plan-label">PUNTO YA CR</span><h3>Gratis</h3>
-          <p>Para comenzar a organizar y operar tu negocio.</p>
-          <ul><li>Ventas y caja</li><li>Productos e inventario</li><li>Clientes</li><li>Herramientas principales del negocio</li><li>Acceso al Panel del Emprendedor</li></ul>
+      <div class="pricing-grid">
+        <article class="price-card free-card">
+          <span class="plan-label">PUNTO YA CR GRATIS</span><h3>₡0</h3><small>Sin costo mensual</small>
+          <ul><li>Ventas y caja</li><li>Productos e inventario</li><li>Clientes</li><li>Operación principal</li><li>Panel del Emprendedor básico</li></ul>
           <button class="primary" onclick="window.location.href='panel.html?access=create'">Crear mi negocio gratis</button>
         </article>
-        <article class="plan-card featured-plan">
-          <span class="plan-label">PUNTO YA CR PRO</span><h3>Más control para crecer</h3>
-          <p>Para quienes quieren entender mejor el dinero y la evolución de su negocio.</p>
-          <ul><li>Dinero, gastos y salud del negocio</li><li>Proveedores y cuentas por pagar/cobrar</li><li>Crecimiento y metas</li><li>Contabilidad más ordenada</li><li>Reportes y análisis avanzados</li></ul>
-          <button class="green" onclick="document.querySelector('#pro').scrollIntoView({behavior:'smooth'})">Conocer Pro</button>
+        <article class="price-card">
+          <span class="plan-label">PRO MENSUAL</span><h3>₡6.990</h3><small>por mes</small>
+          <p>Flexibilidad para empezar con Pro.</p>
+          <button class="green pending-payment" data-cycle="monthly">Elegir mensual</button>
+        </article>
+        <article class="price-card">
+          <span class="plan-label">PRO TRIMESTRAL</span><h3>₡18.900</h3><small>₡6.300 por mes · ahorras ₡2.070</small>
+          <p>Tres meses de PUNTO YA CR Pro.</p>
+          <button class="green pending-payment" data-cycle="quarterly">Elegir trimestral</button>
+        </article>
+        <article class="price-card featured-price">
+          <span class="best-value">MEJOR PRECIO</span><span class="plan-label">PRO ANUAL</span><h3>₡69.900</h3><small>₡5.825 por mes · ahorras ₡13.980</small>
+          <p>Un año completo con el mejor precio.</p>
+          <button class="green pending-payment" data-cycle="annual">Elegir anual</button>
         </article>
       </div>
+      <div class="pro-includes"><strong>Todos los ciclos Pro incluyen:</strong> Dinero y salud del negocio · Proveedores y cuentas · Crecimiento y metas · Contabilidad organizada · Reportes avanzados.</div>
+      <div class="activation-callout">
+        <div><span class="eyebrow">¿YA TIENES UN CÓDIGO?</span><h3>Activa PUNTO YA CR Pro</h3><p>Los códigos de Beta Fundadores, regalos y promociones se canjean desde tu Panel del Emprendedor.</p></div>
+        <button class="primary" onclick="window.location.href='panel.html?access=login&open=plan'">Activar código PRO</button>
+      </div>
+      <p class="payment-note">Los pagos en línea estarán disponibles cuando conectemos la pasarela oficial. Los códigos PRO sí quedan preparados para la beta.</p>
     </section>
 
     <!-- FACTURACIÓN ELECTRÓNICA -->
@@ -860,23 +874,18 @@
         </p>
 
         <form
-          class="py-footer-form"
-          onsubmit="return false;">
+          class="py-footer-form" id="newsletterForm">
 
           <input
-            type="email"
+            type="email" id="newsletterEmail" required
             placeholder="Tu correo electrónico"
             aria-label="Tu correo electrónico">
 
-          <button type="submit">
-            Suscribirse
-          </button>
+          <button type="submit">Suscribirse</button>
 
         </form>
 
-        <small>
-          Sin spam. Solo información importante.
-        </small>
+        <small id="newsletterMessage">Sin spam. Solo información importante.</small>
 
       </div>
 
@@ -892,10 +901,8 @@
       </p>
 
       <div class="py-footer-social">
-        <a href="#">Facebook</a>
-        <a href="#">Instagram</a>
-        <a href="#">YouTube</a>
-        <a href="#">WhatsApp</a>
+        <a href="privacidad.html">Privacidad</a>
+        <a href="terminos.html">Términos</a>
       </div>
 
       <div class="py-footer-country">
