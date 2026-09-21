@@ -715,459 +715,106 @@ window.panelForgotPassword = panelForgotPassword;
    DASHBOARD DEL EMPRENDEDOR
    ========================================================= */
 
-function renderPanelDashboard() {
-
-  if (!panelUser || !panelBusiness) return;
-
-  const businessName =
-    panelBusiness.name ||
-    panelBusiness.business_name ||
-    "Mi negocio";
-
-  const ownerName =
-    panelBusiness.owner_name ||
-    panelUser.user_metadata?.full_name ||
-    panelUser.user_metadata?.name ||
-    "";
-
-  const businessType =
-    panelBusiness.business_type ||
-    panelBusiness.type ||
-    "";
-
-  const plan =
-    panelBusiness.plan_tier ||
-    panelBusiness.plan ||
-    "free";
-
-  const typeLabel =
-    businessType === "food"
-      ? "Restaurante"
-      : businessType === "products"
-        ? "Retail"
-        : "Negocio";
-
-  const planLabel =
-    String(plan).toLowerCase() === "pro"
-      ? "PUNTO YA CR Pro"
-      : "PUNTO YA CR Free";
-
-
-  document.body.innerHTML = `
-
-    <div class="entrepreneur-dashboard">
-
-      <!-- ================================================
-           HEADER
-           ================================================ -->
-
-      <header class="dashboard-header">
-
-        <div class="dashboard-header-inner">
-
-          <a
-            href="index.html"
-            class="dashboard-brand">
-
-            <img
-              src="assets/logo-horizontal.png"
-              alt="PUNTO YA CR">
-
-          </a>
-
-
-          <div class="dashboard-account">
-
-            <div class="dashboard-business-mini">
-
-              <strong>${escapePanelHTML(businessName)}</strong>
-
-              <span>
-                ${escapePanelHTML(planLabel)}
-              </span>
-
-            </div>
-
-
-            <button
-              type="button"
-              class="dashboard-logout"
-              onclick="panelLogout()">
-
-              Cerrar sesión
-
-            </button>
-
-          </div>
-
-        </div>
-
-      </header>
-
-
-
-      <!-- ================================================
-           CONTENIDO
-           ================================================ -->
-
-      <main class="dashboard-main">
-
-
-        <!-- BIENVENIDA -->
-
-        <section class="dashboard-welcome">
-
-          <span class="dashboard-eyebrow">
-            PANEL DEL EMPRENDEDOR
-          </span>
-
-          <h1>
-            ${
-              ownerName
-                ? `Hola, ${escapePanelHTML(ownerName)}.`
-                : "Hola."
-            }
-          </h1>
-
-          <p>
-            Aquí tienes el control de
-            <strong>${escapePanelHTML(businessName)}</strong>.
-          </p>
-
-        </section>
-
-
-
-        <!-- ================================================
-             TARJETAS PRINCIPALES
-             ================================================ -->
-
-        <section class="dashboard-summary">
-
-
-          <!-- NEGOCIO -->
-
-          <article class="dashboard-card">
-
-            <div class="dashboard-card-icon">
-              🏪
-            </div>
-
-            <span class="dashboard-card-label">
-              MI NEGOCIO
-            </span>
-
-            <h2>
-              ${escapePanelHTML(businessName)}
-            </h2>
-
-            <p>
-              ${escapePanelHTML(typeLabel)}
-            </p>
-
-            <button
-              type="button"
-              class="dashboard-card-link"
-              onclick="openDashboardSection('business')">
-
-              Administrar negocio →
-
-            </button>
-
-          </article>
-
-
-
-          <!-- PLAN -->
-
-          <article class="dashboard-card">
-
-            <div class="dashboard-card-icon">
-              ✦
-            </div>
-
-            <span class="dashboard-card-label">
-              PLAN ACTUAL
-            </span>
-
-            <h2>
-              ${escapePanelHTML(planLabel)}
-            </h2>
-
-            <p>
-              Consulta las funciones disponibles
-              para tu negocio.
-            </p>
-
-            <button
-              type="button"
-              class="dashboard-card-link"
-              onclick="openDashboardSection('plan')">
-
-              Ver mi plan →
-
-            </button>
-
-          </article>
-
-
-
-          <!-- POS -->
-
-          <article class="dashboard-card dashboard-card-pos">
-
-            <div class="dashboard-card-icon">
-              PY
-            </div>
-
-            <span class="dashboard-card-label">
-              PUNTO YA CR
-            </span>
-
-            <h2>
-              Punto de venta
-            </h2>
-
-            <p>
-              Entra directamente a tu sistema
-              de ventas.
-            </p>
-
-            <a
-              class="dashboard-open-pos"
-              href="${PUNTO_YA_APP}">
-
-              Abrir PUNTO YA CR →
-
-            </a>
-
-          </article>
-
-        </section>
-
-
-
-        <!-- ================================================
-             HERRAMIENTAS
-             ================================================ -->
-
-        <section class="dashboard-tools">
-
-          <div class="dashboard-section-title">
-
-            <div>
-
-              <span class="dashboard-eyebrow">
-                ADMINISTRACIÓN
-              </span>
-
-              <h2>
-                Tu cuenta y tu negocio
-              </h2>
-
-            </div>
-
-          </div>
-
-
-          <div class="dashboard-tool-grid">
-
-
-            <button
-              class="dashboard-tool"
-              onclick="openDashboardSection('business')">
-
-              <span class="dashboard-tool-icon">
-                🏪
-              </span>
-
-              <span>
-
-                <strong>
-                  Mi negocio
-                </strong>
-
-                <small>
-                  Información y configuración
-                  de ${escapePanelHTML(businessName)}.
-                </small>
-
-              </span>
-
-              <b>→</b>
-
-            </button>
-
-
-
-            <button
-              class="dashboard-tool"
-              onclick="openDashboardSection('account')">
-
-              <span class="dashboard-tool-icon">
-                👤
-              </span>
-
-              <span>
-
-                <strong>
-                  Mi cuenta
-                </strong>
-
-                <small>
-                  Datos del propietario y seguridad.
-                </small>
-
-              </span>
-
-              <b>→</b>
-
-            </button>
-
-
-
-            <button
-              class="dashboard-tool"
-              onclick="openDashboardSection('devices')">
-
-              <span class="dashboard-tool-icon">
-                ▣
-              </span>
-
-              <span>
-
-                <strong>
-                  Dispositivos
-                </strong>
-
-                <small>
-                  Acceso y sincronización
-                  entre tus equipos.
-                </small>
-
-              </span>
-
-              <b>→</b>
-
-            </button>
-
-
-
-            <button
-              class="dashboard-tool"
-              onclick="openDashboardSection('billing')">
-
-              <span class="dashboard-tool-icon">
-                ₡
-              </span>
-
-              <span>
-
-                <strong>
-                  Facturación
-                </strong>
-
-                <small>
-                  Configuración fiscal
-                  y funciones disponibles.
-                </small>
-
-              </span>
-
-              <b>→</b>
-
-            </button>
-
-
-
-            <button
-              class="dashboard-tool"
-              onclick="openDashboardSection('plan')">
-
-              <span class="dashboard-tool-icon">
-                ✦
-              </span>
-
-              <span>
-
-                <strong>
-                  PUNTO YA CR Pro
-                </strong>
-
-                <small>
-                  Consulta tu plan y
-                  herramientas adicionales.
-                </small>
-
-              </span>
-
-              <b>→</b>
-
-            </button>
-
-
-
-            <button
-              class="dashboard-tool"
-              onclick="openDashboardSection('support')">
-
-              <span class="dashboard-tool-icon">
-                ?
-              </span>
-
-              <span>
-
-                <strong>
-                  Soporte
-                </strong>
-
-                <small>
-                  Ayuda para utilizar
-                  PUNTO YA CR.
-                </small>
-
-              </span>
-
-              <b>→</b>
-
-            </button>
-
-
-          </div>
-
-        </section>
-
-
-      </main>
-
-
-
-      <!-- ================================================
-           FOOTER
-           ================================================ -->
-
-      <footer class="dashboard-footer">
-
-        <img
-          src="assets/logo-horizontal.png"
-          alt="PUNTO YA CR">
-
-        <p>
-          © 2026 PUNTO YA CR · Hecho en Costa Rica.
-        </p>
-
-      </footer>
-
-
-    </div>
-
-  `;
+async function loadEntrepreneurSnapshot() {
+  const empty = { planTier:"free", sales:[], saleItems:[], products:[], clients:[], payments:[], creditMoves:[], orders:[] };
+  if (!panelCloud || !panelBusiness?.id) return empty;
+  const businessId = panelBusiness.id;
+  const safe = async promise => { try { const r = await promise; return r?.error ? [] : (r?.data || []); } catch (_) { return []; } };
+  const [planRows, sales, saleItems, products, clients, payments, creditMoves, orders] = await Promise.all([
+    safe(panelCloud.from("business_plans").select("plan_tier,plan_source,plan_period,starts_at,expires_at").eq("business_id", businessId).limit(1)),
+    safe(panelCloud.from("sales").select("id,total,status,payment_method,created_at,client_id").eq("business_id", businessId).order("created_at", {ascending:false}).limit(2500)),
+    safe(panelCloud.from("sale_items").select("sale_id,product_id,product_name,quantity,unit_price,subtotal,created_at").eq("business_id", businessId).order("created_at", {ascending:false}).limit(5000)),
+    safe(panelCloud.from("products").select("id,name,price,cost,stock,active,business_type").eq("business_id", businessId).eq("active", true).limit(2000)),
+    safe(panelCloud.from("clients").select("id,name,active,created_at").eq("business_id", businessId).eq("active", true).limit(2000)),
+    safe(panelCloud.from("payments").select("sale_id,method,amount,created_at").eq("business_id", businessId).order("created_at", {ascending:false}).limit(3000)),
+    safe(panelCloud.from("credit_movements").select("movement_type,amount,created_at,client_id").eq("business_id", businessId).order("created_at", {ascending:false}).limit(3000)),
+    safe(panelCloud.from("orders").select("id,status,total,created_at").eq("business_id", businessId).order("created_at", {ascending:false}).limit(1500))
+  ]);
+  return { planTier:String(planRows[0]?.plan_tier || panelBusiness.plan_tier || panelBusiness.plan || "free").toLowerCase(), sales, saleItems, products, clients, payments, creditMoves, orders };
 }
 
+function panelMoney(value) {
+  return new Intl.NumberFormat("es-CR", { style:"currency", currency:"CRC", maximumFractionDigits:0 }).format(Number(value || 0));
+}
+function panelDayStart(d=new Date()) { const x=new Date(d); x.setHours(0,0,0,0); return x; }
+function panelSum(rows, field="total") { return rows.reduce((a,r)=>a+Number(r?.[field]||0),0); }
+function panelPct(current, previous) { if (!previous) return current ? 100 : 0; return ((current-previous)/previous)*100; }
+function panelTrendText(pct) { if (Math.abs(pct)<0.5) return "similar al período anterior"; return `${Math.abs(pct).toFixed(0)}% ${pct>0?"más":"menos"} que el período anterior`; }
+function panelActiveSales(rows) { return rows.filter(s => String(s.status||"active").toLowerCase() !== "voided"); }
 
-/* =========================================================
-   SECCIONES DEL DASHBOARD
-   ========================================================= */
+function buildEntrepreneurMetrics(data) {
+  const now=new Date(), today=panelDayStart(now), tomorrow=new Date(today); tomorrow.setDate(tomorrow.getDate()+1);
+  const d7=new Date(today); d7.setDate(d7.getDate()-6);
+  const prev7=new Date(d7); prev7.setDate(prev7.getDate()-7);
+  const d30=new Date(today); d30.setDate(d30.getDate()-29);
+  const prev30=new Date(d30); prev30.setDate(prev30.getDate()-30);
+  const active=panelActiveSales(data.sales);
+  const inRange=(r,a,b)=>{const d=new Date(r.created_at); return d>=a && d<b;};
+  const todaySales=active.filter(r=>inRange(r,today,tomorrow));
+  const week=active.filter(r=>inRange(r,d7,tomorrow));
+  const prevWeek=active.filter(r=>inRange(r,prev7,d7));
+  const month=active.filter(r=>inRange(r,d30,tomorrow));
+  const prevMonth=active.filter(r=>inRange(r,prev30,d30));
+  const todayRevenue=panelSum(todaySales), weekRevenue=panelSum(week), prevWeekRevenue=panelSum(prevWeek), monthRevenue=panelSum(month), prevMonthRevenue=panelSum(prevMonth);
+  const weekPct=panelPct(weekRevenue,prevWeekRevenue), monthPct=panelPct(monthRevenue,prevMonthRevenue);
+  const ticket=todaySales.length?todayRevenue/todaySales.length:0;
+  const monthIds=new Set(month.map(s=>s.id));
+  const monthItems=data.saleItems.filter(i=>monthIds.has(i.sale_id));
+  const productMap={};
+  for(const i of monthItems){const k=i.product_name||"Producto"; productMap[k]=(productMap[k]||0)+Number(i.quantity||0);}
+  const topProducts=Object.entries(productMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const payMap={};
+  const monthPayments=data.payments.filter(p=>inRange(p,d30,tomorrow));
+  for(const p of monthPayments){const k=p.method||"Otro"; payMap[k]=(payMap[k]||0)+Number(p.amount||0);}
+  if(!monthPayments.length) for(const s of month){const k=s.payment_method||"Otro"; payMap[k]=(payMap[k]||0)+Number(s.total||0);}
+  const lowStock=data.products.filter(p=>Number(p.stock||0)<=5).sort((a,b)=>Number(a.stock||0)-Number(b.stock||0)).slice(0,6);
+  let credit=0; for(const m of data.creditMoves){const t=String(m.movement_type||""); const a=Number(m.amount||0); if(t==="credit_sale") credit+=a; else if(t==="credit_payment"||t==="payment"||t==="void") credit-=a;}
+  credit=Math.max(0,credit);
+  const productCost=new Map(data.products.map(p=>[p.id,Number(p.cost||0)]));
+  let estimatedCost=0; for(const i of monthItems) estimatedCost += (productCost.get(i.product_id)||0)*Number(i.quantity||0);
+  const estimatedMargin=monthRevenue-estimatedCost;
+  const days={}; for(const s of month){const label=new Intl.DateTimeFormat("es-CR",{weekday:"long"}).format(new Date(s.created_at)); days[label]=(days[label]||0)+Number(s.total||0);}
+  const bestDay=Object.entries(days).sort((a,b)=>b[1]-a[1])[0]||null;
+  return {todayRevenue,todayCount:todaySales.length,ticket,weekRevenue,weekPct,monthRevenue,monthPct,monthCount:month.length,topProducts,payMap,lowStock,credit,estimatedCost,estimatedMargin,bestDay,clientCount:data.clients.length,productCount:data.products.length,orderCount:data.orders.filter(o=>!["delivered","entregado","cancelled","canceled"].includes(String(o.status||"").toLowerCase())).length};
+}
+
+async function renderPanelDashboard() {
+  if (!panelUser || !panelBusiness) return;
+  const businessName=panelBusiness.name||"Mi negocio";
+  const ownerName=panelBusiness.owner_name||panelUser.user_metadata?.full_name||panelUser.user_metadata?.name||"";
+  const businessType=panelBusiness.business_type||"";
+  const typeLabel=businessType==="food"?"Restaurante":businessType==="products"?"Retail":"Negocio";
+  document.body.innerHTML=`<div class="entrepreneur-dashboard"><header class="dashboard-header"><div class="dashboard-header-inner"><a href="index.html" class="dashboard-brand"><img src="assets/logo-horizontal.png" alt="PUNTO YA CR"></a><div class="dashboard-account"><div class="dashboard-business-mini"><strong>${escapePanelHTML(businessName)}</strong><span>Cargando tu negocio…</span></div><button type="button" class="dashboard-logout" onclick="panelLogout()">Cerrar sesión</button></div></div></header><main class="dashboard-main"><section class="dashboard-welcome"><span class="dashboard-eyebrow">PANEL DEL EMPRENDEDOR</span><h1>${ownerName?`Hola, ${escapePanelHTML(ownerName)}.`:"Hola."}</h1><p>Estamos preparando la vista de <strong>${escapePanelHTML(businessName)}</strong>.</p></section><div class="panel-loading-card">Leyendo la información real de tu negocio…</div></main></div>`;
+  const data=await loadEntrepreneurSnapshot();
+  const m=buildEntrepreneurMetrics(data); const isPro=data.planTier==="pro"; const planLabel=isPro?"PUNTO YA CR Pro":"PUNTO YA CR Free";
+  const paymentHtml=Object.entries(m.payMap).sort((a,b)=>b[1]-a[1]).slice(0,4).map(([k,v])=>`<div class="money-line"><span>${escapePanelHTML(k)}</span><strong>${panelMoney(v)}</strong></div>`).join("")||`<p class="panel-empty">Aún no hay pagos sincronizados en este período.</p>`;
+  const topHtml=m.topProducts.map(([n,q],i)=>`<div class="rank-line"><span class="rank-number">${i+1}</span><span>${escapePanelHTML(n)}</span><strong>${Number(q).toLocaleString("es-CR")}</strong></div>`).join("")||`<p class="panel-empty">Cuando registres ventas, aquí verás lo que más se vende.</p>`;
+  const alerts=[]; if(m.lowStock.length) alerts.push(`${m.lowStock.length} producto${m.lowStock.length>1?"s":""} con existencias bajas.`); if(m.credit>0) alerts.push(`${panelMoney(m.credit)} pendientes en crédito.`); if(m.orderCount) alerts.push(`${m.orderCount} pedido${m.orderCount>1?"s":""} pendiente${m.orderCount>1?"s":""}.`); if(!alerts.length) alerts.push("No vemos alertas importantes con los datos sincronizados.");
+  const insight1=m.weekRevenue?`Esta semana vendiste ${panelTrendText(m.weekPct)}.`:"Cuando tengas más ventas podremos comparar tus semanas.";
+  const insight2=m.bestDay?`${m.bestDay[0][0].toUpperCase()+m.bestDay[0].slice(1)} ha sido tu día con más ventas en los últimos 30 días.`:"Todavía no hay suficiente historial para detectar tu mejor día.";
+  document.body.innerHTML=`
+  <div class="entrepreneur-dashboard ${isPro?"plan-pro":"plan-free"}">
+   <header class="dashboard-header"><div class="dashboard-header-inner"><a href="index.html" class="dashboard-brand"><img src="assets/logo-horizontal.png" alt="PUNTO YA CR"></a><nav class="panel-topnav"><a href="#resumen">Resumen</a><a href="#ventas">Ventas</a><a href="#dinero">Dinero</a><a href="#crecimiento">Crecimiento</a></nav><div class="dashboard-account"><div class="dashboard-business-mini"><strong>${escapePanelHTML(businessName)}</strong><span>${planLabel}</span></div><button class="dashboard-logout" onclick="panelLogout()">Cerrar sesión</button></div></div></header>
+   <main class="dashboard-main entrepreneur-main">
+    <section id="resumen" class="business-overview-head"><div><span class="dashboard-eyebrow">ASÍ VA TU NEGOCIO</span><h1>${escapePanelHTML(businessName)}</h1><p>${escapePanelHTML(typeLabel)} · Datos sincronizados desde PUNTO YA CR.</p></div><span class="plan-pill ${isPro?"pro":"free"}">${isPro?"PRO":"FREE"}</span></section>
+    <section class="metric-grid"><article class="metric-card hero"><span>Ventas de hoy</span><strong>${panelMoney(m.todayRevenue)}</strong><small>${m.todayCount} venta${m.todayCount===1?"":"s"}</small></article><article class="metric-card"><span>Ticket promedio</span><strong>${panelMoney(m.ticket)}</strong><small>Hoy</small></article><article class="metric-card"><span>Esta semana</span><strong>${panelMoney(m.weekRevenue)}</strong><small>${m.weekRevenue?panelTrendText(m.weekPct):"Sin comparación todavía"}</small></article><article class="metric-card"><span>Últimos 30 días</span><strong>${panelMoney(m.monthRevenue)}</strong><small>${m.monthCount} ventas</small></article></section>
+    <section class="business-story"><div><span class="dashboard-eyebrow">EN PALABRAS SIMPLES</span><h2>${isPro?"Lo que está pasando en tu negocio":"Una mirada rápida a tu negocio"}</h2></div><div class="story-cards"><article><strong>${insight1}</strong><span>${isPro?insight2:"Con Pro también puedes descubrir tendencias, comparaciones y oportunidades."}</span></article><article><strong>${alerts[0]}</strong><span>${alerts.slice(1).join(" ")||"Revisa esta información cuando lo necesites."}</span></article></div></section>
+    <section id="ventas" class="panel-business-grid"><article class="business-data-card"><div class="data-card-head"><div><span class="dashboard-eyebrow">VENTAS</span><h2>Lo que más vendes</h2></div><span>30 días</span></div>${topHtml}</article><article id="dinero" class="business-data-card"><div class="data-card-head"><div><span class="dashboard-eyebrow">DINERO</span><h2>Cómo te pagaron</h2></div><span>30 días</span></div>${paymentHtml}<div class="money-total"><span>Crédito pendiente</span><strong>${panelMoney(m.credit)}</strong></div></article></section>
+    ${isPro?`<section class="pro-zone"><div class="pro-zone-title"><span class="dashboard-eyebrow">PUNTO YA CR PRO</span><h2>Entiende y haz crecer tu negocio</h2><p>No solo veas números. Descubre qué significan.</p></div><div class="pro-metric-grid"><article><span>Ventas 30 días</span><strong>${panelMoney(m.monthRevenue)}</strong><small>${panelTrendText(m.monthPct)}</small></article><article><span>Costo estimado de productos</span><strong>${panelMoney(m.estimatedCost)}</strong><small>Según costos registrados en productos</small></article><article><span>Margen antes de gastos</span><strong>${panelMoney(m.estimatedMargin)}</strong><small>Ventas menos costo estimado</small></article><article><span>Clientes</span><strong>${m.clientCount}</strong><small>Registrados</small></article></div><div id="crecimiento" class="growth-grid"><article class="growth-card"><span class="growth-icon">↗</span><h3>Oportunidades</h3><p>${insight2}</p></article><article class="growth-card"><span class="growth-icon">◎</span><h3>Salud del negocio</h3><p>${alerts.join(" ")}</p></article><article class="growth-card"><span class="growth-icon">🎯</span><h3>Metas inteligentes</h3><p>Compara tu avance semanal y mensual con tu propio historial.</p><div class="goal-progress"><i style="width:${Math.max(8,Math.min(100,50+m.weekPct))}%"></i></div></article><article class="growth-card"><span class="growth-icon">◫</span><h3>Inventario</h3><p>${m.lowStock.length?`${m.lowStock.length} productos necesitan atención.`:`${m.productCount} productos activos y sin alertas de stock bajo.`}</p></article></div><section class="ask-punto"><div><span class="dashboard-eyebrow">PREGÚNTALE A PUNTO YA</span><h2>Pregunta por tu negocio</h2><p>Respuestas rápidas basadas en los datos que ya tienes.</p></div><div class="ask-chips"><button onclick="askPuntoYa('ventas')">¿Cómo van mis ventas?</button><button onclick="askPuntoYa('producto')">¿Qué vendo más?</button><button onclick="askPuntoYa('alertas')">¿Qué debo revisar?</button><button onclick="askPuntoYa('crecimiento')">¿Estoy creciendo?</button></div><div id="puntoAnswer" class="punto-answer">Elige una pregunta.</div></section>`:`<section id="crecimiento" class="free-pro-preview"><div><span class="dashboard-eyebrow">HAZ CRECER TU NEGOCIO</span><h2>Hay más detrás de tus ventas.</h2><p>Con Pro puedes ver comparaciones, tendencias, margen estimado, oportunidades, salud del negocio y Pregúntale a PUNTO YA.</p></div><button onclick="openDashboardSection('plan')">Conocer Pro →</button><div class="preview-grid"><span>Comparaciones</span><span>Oportunidades</span><span>Metas</span><span>Salud del negocio</span><span>Dinero y margen</span><span>Pregúntale a PUNTO YA</span></div></section>`}
+    <section class="panel-alert-section"><div class="data-card-head"><div><span class="dashboard-eyebrow">ATENCIÓN</span><h2>Lo que conviene revisar</h2></div></div><div class="alert-list">${alerts.map(a=>`<div><span>!</span><p>${escapePanelHTML(a)}</p></div>`).join("")}</div></section>
+    <section class="dashboard-tools admin-zone"><div class="dashboard-section-title"><div><span class="dashboard-eyebrow">ADMINISTRACIÓN</span><h2>Tu cuenta y tu negocio</h2></div></div><div class="dashboard-tool-grid">${[["business","🏪","Mi negocio","Información, contacto y ubicación."],["account","👤","Mi cuenta","Perfil y seguridad."],["devices","▣","Dispositivos","Accesos y sincronización."],["billing","₡","Facturación","Configuración fiscal."],["plan","✦",planLabel,"Estado de tu plan."],["support","?","Soporte","Ayuda de PUNTO YA CR."]].map(([id,ic,t,d])=>`<button class="dashboard-tool" onclick="openDashboardSection('${id}')"><span class="dashboard-tool-icon">${ic}</span><span><strong>${escapePanelHTML(t)}</strong><small>${escapePanelHTML(d)}</small></span><b>→</b></button>`).join("")}</div></section>
+    <section class="pos-return"><div><span class="dashboard-eyebrow">PUNTO DE VENTA</span><h2>¿Listo para trabajar?</h2><p>Vuelve a ventas, caja, pedidos y operación diaria.</p></div><a href="${PUNTO_YA_APP}">Abrir PUNTO YA CR →</a></section>
+   </main><footer class="dashboard-footer"><img src="assets/logo-horizontal.png" alt="PUNTO YA CR"><p>© 2026 PUNTO YA CR · Tu negocio, más simple.</p></footer>
+  </div>`;
+  window.__panelMetrics=m; window.__panelIsPro=isPro;
+}
+
+function askPuntoYa(topic) {
+  const m=window.__panelMetrics; const box=document.querySelector('#puntoAnswer'); if(!m||!box) return;
+  const answers={ventas:`En los últimos 30 días registraste ${panelMoney(m.monthRevenue)} en ${m.monthCount} ventas. Esta semana llevas ${panelMoney(m.weekRevenue)}.`,producto:m.topProducts.length?`Lo que más has vendido es ${m.topProducts[0][0]}, con ${Number(m.topProducts[0][1]).toLocaleString('es-CR')} unidades en los últimos 30 días.`:"Todavía no hay suficientes ventas sincronizadas para identificar tu producto principal.",alertas:m.lowStock.length?`Revisaría primero el inventario: tienes ${m.lowStock.length} productos con 5 unidades o menos.${m.credit>0?` También hay ${panelMoney(m.credit)} pendientes en crédito.`:""}`:(m.credit>0?`Lo principal a revisar son ${panelMoney(m.credit)} pendientes en crédito.`:"No veo alertas importantes con los datos sincronizados."),crecimiento:m.monthRevenue?`Tus ventas de los últimos 30 días están ${panelTrendText(m.monthPct)}.`:"Necesitamos más historial de ventas para medir crecimiento."};
+  box.textContent=answers[topic]||"Puedo ayudarte a entender tus ventas, productos, alertas y crecimiento.";
+}
+window.askPuntoYa=askPuntoYa;
 
 function openDashboardSection(section) {
 
