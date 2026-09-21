@@ -1175,6 +1175,10 @@ function openDashboardSection(section) {
     renderBusinessSection();
     return;
   }
+   if (section === "account") {
+  renderAccountSection();
+  return;
+}
 
   const sections = {
     account: "Mi cuenta",
