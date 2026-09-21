@@ -1,0 +1,12 @@
+{
+  "name": "punto-ya-cr-web-tests",
+  "private": true,
+  "scripts": {
+    "test:web": "playwright test",
+    "test:web:ui": "playwright test --ui",
+    "test:web:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0"
+  }
+}

@@ -1,0 +1,25 @@
+PUNTO YA CR — PRUEBAS AUTOMÁTICAS DE LA WEB
+
+1. Instala Node.js si no lo tienes.
+2. Abre una terminal dentro de esta carpeta.
+3. Ejecuta:
+   npm install
+   npx playwright install chromium webkit
+   npm run test:web
+
+El reporte HTML queda en: playwright-report/index.html
+Para abrirlo:
+   npm run test:web:report
+
+La prueba corre en escritorio (Chromium) y en una emulación de iPhone.
+
+Para probar la web YA PUBLICADA en vez de los archivos locales:
+Mac/Linux:
+   BASE_URL=https://TU-DOMINIO.com npm run test:web
+Windows PowerShell:
+   $env:BASE_URL="https://TU-DOMINIO.com"; npm run test:web
+
+IMPORTANTE:
+- Las pruebas públicas no hacen compras ni acciones destructivas.
+- Newsletter no se envía automáticamente para no ensuciar la base de datos.
+- El Super Admin autenticado requiere una prueba separada con una cuenta de prueba/estado de sesión.
