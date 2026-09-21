@@ -22,7 +22,7 @@
 
   <header class="site-header">
 
-    <a class="brand" href="#inicio">
+    <a class="brand" href="#inicio" aria-label="PUNTO YA CR - Inicio">
       <img src="assets/logo-horizontal.png" alt="PUNTO YA CR">
     </a>
 
@@ -38,7 +38,8 @@
 
     <div class="head-actions">
       <button class="ghost" onclick="window.location.href='panel.html?access=login'">Iniciar sesión</button>
-      <button class="primary" onclick="window.location.href='panel.html?access=create'">Crear mi negocio gratis</button>
+      <a class="mobile-login-fix" data-mobile-login="true" href="panel.html?access=login" aria-label="Iniciar sesión">Iniciar sesión</a>
+<button class="primary" onclick="window.location.href='panel.html?access=create'">Crear mi negocio gratis</button>
     </div>
 
   </header>
@@ -647,6 +648,7 @@
         <span class="eyebrow">PLANES PUNTO YA CR</span>
         <h2>Empieza gratis. Pasa a Pro cuando tu negocio lo necesite.</h2>
         <p>El mismo PUNTO YA CR, con más herramientas para entender y administrar tu negocio.</p>
+<p class="plans-tax-note">Precios con impuestos incluidos.</p>
       </div>
       <div class="pricing-grid">
         <article class="price-card free-card">

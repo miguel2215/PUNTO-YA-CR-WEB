@@ -2898,3 +2898,25 @@ h2{
 
 /* PRECIOS + ACTIVACIÓN */
 .pricing-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:34px}.price-card{position:relative;background:#fff;border:1px solid #dfe7e4;border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:12px}.price-card h3{font-size:2rem;margin:0}.price-card ul{padding-left:20px;line-height:1.8;flex:1}.price-card button{margin-top:auto}.featured-price{border:2px solid #1f8f65;box-shadow:0 16px 40px rgba(20,70,55,.12)}.best-value{position:absolute;right:18px;top:16px;font-size:.72rem;font-weight:800;background:#e7f6ef;color:#176847;padding:7px 10px;border-radius:999px}.pro-includes,.activation-callout,.payment-note{max-width:1120px;margin:22px auto 0}.pro-includes{text-align:center;color:#41534d}.activation-callout{display:flex;align-items:center;justify-content:space-between;gap:24px;background:#f2f8f5;border:1px solid #dcebe4;border-radius:24px;padding:24px}.activation-callout h3{margin:5px 0}.payment-note{text-align:center;font-size:.9rem;color:#687a74}.pending-payment[disabled]{opacity:.65}.code-activation-box{margin-top:20px;padding:20px;border:1px solid #dfe7e4;border-radius:18px;background:#f8fbfa}.code-row{display:flex;gap:10px;flex-wrap:wrap}.code-row input{flex:1;min-width:220px;text-transform:uppercase}.code-message{margin-top:10px;font-weight:700}.code-message.ok{color:#16704d}.code-message.error{color:#a33}.legal-page{max-width:900px;margin:0 auto;padding:110px 24px 70px;line-height:1.75}.legal-page h1{font-size:2.4rem}.legal-page h2{margin-top:32px}.legal-back{display:inline-block;margin-bottom:24px}@media(max-width:950px){.pricing-grid{grid-template-columns:1fr 1fr}}@media(max-width:620px){.pricing-grid{grid-template-columns:1fr}.activation-callout{align-items:flex-start;flex-direction:column}}
+
+
+/* Playwright/mobile accessibility fixes */
+.mobile-login-fix{
+  display:none;
+}
+.plans-tax-note{
+  margin:.45rem 0 1rem;
+  font-size:.9rem;
+  opacity:.78;
+}
+@media (max-width: 768px){
+  .mobile-login-fix{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    font:inherit;
+    font-weight:600;
+    white-space:nowrap;
+  }
+}
