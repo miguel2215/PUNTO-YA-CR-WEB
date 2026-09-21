@@ -1171,29 +1171,675 @@ function renderPanelDashboard() {
 
 function openDashboardSection(section) {
 
-  /*
-    Por ahora comprobamos la navegación.
-    Después construiremos cada módulo.
-  */
+  if (section === "business") {
+    renderBusinessSection();
+    return;
+  }
 
   const sections = {
-
-    business: "Mi negocio",
     account: "Mi cuenta",
     devices: "Dispositivos",
     billing: "Facturación",
     plan: "PUNTO YA CR Pro",
     support: "Soporte"
-
   };
-
 
   console.log(
     "Abrir sección:",
     sections[section] || section
   );
 }
+/* =========================================================
+   MI NEGOCIO
+   Tu negocio, más simple.
+   ========================================================= */
 
+function renderBusinessSection() {
+
+  if (!panelBusiness) {
+    renderPanelDashboard();
+    return;
+  }
+
+  const businessName =
+    panelBusiness.name ||
+    panelBusiness.business_name ||
+    "";
+
+  const businessType =
+    panelBusiness.business_type ||
+    panelBusiness.type ||
+    "food";
+
+  const phone =
+    panelBusiness.phone ||
+    panelBusiness.business_phone ||
+    "";
+
+  const whatsapp =
+    panelBusiness.whatsapp ||
+    panelBusiness.whatsapp_number ||
+    "";
+
+  const email =
+    panelBusiness.email ||
+    panelBusiness.business_email ||
+    "";
+
+  const province =
+    panelBusiness.province ||
+    "";
+
+  const canton =
+    panelBusiness.canton ||
+    "";
+
+  const address =
+    panelBusiness.address ||
+    panelBusiness.business_address ||
+    "";
+
+
+  document.body.innerHTML = `
+
+    <div class="entrepreneur-dashboard">
+
+      <!-- HEADER -->
+
+      <header class="dashboard-header">
+
+        <div class="dashboard-header-inner">
+
+          <button
+            type="button"
+            class="dashboard-brand dashboard-brand-button"
+            onclick="renderPanelDashboard()">
+
+            <img
+              src="assets/logo-horizontal.png"
+              alt="PUNTO YA CR">
+
+          </button>
+
+
+          <div class="dashboard-account">
+
+            <div class="dashboard-business-mini">
+
+              <strong>
+                ${escapePanelHTML(businessName || "Mi negocio")}
+              </strong>
+
+              <span>
+                Panel del Emprendedor
+              </span>
+
+            </div>
+
+
+            <button
+              type="button"
+              class="dashboard-logout"
+              onclick="panelLogout()">
+
+              Cerrar sesión
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </header>
+
+
+
+      <!-- CONTENIDO -->
+
+      <main class="dashboard-main business-settings-main">
+
+
+        <!-- VOLVER -->
+
+        <button
+          type="button"
+          class="business-back"
+          onclick="renderPanelDashboard()">
+
+          ← Volver al panel
+
+        </button>
+
+
+
+        <!-- ENCABEZADO -->
+
+        <section class="business-settings-heading">
+
+          <span class="dashboard-eyebrow">
+            MI NEGOCIO
+          </span>
+
+          <h1>
+            ${escapePanelHTML(businessName || "Mi negocio")}
+          </h1>
+
+          <p>
+            La información esencial de tu negocio,
+            en un solo lugar.
+          </p>
+
+        </section>
+
+
+
+        <!-- FORMULARIO -->
+
+        <section class="business-settings-card">
+
+
+          <!-- INFORMACIÓN -->
+
+          <div class="business-settings-block">
+
+            <div class="business-settings-title">
+
+              <div class="business-settings-icon">
+                🏪
+              </div>
+
+              <div>
+
+                <h2>
+                  Información del negocio
+                </h2>
+
+                <p>
+                  Lo básico para identificar tu negocio.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="business-form-grid">
+
+              <div class="business-field business-field-wide">
+
+                <label for="businessName">
+                  Nombre del negocio
+                </label>
+
+                <input
+                  id="businessName"
+                  type="text"
+                  maxlength="80"
+                  value="${escapePanelHTML(businessName)}"
+                  placeholder="Nombre de tu negocio">
+
+              </div>
+
+
+              <div class="business-field">
+
+                <label for="businessType">
+                  Tipo de negocio
+                </label>
+
+                <select id="businessType">
+
+                  <option
+                    value="food"
+                    ${businessType === "food" ? "selected" : ""}>
+                    Restaurante
+                  </option>
+
+                  <option
+                    value="products"
+                    ${businessType === "products" ? "selected" : ""}>
+                    Retail
+                  </option>
+
+                </select>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- CONTACTO -->
+
+          <div class="business-settings-block">
+
+            <div class="business-settings-title">
+
+              <div class="business-settings-icon">
+                ☎
+              </div>
+
+              <div>
+
+                <h2>
+                  Contacto
+                </h2>
+
+                <p>
+                  Cómo pueden comunicarse con tu negocio.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="business-form-grid">
+
+              <div class="business-field">
+
+                <label for="businessPhone">
+                  Teléfono
+                </label>
+
+                <input
+                  id="businessPhone"
+                  type="tel"
+                  value="${escapePanelHTML(phone)}"
+                  placeholder="Ej. 8888 8888">
+
+              </div>
+
+
+              <div class="business-field">
+
+                <label for="businessWhatsapp">
+                  WhatsApp
+                </label>
+
+                <input
+                  id="businessWhatsapp"
+                  type="tel"
+                  value="${escapePanelHTML(whatsapp)}"
+                  placeholder="Ej. 8888 8888">
+
+              </div>
+
+
+              <div class="business-field business-field-wide">
+
+                <label for="businessEmail">
+                  Correo del negocio
+                </label>
+
+                <input
+                  id="businessEmail"
+                  type="email"
+                  value="${escapePanelHTML(email)}"
+                  placeholder="negocio@correo.com">
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- UBICACIÓN -->
+
+          <div class="business-settings-block">
+
+            <div class="business-settings-title">
+
+              <div class="business-settings-icon">
+                ⌖
+              </div>
+
+              <div>
+
+                <h2>
+                  Ubicación
+                </h2>
+
+                <p>
+                  Solo la información necesaria.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="business-form-grid">
+
+              <div class="business-field">
+
+                <label for="businessProvince">
+                  Provincia
+                </label>
+
+                <select id="businessProvince">
+
+                  <option value="">
+                    Seleccionar
+                  </option>
+
+                  ${[
+                    "San José",
+                    "Alajuela",
+                    "Cartago",
+                    "Heredia",
+                    "Guanacaste",
+                    "Puntarenas",
+                    "Limón"
+                  ].map(item => `
+                    <option
+                      value="${item}"
+                      ${province === item ? "selected" : ""}>
+                      ${item}
+                    </option>
+                  `).join("")}
+
+                </select>
+
+              </div>
+
+
+              <div class="business-field">
+
+                <label for="businessCanton">
+                  Cantón
+                </label>
+
+                <input
+                  id="businessCanton"
+                  type="text"
+                  value="${escapePanelHTML(canton)}"
+                  placeholder="Ej. Santa Cruz">
+
+              </div>
+
+
+              <div class="business-field business-field-wide">
+
+                <label for="businessAddress">
+                  Dirección
+                </label>
+
+                <textarea
+                  id="businessAddress"
+                  rows="3"
+                  placeholder="Una referencia sencilla para ubicar tu negocio">${escapePanelHTML(address)}</textarea>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- MENSAJE -->
+
+          <div
+            id="businessSaveMessage"
+            class="business-save-message"
+            hidden>
+          </div>
+
+
+
+          <!-- GUARDAR -->
+
+          <div class="business-settings-actions">
+
+            <button
+              id="saveBusinessButton"
+              type="button"
+              class="business-save-button"
+              onclick="saveBusinessSettings()">
+
+              Guardar cambios
+
+            </button>
+
+          </div>
+
+
+        </section>
+
+
+        <p class="business-simple-note">
+          PUNTO YA CR · Tu negocio, más simple.
+        </p>
+
+
+      </main>
+
+    </div>
+
+  `;
+}
+
+
+/* =========================================================
+   GUARDAR MI NEGOCIO
+   ========================================================= */
+
+async function saveBusinessSettings() {
+
+  if (!panelCloud || !panelBusiness?.id) return;
+
+
+  const button =
+    document.querySelector("#saveBusinessButton");
+
+
+  const businessName =
+    document
+      .querySelector("#businessName")
+      ?.value
+      .trim();
+
+
+  const businessType =
+    document
+      .querySelector("#businessType")
+      ?.value;
+
+
+  const phone =
+    document
+      .querySelector("#businessPhone")
+      ?.value
+      .trim();
+
+
+  const whatsapp =
+    document
+      .querySelector("#businessWhatsapp")
+      ?.value
+      .trim();
+
+
+  const email =
+    document
+      .querySelector("#businessEmail")
+      ?.value
+      .trim();
+
+
+  const province =
+    document
+      .querySelector("#businessProvince")
+      ?.value;
+
+
+  const canton =
+    document
+      .querySelector("#businessCanton")
+      ?.value
+      .trim();
+
+
+  const address =
+    document
+      .querySelector("#businessAddress")
+      ?.value
+      .trim();
+
+
+  if (!businessName) {
+
+    showBusinessMessage(
+      "Escribe el nombre de tu negocio.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  try {
+
+    if (button) {
+
+      button.disabled = true;
+      button.textContent = "Guardando...";
+
+    }
+
+
+    /*
+      IMPORTANTE:
+
+      Primero guardamos únicamente las columnas
+      principales que ya utiliza PUNTO YA CR.
+
+      Los campos adicionales se incorporarán cuando
+      confirmemos que existen en la tabla businesses.
+    */
+
+    const updates = {
+      name: businessName,
+      business_type: businessType
+    };
+
+
+    const {
+      data,
+      error
+    } = await panelCloud
+      .from("businesses")
+      .update(updates)
+      .eq("id", panelBusiness.id)
+      .select("*")
+      .single();
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    panelBusiness = data;
+
+
+    /*
+      Conservamos temporalmente los datos de contacto
+      en memoria para la interfaz.
+
+      No intentamos escribir columnas inexistentes.
+    */
+
+    panelBusiness.phone = phone;
+    panelBusiness.whatsapp = whatsapp;
+    panelBusiness.email = email;
+    panelBusiness.province = province;
+    panelBusiness.canton = canton;
+    panelBusiness.address = address;
+
+
+    showBusinessMessage(
+      "Cambios guardados.",
+      "success"
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "No se pudo actualizar el negocio:",
+      error
+    );
+
+
+    showBusinessMessage(
+      error?.message ||
+      "No se pudieron guardar los cambios.",
+      "error"
+    );
+
+
+  } finally {
+
+    if (button) {
+
+      button.disabled = false;
+      button.textContent = "Guardar cambios";
+
+    }
+
+  }
+}
+
+
+/* =========================================================
+   MENSAJE DE GUARDADO
+   ========================================================= */
+
+function showBusinessMessage(
+  message,
+  type = "success"
+) {
+
+  const box =
+    document.querySelector("#businessSaveMessage");
+
+
+  if (!box) return;
+
+
+  box.textContent = message;
+
+  box.className =
+    `business-save-message ${type}`;
+
+  box.hidden = false;
+
+
+  if (type === "success") {
+
+    setTimeout(() => {
+
+      if (box) {
+        box.hidden = true;
+      }
+
+    }, 3000);
+
+  }
+}
+
+
+window.renderBusinessSection =
+  renderBusinessSection;
+
+window.saveBusinessSettings =
+  saveBusinessSettings;
 
 /* =========================================================
    ESCAPAR TEXTO
