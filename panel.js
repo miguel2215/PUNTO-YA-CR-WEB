@@ -728,7 +728,7 @@ async function loadEntrepreneurSnapshot() {
     safe(panelCloud.from("clients").select("id,name,active,created_at").eq("business_id", businessId).eq("active", true).limit(2000)),
     safe(panelCloud.from("payments").select("sale_id,method,amount,created_at").eq("business_id", businessId).order("created_at", {ascending:false}).limit(3000)),
     safe(panelCloud.from("credit_movements").select("movement_type,amount,created_at,client_id").eq("business_id", businessId).order("created_at", {ascending:false}).limit(3000)),
-    safe(panelCloud.from("orders").select("id,status,total,created_at").eq("business_id", businessId).order("created_at", {ascending:false}).limit(1500)),
+    safe(panelCloud.from("orders").select("id,status,created_at").eq("business_id", businessId).order("created_at", {ascending:false}).limit(1500)),
     safe(panelCloud.from("business_expenses").select("*").eq("business_id", businessId).order("expense_date", {ascending:false}).limit(3000)),
     safe(panelCloud.from("business_suppliers").select("*").eq("business_id", businessId).order("name", {ascending:true}).limit(1000)),
     safe(panelCloud.from("supplier_invoices").select("*").eq("business_id", businessId).order("invoice_date", {ascending:false}).limit(3000)),
