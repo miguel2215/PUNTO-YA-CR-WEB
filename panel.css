@@ -2421,3 +2421,221 @@ a{
   }
 
 }
+/* =========================================================
+   MI CUENTA
+   ========================================================= */
+
+.account-settings-main {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-top: 42px;
+  padding-bottom: 70px;
+}
+
+.account-field-help {
+  display: block;
+  margin-top: 2px;
+  color: #74879a;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+
+/* SEGURIDAD */
+
+.account-security-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+
+  padding: 20px 22px;
+
+  background: #f8fbfc;
+  border: 1px solid #e1eaee;
+  border-radius: 16px;
+}
+
+.account-security-row strong {
+  display: block;
+  margin-bottom: 5px;
+
+  color: #07335d;
+  font-size: 14px;
+}
+
+.account-security-row p {
+  margin: 0;
+
+  color: #6f8295;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.account-secondary-button {
+  min-width: 175px;
+  min-height: 44px;
+
+  padding: 0 18px;
+
+  border: 1px solid #ccdce4;
+  border-radius: 11px;
+
+  background: #ffffff;
+  color: #07335d;
+
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.account-secondary-button:hover {
+  border-color: #0bb89b;
+  background: #f5fcfa;
+  transform: translateY(-1px);
+}
+
+
+/* CAMBIO DE CONTRASEÑA */
+
+.password-change-box {
+  margin-top: 20px;
+  padding: 22px;
+
+  background: #f8fbfc;
+  border: 1px solid #dfe9ed;
+  border-radius: 16px;
+}
+
+.password-change-box[hidden] {
+  display: none !important;
+}
+
+.password-change-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+
+  margin-top: 20px;
+}
+
+.account-cancel-button {
+  min-height: 46px;
+
+  padding: 0 20px;
+
+  border: 1px solid #d3e0e6;
+  border-radius: 11px;
+
+  background: #ffffff;
+  color: #516b80;
+
+  font: inherit;
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+
+/* ESTADO DE CUENTA */
+
+.account-status-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  padding: 19px 22px;
+
+  background: #f5fcfa;
+  border: 1px solid #ccece4;
+  border-radius: 16px;
+}
+
+.account-status-card > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.account-status-card strong {
+  color: #07335d;
+  font-size: 14px;
+}
+
+.account-status-dot {
+  width: 10px;
+  height: 10px;
+
+  flex: 0 0 10px;
+
+  background: #0bb58f;
+  border-radius: 50%;
+
+  box-shadow: 0 0 0 4px rgba(11, 181, 143, 0.11);
+}
+
+.account-owner-badge {
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 30px;
+
+  padding: 0 12px;
+
+  background: #e5f8f3;
+  border-radius: 999px;
+
+  color: #07846b;
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+
+/* MÓVIL */
+
+@media (max-width: 650px) {
+
+  .account-settings-main {
+    padding-top: 22px;
+    padding-bottom: 45px;
+  }
+
+  .account-security-row {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 16px;
+
+    padding: 18px;
+  }
+
+  .account-secondary-button {
+    width: 100%;
+  }
+
+  .password-change-box {
+    padding: 18px;
+  }
+
+  .password-change-actions {
+    flex-direction: column-reverse;
+  }
+
+  .password-change-actions button {
+    width: 100%;
+  }
+
+  .account-status-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+}
