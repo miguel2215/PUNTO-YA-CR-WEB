@@ -1716,10 +1716,38 @@ async function saveBusinessSettings() {
       confirmemos que existen en la tabla businesses.
     */
 
-    const updates = {
-      name: businessName,
-      business_type: businessType
-    };
+    const currentSettings =
+  panelBusiness.settings &&
+  typeof panelBusiness.settings === "object" &&
+  !Array.isArray(panelBusiness.settings)
+    ? panelBusiness.settings
+    : {};
+
+const currentBusinessProfile =
+  currentSettings.business_profile &&
+  typeof currentSettings.business_profile === "object" &&
+  !Array.isArray(currentSettings.business_profile)
+    ? currentSettings.business_profile
+    : {};
+
+const updates = {
+  name: businessName,
+  business_type: businessType,
+
+  settings: {
+    ...currentSettings,
+
+    business_profile: {
+      ...currentBusinessProfile,
+      phone,
+      whatsapp,
+      email,
+      province,
+      canton,
+      address
+    }
+  }
+};
 
 
     const {
@@ -1747,13 +1775,6 @@ async function saveBusinessSettings() {
 
       No intentamos escribir columnas inexistentes.
     */
-
-    panelBusiness.phone = phone;
-    panelBusiness.whatsapp = whatsapp;
-    panelBusiness.email = email;
-    panelBusiness.province = province;
-    panelBusiness.canton = canton;
-    panelBusiness.address = address;
 
 
     showBusinessMessage(
