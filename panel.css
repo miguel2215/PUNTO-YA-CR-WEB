@@ -2639,3 +2639,21 @@ a{
   }
 
 }
+
+
+/* =========================================================
+   PANEL - SECCIONES COMPLETAS
+   ========================================================= */
+.panel-section-main { max-width: 1080px; margin: 0 auto; padding-top: 42px; padding-bottom: 70px; }
+.dashboard-brand-button { border: 0; background: transparent; padding: 0; cursor: pointer; }
+.panel-inline-note, .panel-info-card p, .panel-plan-date { margin: 5px 0 0; color: #6f8295; font-size: 13px; line-height: 1.5; }
+.panel-info-card { padding: 20px 22px; background: #f8fbfc; border: 1px solid #e1eaee; border-radius: 16px; }
+.panel-info-card strong { color: #07335d; }
+.panel-link-button { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
+.panel-plan-date { margin-top: 14px; }
+.panel-support-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
+.panel-support-item { display: flex; flex-direction: column; gap: 7px; padding: 20px; text-align: left; text-decoration: none; border: 1px solid #dfe9ed; border-radius: 16px; background: #fff; color: #07335d; font: inherit; cursor: pointer; }
+.panel-support-item strong { font-size: 14px; }
+.panel-support-item span { color: #6f8295; font-size: 12px; }
+.panel-support-item:hover { border-color: #0bb89b; background: #f7fcfb; }
+@media (max-width:650px) { .panel-section-main { padding-top: 22px; padding-bottom: 45px; } .panel-support-grid { grid-template-columns: 1fr; } }

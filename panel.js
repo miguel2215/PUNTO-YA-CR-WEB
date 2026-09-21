@@ -1180,18 +1180,27 @@ function openDashboardSection(section) {
   return;
 }
 
-  const sections = {
-    account: "Mi cuenta",
-    devices: "Dispositivos",
-    billing: "Facturación",
-    plan: "PUNTO YA CR Pro",
-    support: "Soporte"
-  };
+  if (section === "devices") {
+    renderDevicesSection();
+    return;
+  }
 
-  console.log(
-    "Abrir sección:",
-    sections[section] || section
-  );
+  if (section === "billing") {
+    renderBillingSection();
+    return;
+  }
+
+  if (section === "plan") {
+    renderPlanSection();
+    return;
+  }
+
+  if (section === "support") {
+    renderSupportSection();
+    return;
+  }
+
+  renderPanelDashboard();
 }
 /* =========================================================
    MI NEGOCIO
@@ -2587,3 +2596,177 @@ window.renderPanelDashboard =
 
 window.openDashboardSection =
   openDashboardSection;
+
+
+/* =========================================================
+   SECCIONES COMPLETAS DEL PANEL
+   ========================================================= */
+
+function panelSectionShell(eyebrow, title, description, content) {
+  const businessName = panelBusiness?.name || "Mi negocio";
+  document.body.innerHTML = `
+    <div class="entrepreneur-dashboard">
+      <header class="dashboard-header">
+        <div class="dashboard-header-inner">
+          <button type="button" class="dashboard-brand dashboard-brand-button" onclick="renderPanelDashboard()">
+            <img src="assets/logo-horizontal.png" alt="PUNTO YA CR">
+          </button>
+          <div class="dashboard-account">
+            <div class="dashboard-business-mini"><strong>${escapePanelHTML(businessName)}</strong><span>Panel del Emprendedor</span></div>
+            <button type="button" class="dashboard-logout" onclick="panelLogout()">Cerrar sesión</button>
+          </div>
+        </div>
+      </header>
+      <main class="dashboard-main panel-section-main">
+        <button type="button" class="business-back" onclick="renderPanelDashboard()">← Volver al panel</button>
+        <section class="business-settings-heading">
+          <span class="dashboard-eyebrow">${escapePanelHTML(eyebrow)}</span>
+          <h1>${escapePanelHTML(title)}</h1>
+          <p>${escapePanelHTML(description)}</p>
+        </section>
+        ${content}
+        <p class="business-simple-note">PUNTO YA CR · Tu negocio, más simple.</p>
+      </main>
+    </div>`;
+}
+
+function renderDevicesSection() {
+  if (!panelUser || !panelBusiness) return renderPanelDashboard();
+  const lastSignIn = panelUser.last_sign_in_at
+    ? new Date(panelUser.last_sign_in_at).toLocaleString("es-CR", { dateStyle: "medium", timeStyle: "short" })
+    : "Sesión activa";
+  const browser = navigator.userAgent.includes("Mobile") ? "Dispositivo móvil" : "Computadora / navegador";
+  panelSectionShell(
+    "DISPOSITIVOS",
+    "Tus accesos",
+    "Revisa la sesión que estás utilizando y el estado de sincronización.",
+    `<section class="business-settings-card">
+      <div class="business-settings-block">
+        <div class="business-settings-title"><div class="business-settings-icon">▣</div><div><h2>Este dispositivo</h2><p>La sesión con la que estás usando el Panel del Emprendedor.</p></div></div>
+        <div class="account-status-card"><div><span class="account-status-dot"></span><div><strong>${escapePanelHTML(browser)}</strong><p class="panel-inline-note">Último acceso: ${escapePanelHTML(lastSignIn)}</p></div></div><span class="account-owner-badge">Activo</span></div>
+      </div>
+      <div class="business-settings-block">
+        <div class="business-settings-title"><div class="business-settings-icon">↻</div><div><h2>Sincronización</h2><p>Tu cuenta está conectada a PUNTO YA CR.</p></div></div>
+        <div class="panel-info-card"><strong>Conectado con la nube</strong><p>Los datos compatibles con tu plan se mantienen asociados a tu cuenta y negocio.</p></div>
+      </div>
+      <div class="business-settings-actions"><a class="business-save-button panel-link-button" href="${PUNTO_YA_APP}">Abrir PUNTO YA CR</a></div>
+    </section>`
+  );
+}
+
+function getFiscalProfile() {
+  const settings = panelBusiness?.settings;
+  return settings && typeof settings === "object" && !Array.isArray(settings)
+    ? (settings.fiscal_profile || {}) : {};
+}
+
+function renderBillingSection() {
+  if (!panelBusiness) return renderPanelDashboard();
+  const fiscal = getFiscalProfile();
+  panelSectionShell(
+    "FACTURACIÓN",
+    "Facturación electrónica",
+    "Administra los datos fiscales de tu negocio. La emisión de comprobantes se realiza desde PUNTO YA CR.",
+    `<section class="business-settings-card">
+      <div class="business-settings-block">
+        <div class="business-settings-title"><div class="business-settings-icon">₡</div><div><h2>Datos fiscales</h2><p>Información que identifica a tu negocio para facturación.</p></div></div>
+        <div class="business-form-grid">
+          <div class="business-field"><label for="fiscalLegalName">Nombre o razón social</label><input id="fiscalLegalName" value="${escapePanelHTML(fiscal.legal_name || panelBusiness.name || "")}" placeholder="Nombre o razón social"></div>
+          <div class="business-field"><label for="fiscalIdType">Tipo de identificación</label><select id="fiscalIdType"><option value="fisica" ${fiscal.id_type === "fisica" ? "selected" : ""}>Cédula física</option><option value="juridica" ${fiscal.id_type === "juridica" ? "selected" : ""}>Cédula jurídica</option><option value="dimex" ${fiscal.id_type === "dimex" ? "selected" : ""}>DIMEX</option><option value="nite" ${fiscal.id_type === "nite" ? "selected" : ""}>NITE</option></select></div>
+          <div class="business-field"><label for="fiscalIdNumber">Número de identificación</label><input id="fiscalIdNumber" value="${escapePanelHTML(fiscal.id_number || "")}" inputmode="numeric" placeholder="Número de identificación"></div>
+          <div class="business-field"><label for="fiscalEmail">Correo para comprobantes</label><input id="fiscalEmail" type="email" value="${escapePanelHTML(fiscal.email || "")}" placeholder="facturacion@negocio.com"></div>
+          <div class="business-field"><label for="fiscalActivity">Actividad económica</label><input id="fiscalActivity" value="${escapePanelHTML(fiscal.activity || "")}" placeholder="Actividad económica"></div>
+          <div class="business-field"><label for="fiscalUsesEInvoice">¿Utiliza factura electrónica?</label><select id="fiscalUsesEInvoice"><option value="no" ${!fiscal.uses_einvoice ? "selected" : ""}>No</option><option value="yes" ${fiscal.uses_einvoice ? "selected" : ""}>Sí</option></select></div>
+        </div>
+      </div>
+      <div id="billingSaveMessage" class="business-save-message" hidden></div>
+      <div class="business-settings-actions"><button id="saveBillingButton" type="button" class="business-save-button" onclick="saveBillingSettings()">Guardar cambios</button></div>
+    </section>`
+  );
+}
+
+async function saveBillingSettings() {
+  if (!panelCloud || !panelBusiness) return;
+  const button = document.querySelector("#saveBillingButton");
+  const currentSettings = panelBusiness.settings && typeof panelBusiness.settings === "object" && !Array.isArray(panelBusiness.settings) ? panelBusiness.settings : {};
+  const fiscal_profile = {
+    ...(currentSettings.fiscal_profile || {}),
+    legal_name: document.querySelector("#fiscalLegalName")?.value.trim() || "",
+    id_type: document.querySelector("#fiscalIdType")?.value || "fisica",
+    id_number: document.querySelector("#fiscalIdNumber")?.value.trim() || "",
+    email: document.querySelector("#fiscalEmail")?.value.trim() || "",
+    activity: document.querySelector("#fiscalActivity")?.value.trim() || "",
+    uses_einvoice: document.querySelector("#fiscalUsesEInvoice")?.value === "yes"
+  };
+  try {
+    if (button) { button.disabled = true; button.textContent = "Guardando..."; }
+    const { data, error } = await panelCloud.from("businesses").update({ settings: { ...currentSettings, fiscal_profile }, updated_at: new Date().toISOString() }).eq("id", panelBusiness.id).select("*").single();
+    if (error) throw error;
+    panelBusiness = data;
+    showPanelSectionMessage("billingSaveMessage", "Cambios guardados.", "success");
+  } catch (error) {
+    console.error("No se pudo guardar Facturación:", error);
+    showPanelSectionMessage("billingSaveMessage", error?.message || "No se pudieron guardar los cambios.", "error");
+  } finally {
+    if (button) { button.disabled = false; button.textContent = "Guardar cambios"; }
+  }
+}
+
+async function renderPlanSection() {
+  if (!panelBusiness) return renderPanelDashboard();
+  let plan = null;
+  try {
+    const { data, error } = await panelCloud.from("business_plans").select("plan_tier,plan_source,plan_period,starts_at,expires_at,updated_at").eq("business_id", panelBusiness.id).maybeSingle();
+    if (!error) plan = data;
+  } catch (_) {}
+  const tier = String(plan?.plan_tier || panelBusiness.plan || "free").toLowerCase();
+  const isPro = tier === "pro";
+  const expires = plan?.expires_at ? new Date(plan.expires_at).toLocaleDateString("es-CR", { dateStyle: "medium" }) : "Sin fecha definida";
+  panelSectionShell(
+    "PLAN ACTUAL",
+    isPro ? "PUNTO YA CR Pro" : "PUNTO YA CR Free",
+    "Consulta el estado de tu plan y las funciones asociadas a tu negocio.",
+    `<section class="business-settings-card">
+      <div class="business-settings-block">
+        <div class="business-settings-title"><div class="business-settings-icon">✦</div><div><h2>${isPro ? "Plan Pro" : "Plan Free"}</h2><p>${isPro ? "Tu negocio tiene acceso a las funciones Pro habilitadas." : "Tu negocio está utilizando el plan gratuito."}</p></div></div>
+        <div class="account-status-card"><div><span class="account-status-dot"></span><strong>${isPro ? "Pro activo" : "Free activo"}</strong></div><span class="account-owner-badge">${isPro ? "PRO" : "FREE"}</span></div>
+        ${isPro ? `<p class="panel-plan-date">Vigencia: ${escapePanelHTML(expires)}</p>` : ""}
+      </div>
+      <div class="business-settings-block"><div class="business-settings-title"><div class="business-settings-icon">✓</div><div><h2>Tu plan, claro</h2><p>El Panel muestra el plan registrado para este negocio. No se realizan cobros desde esta pantalla.</p></div></div><div class="panel-info-card"><strong>Tu negocio, más simple.</strong><p>Puedes seguir usando el punto de venta y consultar aquí el estado de tu cuenta.</p></div></div>
+      <div class="business-settings-actions"><a class="business-save-button panel-link-button" href="${PUNTO_YA_APP}">Abrir PUNTO YA CR</a></div>
+    </section>`
+  );
+}
+
+function renderSupportSection() {
+  panelSectionShell(
+    "SOPORTE",
+    "¿En qué te ayudamos?",
+    "Accesos rápidos para resolver las dudas más comunes sin complicaciones.",
+    `<section class="business-settings-card">
+      <div class="business-settings-block"><div class="business-settings-title"><div class="business-settings-icon">?</div><div><h2>Ayuda rápida</h2><p>Empieza por la opción relacionada con lo que necesitas.</p></div></div>
+        <div class="panel-support-grid">
+          <button type="button" class="panel-support-item" onclick="openDashboardSection('account')"><strong>Cuenta y contraseña</strong><span>Perfil, acceso y seguridad →</span></button>
+          <button type="button" class="panel-support-item" onclick="openDashboardSection('business')"><strong>Datos del negocio</strong><span>Contacto, ubicación y negocio →</span></button>
+          <button type="button" class="panel-support-item" onclick="openDashboardSection('billing')"><strong>Facturación</strong><span>Datos fiscales →</span></button>
+          <a class="panel-support-item" href="${PUNTO_YA_APP}"><strong>Punto de venta</strong><span>Abrir PUNTO YA CR →</span></a>
+        </div>
+      </div>
+      <div class="business-settings-block"><div class="business-settings-title"><div class="business-settings-icon">i</div><div><h2>Información de soporte</h2><p>No mostramos un teléfono o correo de soporte hasta que se configure uno oficial para PUNTO YA CR.</p></div></div></div>
+    </section>`
+  );
+}
+
+function showPanelSectionMessage(id, message, type = "success") {
+  const box = document.getElementById(id);
+  if (!box) return;
+  box.textContent = message;
+  box.className = `business-save-message ${type}`;
+  box.hidden = false;
+}
+
+window.renderDevicesSection = renderDevicesSection;
+window.renderBillingSection = renderBillingSection;
+window.saveBillingSettings = saveBillingSettings;
+window.renderPlanSection = renderPlanSection;
+window.renderSupportSection = renderSupportSection;
