@@ -2073,3 +2073,351 @@ a{
   }
 
 }
+/* =========================================================
+   PUNTO YA CR
+   MI NEGOCIO
+   Tu negocio, más simple.
+   ========================================================= */
+
+.dashboard-brand-button {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.business-settings-main {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-top: 42px;
+  padding-bottom: 70px;
+}
+
+
+/* VOLVER */
+
+.business-back {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: #06335f;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  padding: 0;
+  margin: 0 0 28px;
+  cursor: pointer;
+}
+
+.business-back:hover {
+  text-decoration: underline;
+}
+
+
+/* ENCABEZADO */
+
+.business-settings-heading {
+  margin-bottom: 30px;
+}
+
+.business-settings-heading h1 {
+  margin: 8px 0 8px;
+  color: #052f59;
+  font-size: clamp(32px, 4vw, 46px);
+  line-height: 1.05;
+  letter-spacing: -1.5px;
+}
+
+.business-settings-heading p {
+  margin: 0;
+  color: #64788e;
+  font-size: 16px;
+}
+
+
+/* TARJETA PRINCIPAL */
+
+.business-settings-card {
+  background: #ffffff;
+  border: 1px solid #dce7ec;
+  border-radius: 24px;
+  box-shadow: 0 18px 45px rgba(4, 47, 86, 0.07);
+  overflow: hidden;
+}
+
+
+/* BLOQUES */
+
+.business-settings-block {
+  padding: 30px 34px;
+  border-bottom: 1px solid #e8eff2;
+}
+
+.business-settings-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.business-settings-icon {
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: #e8f8f4;
+  color: #00a987;
+  font-size: 19px;
+}
+
+.business-settings-title h2 {
+  margin: 0 0 3px;
+  color: #062f59;
+  font-size: 19px;
+}
+
+.business-settings-title p {
+  margin: 0;
+  color: #74879a;
+  font-size: 13px;
+}
+
+
+/* FORMULARIO */
+
+.business-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.business-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.business-field-wide {
+  grid-column: 1 / -1;
+}
+
+.business-field label {
+  color: #0b345c;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.business-field input,
+.business-field select,
+.business-field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d4e0e6;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #092f55;
+  font: inherit;
+  font-size: 14px;
+  outline: none;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.business-field input,
+.business-field select {
+  min-height: 48px;
+  padding: 0 14px;
+}
+
+.business-field textarea {
+  min-height: 100px;
+  resize: vertical;
+  padding: 13px 14px;
+  line-height: 1.5;
+}
+
+.business-field input:focus,
+.business-field select:focus,
+.business-field textarea:focus {
+  border-color: #0bb89b;
+  box-shadow: 0 0 0 3px rgba(11, 184, 155, 0.12);
+}
+
+.business-field input::placeholder,
+.business-field textarea::placeholder {
+  color: #9aaab8;
+}
+
+
+/* GUARDAR */
+
+.business-settings-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 24px 34px 30px;
+}
+
+.business-save-button {
+  min-width: 190px;
+  min-height: 48px;
+  border: 0;
+  border-radius: 12px;
+  background: #0a3767;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 0 24px;
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.business-save-button:hover {
+  transform: translateY(-1px);
+}
+
+.business-save-button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+  transform: none;
+}
+
+
+/* MENSAJES */
+
+.business-save-message {
+  margin: 22px 34px 0;
+  padding: 13px 15px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.business-save-message.success {
+  background: #e9f9f4;
+  color: #08765f;
+  border: 1px solid #bcebdd;
+}
+
+.business-save-message.error {
+  background: #fff1f1;
+  color: #a23b3b;
+  border: 1px solid #f2cccc;
+}
+
+
+/* LEMA */
+
+.business-simple-note {
+  margin: 22px 0 0;
+  text-align: center;
+  color: #8191a0;
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .business-settings-main {
+    padding-top: 30px;
+  }
+
+  .business-settings-block {
+    padding: 26px;
+  }
+
+  .business-settings-actions {
+    padding: 22px 26px 26px;
+  }
+
+  .business-save-message {
+    margin-left: 26px;
+    margin-right: 26px;
+  }
+
+}
+
+
+/* =========================================================
+   MÓVIL
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+  .business-settings-main {
+    padding-top: 22px;
+    padding-bottom: 45px;
+  }
+
+  .business-back {
+    margin-bottom: 22px;
+  }
+
+  .business-settings-heading {
+    margin-bottom: 22px;
+  }
+
+  .business-settings-heading h1 {
+    font-size: 34px;
+  }
+
+  .business-settings-heading p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .business-settings-card {
+    border-radius: 18px;
+  }
+
+  .business-settings-block {
+    padding: 22px 18px;
+  }
+
+  .business-settings-title {
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+
+  .business-settings-icon {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+    border-radius: 12px;
+  }
+
+  .business-form-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .business-field-wide {
+    grid-column: auto;
+  }
+
+  .business-field input,
+  .business-field select {
+    min-height: 50px;
+  }
+
+  .business-settings-actions {
+    padding: 20px 18px 22px;
+  }
+
+  .business-save-button {
+    width: 100%;
+  }
+
+  .business-save-message {
+    margin: 18px 18px 0;
+  }
+
+}
