@@ -204,6 +204,10 @@ async function checkPanelSession() {
       "panel-authenticated"
     );
 
+     if (panelBusiness) {
+  renderPanelDashboard();
+}
+
 
     console.log(
       "Panel del Emprendedor: sesión encontrada.",
