@@ -1211,33 +1211,26 @@ function renderBusinessSection() {
     panelBusiness.type ||
     "food";
 
-  const phone =
-    panelBusiness.phone ||
-    panelBusiness.business_phone ||
-    "";
+  const businessProfile =
+  panelBusiness.settings?.business_profile || {};
 
-  const whatsapp =
-    panelBusiness.whatsapp ||
-    panelBusiness.whatsapp_number ||
-    "";
+const phone =
+  businessProfile.phone || "";
 
-  const email =
-    panelBusiness.email ||
-    panelBusiness.business_email ||
-    "";
+const whatsapp =
+  businessProfile.whatsapp || "";
 
-  const province =
-    panelBusiness.province ||
-    "";
+const email =
+  businessProfile.email || "";
 
-  const canton =
-    panelBusiness.canton ||
-    "";
+const province =
+  businessProfile.province || "";
 
-  const address =
-    panelBusiness.address ||
-    panelBusiness.business_address ||
-    "";
+const canton =
+  businessProfile.canton || "";
+
+const address =
+  businessProfile.address || "";
 
 
   document.body.innerHTML = `
