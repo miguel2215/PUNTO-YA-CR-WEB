@@ -1,0 +1,14 @@
+PUNTO YA CR · ACTUALIZACIÓN GRANDE
+
+Incluye:
+- Dos caras FREE / PRO.
+- Dinero PRO: ventas, gastos, por cobrar, por pagar y compromisos.
+- Registro inicial de gastos contado/crédito.
+- Crecimiento PRO: evolución, salud, oportunidades por reglas, metas y simulador matemático.
+- Contabilidad PRO: resumen, proveedores, Mi contador y preparación de período.
+- Sin IA. Sin cifras inventadas.
+- Conserva Mi negocio, Mi cuenta, Dispositivos, Facturación, Plan y Soporte.
+
+IMPORTANTE:
+Para activar guardado de gastos, metas, proveedores/facturas/pagos y contador, ejecutar una vez SUPABASE-PRO-UPDATE.sql en Supabase SQL Editor.
+Las pantallas siguen funcionando si aún no se ejecuta, pero esos módulos no podrán guardar datos nuevos.
