@@ -818,3 +818,5 @@ body {
 .py-footer h3 {
   overflow-wrap: break-word;
 }
+
+.newsletter-legal{display:block;margin-top:8px;max-width:360px;line-height:1.45;opacity:.78}.newsletter-legal a{color:inherit;text-decoration:underline}.py-footer-social{flex-wrap:wrap}

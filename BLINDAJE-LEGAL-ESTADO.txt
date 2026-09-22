@@ -1,0 +1,30 @@
+PUNTO YA CR — CIERRE LEGAL WEB/PANEL (BORRADOR BETA)
+
+Incluido en esta versión:
+- Centro Legal público.
+- Términos de Servicio ampliados.
+- Política de Privacidad ampliada.
+- DPA / Tratamiento de Datos para negocios.
+- Política de Propiedad Intelectual y contenido.
+- Política de Uso Aceptable.
+- Condiciones PRO, códigos y Beta Fundadores.
+- Página de derechos y eliminación de cuenta.
+- Inventario público inicial de proveedores tecnológicos.
+- Procedimiento de reclamos de copyright/marca.
+- Aviso de privacidad en newsletter.
+- Confirmación obligatoria de derechos al subir un logo nuevo desde el Panel.
+- Sitemap actualizado.
+- Pruebas Playwright para documentos legales y enlaces públicos.
+
+PENDIENTE ANTES DEL LANZAMIENTO COMERCIAL:
+1. Identidad jurídica del operador (persona física o jurídica).
+2. Número de identificación/cédula correspondiente.
+3. Domicilio contractual y medios oficiales de contacto.
+4. Correo/formulario oficial para privacidad, reclamos y propiedad intelectual.
+5. SQL y backend para legal_acceptances, privacy_requests, ip_claims y consentimiento newsletter versionado.
+6. Integrar aceptación versionada en el flujo real de creación de cuenta del POS (requiere ZIP actual del POS).
+7. Definir política final de retención/exportación/borrado y respaldos.
+8. Revisar contratos/DPA con proveedores y actualizar subencargados al añadir pagos, correo, analítica o Google Play.
+9. Revisión final por profesional legal en Costa Rica antes de activar cobros comerciales.
+
+NOTA: este paquete organiza cumplimiento y evidencia; no sustituye asesoría jurídica profesional.

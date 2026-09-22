@@ -1395,6 +1395,10 @@ const businessLogoUrl =
                   ${businessLogoUrl ? `<button type="button" class="account-secondary-button danger-soft" onclick="removeBusinessLogo()">Eliminar logo</button>` : ""}
                 </div>
                 <small id="businessLogoStatus">El logo se guarda para este negocio.</small>
+                <label class="legal-check business-logo-rights" id="businessLogoRightsWrap" hidden>
+                  <input id="businessLogoRights" type="checkbox">
+                  <span>Confirmo que soy titular del logo o cuento con autorización suficiente para utilizarlo y acepto las reglas de <a href="propiedad-intelectual.html" target="_blank" rel="noopener">contenido y propiedad intelectual</a>.</span>
+                </label>
               </div>
             </div>
           </div>
@@ -1464,12 +1468,18 @@ function previewBusinessLogo(input) {
   const preview = document.querySelector("#businessLogoPreview");
   if (preview) preview.innerHTML = `<img src="${URL.createObjectURL(file)}" alt="Vista previa del logo">`;
   if (status) status.textContent = "Vista previa lista. Pulsa Guardar cambios para subirlo.";
+  const rightsWrap = document.querySelector("#businessLogoRightsWrap");
+  const rights = document.querySelector("#businessLogoRights");
+  if (rightsWrap) rightsWrap.hidden = false;
+  if (rights) rights.checked = false;
 }
 
 async function uploadPendingBusinessLogo() {
   const input = document.querySelector("#businessLogoFile");
   const file = input?.files?.[0];
   if (!file) return null;
+  const rights = document.querySelector("#businessLogoRights");
+  if (!rights?.checked) throw new Error("Confirma que tienes derecho a utilizar este logo antes de guardarlo.");
   if (!["image/png","image/jpeg","image/webp"].includes(file.type)) throw new Error("Formato de logo no permitido.");
   if (file.size > 2 * 1024 * 1024) throw new Error("El logo no puede superar 2 MB.");
 

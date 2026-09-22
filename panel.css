@@ -2693,3 +2693,5 @@ a{
 @media(max-width:680px){.code-row{flex-direction:column}.code-row .business-save-button{width:100%}.panel-topnav{overflow-x:auto;scrollbar-width:none}.panel-topnav::-webkit-scrollbar{display:none}}
 
 .ledger-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}.invoice-row .ledger-actions small{font-weight:800;color:#16805e}.finance-management-grid{margin-top:20px}@media(max-width:620px){.ledger-row{align-items:flex-start}.ledger-actions{justify-content:flex-start}.invoice-row{flex-direction:column}.invoice-row .ledger-actions{width:100%;justify-content:space-between}}
+
+.business-logo-rights{margin-top:12px;max-width:620px;font-size:.9rem;line-height:1.45}.business-logo-rights input{width:auto;min-width:auto}.business-logo-rights a{color:#0b6bcb}
