@@ -1,14 +1,20 @@
 {
-  "name": "punto-ya-cr-web-tests",
+  "name": "punto-ya-cr-web",
   "private": true,
   "scripts": {
+    "deploy": "wrangler deploy --config ./wrangler.jsonc",
+    "preview": "wrangler dev --config ./wrangler.jsonc",
     "test:web": "playwright test",
-    "test:smoke": "playwright test tests/web-smoke.spec.js",
+    "test:smoke": "playwright test tests/web-smoke.spec.js tests/cierre-comercial.spec.js",
     "test:aggressive": "playwright test tests/errores-agresivos.spec.js tests/panel-public.spec.js",
+    "test:panel": "playwright test tests/panel-autenticado.spec.js",
     "test:security": "playwright test tests/seguridad-supabase.spec.js",
-    "test:web:report": "playwright show-report"
+    "test:web:report": "playwright show-report",
+    "check:js": "node --check public/app.js && node --check public/panel.js && node --check public/admin.js",
+    "check:static": "node scripts/verify-static.js"
   },
   "devDependencies": {
-    "@playwright/test": "^1.55.0"
+    "@playwright/test": "^1.63.0",
+    "wrangler": "4.136.1"
   }
 }

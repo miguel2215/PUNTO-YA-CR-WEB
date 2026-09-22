@@ -1,32 +1,22 @@
-PUNTO YA CR · CHECKLIST DE CIERRE
+PUNTO YA CR — CHECKLIST DE CIERRE WEB/PANEL
 
-[LISTO EN ESTA ACTUALIZACIÓN]
-✓ Web pública responsive y CTA principales conectados.
-✓ Login móvil incorporado.
-✓ Precios finales + impuestos incluidos.
-✓ Gratis / Pro / código de activación visibles.
-✓ Newsletter conectado.
-✓ Privacidad / Términos / 404.
-✓ Panel optimizado para evitar recarga masiva.
-✓ Plan PRO con vencimiento real en interfaz.
-✓ Dinero: gastos, proveedores, facturas, abonos y saldos.
-✓ Crecimiento: metas y simulador.
-✓ Contabilidad: Mi contador + CSV.
-✓ Super Admin responsive conservado.
-✓ Playwright ampliado PC/iPhone/tablet.
-✓ Pruebas agresivas y base de pruebas RLS.
-
-[REQUIERE EJECUTAR / VERIFICAR]
-□ Ejecutar SQL de cierre RLS entregado por chat.
-□ Ejecutar GitHub Actions y revisar que todas las pruebas no-seguras queden verdes.
-□ Configurar cuentas de prueba y GitHub Secrets para activar pruebas A/B, roles y FREE/PRO.
-□ Probar un código Beta de 90 días: generar → canjear → Pro → vencimiento/listado.
-□ Probar datos reales de Dinero/Contabilidad y recargar sesión para validar persistencia.
-
-[EXTERNO / POSTERIOR]
-□ Pasarela de pago.
-□ Facturación Electrónica 4.4 real.
-□ Android / Play Store final.
-□ Logo en PDFs/tickets del POS.
-□ Dominio final de la app web.
-□ Canales oficiales de soporte/redes si se publican.
+[OK] Dominio principal puntoyacr.com configurado en contenido/SEO.
+[OK] www.puntoyacr.com compatible; canonical apunta a puntoyacr.com.
+[OK] Cloudflare aislado: assets.directory = ./public.
+[OK] node_modules/tests/configuración quedan fuera de los assets públicos.
+[OK] Login móvil y registro público cubiertos por Playwright.
+[OK] Precios ₡6.990 / ₡18.900 / ₡69.900 + impuestos incluidos.
+[OK] Facturación electrónica marcada En preparación.
+[OK] Pago online comunicado como pendiente.
+[OK] Android comunicado como próximamente.
+[OK] Privacidad, Términos, 404, robots.txt y sitemap.xml.
+[OK] Panel/Admin con noindex.
+[OK] Pruebas agresivas, responsive, accesibilidad, enlaces y 404.
+[OK] Falsos negativos del registro y modal de login corregidos.
+[LISTO PARA ACTIVAR] RLS Negocio A/B, FREE/PRO y rol no-owner con GitHub Secrets.
+[LISTO PARA ACTIVAR] Panel autenticado real con TEST_B.
+[OPCIONAL] TEST_WRITE_MODE=true para guardar/restaurar un dato en negocio exclusivo de pruebas.
+[PENDIENTE EXTERNO] app.puntoyacr.com para sustituir el Worker anterior del POS.
+[PENDIENTE EXTERNO] pasarela oficial de pagos.
+[PENDIENTE PRODUCTO] emisión real de Facturación Electrónica.
+[PENDIENTE REVISIÓN] revisión legal final de Privacidad/Términos.
