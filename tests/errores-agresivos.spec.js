@@ -52,7 +52,7 @@ test('no hay controles visibles sin nombre accesible', async ({ page }) => {
 
 test('doble clic en CTA de registro no rompe ni duplica navegación', async ({ page }) => {
   await page.goto('/index.html');
-  const cta = page.getByRole('button', { name: /Crear mi negocio gratis/i }).first();
+  const cta = page.getByRole('link', { name: /Crear mi negocio gratis/i }).or(page.getByRole('button', { name: /Crear mi negocio gratis/i })).first();
   await expect(cta).toBeVisible();
   await cta.dblclick();
   await expect(page).toHaveURL(/panel\.html\?access=create/);

@@ -68,10 +68,31 @@ test.describe('RLS / aislamiento entre negocios', () => {
     const m = await membership(request, token);
     test.skip(m.role === 'owner', 'TEST_ROLE_EMAIL debe ser Caja/Cocina u otro rol no-owner');
 
+    // target_amount=0 viola el CHECK de la tabla. Si RLS estuviera roto, Postgres llegaría
+    // a la validación y respondería 400, pero nunca se insertaría una fila real.
     const r = await request.post(`${URL}/rest/v1/business_growth_goals`, {
       headers: { apikey:KEY, Authorization:`Bearer ${token}`, 'Content-Type':'application/json', Prefer:'return=representation' },
-      data: { business_id:m.business_id, goal_type:'sales_monthly', target_amount:1, period_start:'2099-01-01', active:true }
+      data: { business_id:m.business_id, goal_type:'sales_monthly', target_amount:0, period_start:'2099-01-01', active:true }
     });
-    expect([401,403], `Un rol ${m.role} pudo escribir donde solo owner debe hacerlo (${r.status()})`).toContain(r.status());
+    expect([401,403], `Un rol ${m.role} alcanzó una escritura PRO que debe estar bloqueada por RLS (${r.status()})`).toContain(r.status());
+  });
+
+  test('un negocio FREE no puede escribir directamente en tablas PRO', async ({ request }) => {
+    test.skip(!A_EMAIL || !A_PASSWORD, 'Configura TEST_A_* con una cuenta de prueba FREE');
+    const token = await login(request, A_EMAIL, A_PASSWORD);
+    const m = await membership(request, token);
+    const plans = await rest(request, token, 'business_plans', `select=plan_tier,expires_at&business_id=eq.${m.business_id}&limit=1`);
+    expect(plans.ok(), `business_plans respondió ${plans.status()}: ${await plans.text()}`).toBeTruthy();
+    const rows = await plans.json();
+    const plan = rows[0] || null;
+    const activePro = plan && String(plan.plan_tier||'').toLowerCase()==='pro' && (!plan.expires_at || new Date(plan.expires_at).getTime() > Date.now());
+    test.skip(activePro, 'TEST_A_EMAIL es PRO; usa una cuenta FREE para esta prueba');
+
+    // Igual que arriba, el valor 0 evita crear basura aunque la política estuviera mal.
+    const r = await request.post(`${URL}/rest/v1/business_growth_goals`, {
+      headers: { apikey:KEY, Authorization:`Bearer ${token}`, 'Content-Type':'application/json', Prefer:'return=representation' },
+      data: { business_id:m.business_id, goal_type:'sales_monthly', target_amount:0, period_start:'2099-01-01', active:true }
+    });
+    expect([401,403], `Un negocio FREE alcanzó la escritura de una función PRO (${r.status()})`).toContain(r.status());
   });
 });
