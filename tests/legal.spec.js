@@ -28,3 +28,20 @@ test('footer público enlaza al centro legal y eliminación', async ({ page }) =
   await expect(page.getByRole('link', { name: 'Eliminar cuenta' })).toHaveAttribute('href', 'eliminar-cuenta.html');
   await expect(page.locator('.newsletter-legal')).toContainText(/Privacidad/i);
 });
+
+
+test('formularios legales operativos están disponibles', async ({ page }) => {
+  await page.goto('/eliminar-cuenta.html');
+  await expect(page.locator('#privacyRequestForm')).toBeVisible();
+  await expect(page.getByRole('button', { name: /Enviar solicitud/i })).toBeVisible();
+  await page.goto('/reclamos-pi.html');
+  await expect(page.locator('#ipClaimForm')).toBeVisible();
+  await expect(page.getByRole('button', { name: /Enviar reclamo/i })).toBeVisible();
+});
+
+test('documentos públicos no muestran mensajes de borrador o pre-lanzamiento', async ({ page }) => {
+  for (const path of ['centro-legal.html','tratamiento-datos.html','eliminar-cuenta.html']) {
+    await page.goto('/' + path);
+    await expect(page.locator('body')).not.toContainText(/versión de trabajo|antes de publicar comercialmente|borrador beta|antes del lanzamiento/i);
+  }
+});

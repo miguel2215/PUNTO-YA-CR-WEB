@@ -5,7 +5,30 @@
 <span class="legal-status">RECLAMOS DE PI</span><h1>Reclamos de copyright, marca o contenido</h1><p class="legal-meta">Procedimiento previsto para contenido aportado por negocios.</p>
 <div class="legal-contact-box"><strong>Canal oficial de reclamaciones</strong><p>Las reclamaciones relacionadas con derechos de autor, marcas, logos, fotografías u otros derechos de propiedad intelectual pueden enviarse a <a href="mailto:mieduar2215@gmail.com?subject=Reclamo%20de%20propiedad%20intelectual%20-%20PUNTO%20YA%20CR">mieduar2215@gmail.com</a>.</p></div>
 <h2>Qué debe incluir un reclamo</h2><ul><li>Nombre e información de contacto de quien reclama.</li><li>Identificación del derecho presuntamente afectado (obra, marca, logo, fotografía u otro).</li><li>Identificación y ubicación del contenido cuestionado dentro de PUNTO YA CR.</li><li>Explicación de por qué se considera no autorizado.</li><li>Evidencia razonable de titularidad o representación.</li><li>Declaración de buena fe sobre la exactitud de la información enviada.</li></ul>
+<section class="legal-form-card" aria-labelledby="ipClaimTitle">
+<h2 id="ipClaimTitle">Presentar un reclamo</h2>
+<form id="ipClaimForm" class="legal-form" novalidate>
+  <div class="legal-form-grid">
+    <label>Nombre completo<input id="ipName" name="name" autocomplete="name" maxlength="160" required></label>
+    <label>Correo de contacto<input id="ipEmail" name="email" type="email" autocomplete="email" maxlength="254" required></label>
+  </div>
+  <label>Derecho reclamado<select id="ipRightType" name="right_type" required>
+    <option value="copyright">Derecho de autor / copyright</option>
+    <option value="trademark">Marca o signo distintivo</option>
+    <option value="photo">Fotografía o imagen</option>
+    <option value="other">Otro derecho</option>
+  </select></label>
+  <label>Identifica tu obra, marca o derecho<textarea id="ipRightDescription" rows="3" maxlength="2000" required></textarea></label>
+  <label>¿Dónde está el contenido cuestionado?<input id="ipContentLocation" maxlength="1000" placeholder="Enlace, negocio, pantalla o referencia" required></label>
+  <label>Explicación<textarea id="ipExplanation" rows="5" maxlength="4000" required></textarea></label>
+  <label>Evidencia o referencia (opcional)<textarea id="ipEvidence" rows="3" maxlength="2000" placeholder="Registro, expediente, enlace o forma de acreditar titularidad/representación."></textarea></label>
+  <input id="ipWebsite" class="legal-honeypot" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+  <label class="legal-check"><input id="ipGoodFaith" type="checkbox" required><span>Declaro de buena fe que la información proporcionada es correcta y que estoy legitimado para presentar este reclamo.</span></label>
+  <button id="ipSubmit" class="legal-submit" type="submit">Enviar reclamo</button>
+  <p id="ipClaimMessage" class="legal-form-message" role="status" aria-live="polite"></p>
+</form>
+</section>
 <h2>Qué puede hacer PUNTO YA CR</h2><p>Podemos solicitar información adicional, preservar evidencia, ocultar temporalmente el contenido, contactar al negocio que lo cargó y decidir su restauración o retiro según la información disponible y las obligaciones legales aplicables.</p>
 <h2>Reclamos falsos</h2><p>La presentación deliberada de información falsa puede causar daños a terceros. PUNTO YA CR puede rechazar reclamos manifiestamente abusivos y conservar evidencia necesaria para la defensa de derechos.</p>
 <div class="legal-law"><strong>Base legal:</strong> Ley N.° 6683, Ley N.° 7978 y Ley N.° 8039.</div>
-<nav class="legal-footer-nav" aria-label="Centro Legal"><a href="centro-legal.html">Centro Legal</a><a href="terminos.html">Términos</a><a href="privacidad.html">Privacidad</a><a href="propiedad-intelectual.html">Propiedad intelectual</a><a href="eliminar-cuenta.html">Eliminar cuenta</a></nav></main></body></html>
+<nav class="legal-footer-nav" aria-label="Centro Legal"><a href="centro-legal.html">Centro Legal</a><a href="terminos.html">Términos</a><a href="privacidad.html">Privacidad</a><a href="propiedad-intelectual.html">Propiedad intelectual</a><a href="eliminar-cuenta.html">Eliminar cuenta</a></nav></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="legal.js"></script></body></html>

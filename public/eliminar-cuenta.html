@@ -9,5 +9,29 @@
 <h2>Qué puede conservarse</h2><p>El cierre no obliga a eliminar información que deba conservarse por obligaciones legales, seguridad, prevención de fraude, defensa de reclamaciones, respaldos temporales u otra base legítima. Cuando sea posible, se limitará su uso a esa finalidad.</p>
 <h2>Plazos</h2><p>Las solicitudes se atenderán conforme a los plazos legales aplicables. PRODHAB indica un plazo de cinco días hábiles para determinados derechos de rectificación y acceso conforme a su guía pública.</p>
 <div class="legal-law"><strong>Base legal:</strong> Ley N.° 8968 y Reglamento N.° 37554-JP. Referencia: <a href="https://www.prodhab.go.cr/preguntasfrecuentes.aspx" target="_blank" rel="noopener">PRODHAB</a>.</div>
-<div class="legal-contact-box"><strong>Antes de publicar comercialmente debemos completar:</strong><p>Correo oficial de privacidad · identificación del operador · formulario/ticket de solicitud · procedimiento de verificación · registro en Supabase.</p></div>
-<nav class="legal-footer-nav" aria-label="Centro Legal"><a href="centro-legal.html">Centro Legal</a><a href="terminos.html">Términos</a><a href="privacidad.html">Privacidad</a><a href="propiedad-intelectual.html">Propiedad intelectual</a><a href="eliminar-cuenta.html">Eliminar cuenta</a></nav></main></body></html>
+<section class="legal-form-card" aria-labelledby="privacyRequestTitle">
+<h2 id="privacyRequestTitle">Presentar una solicitud</h2>
+<p>Este formulario crea un registro de seguimiento. Para proteger tu información podremos pedirte una verificación adicional antes de ejecutar cambios o eliminaciones.</p>
+<form id="privacyRequestForm" class="legal-form" novalidate>
+  <div class="legal-form-grid">
+    <label>Nombre completo<input id="privacyName" name="name" autocomplete="name" maxlength="160" required></label>
+    <label>Correo de la cuenta<input id="privacyEmail" name="email" type="email" autocomplete="email" maxlength="254" required></label>
+  </div>
+  <label>Tipo de solicitud<select id="privacyType" name="type" required>
+    <option value="account_closure">Cerrar mi cuenta</option>
+    <option value="deletion">Solicitar eliminación de datos</option>
+    <option value="access">Solicitar acceso a mis datos</option>
+    <option value="rectification">Corregir información</option>
+    <option value="marketing_optout">Dejar de recibir comunicaciones</option>
+    <option value="other">Otra solicitud de privacidad</option>
+  </select></label>
+  <label>Negocio relacionado (opcional)<input id="privacyBusiness" name="business" maxlength="160" placeholder="Nombre del negocio"></label>
+  <label>Detalles<textarea id="privacyDetails" name="details" rows="5" maxlength="3000" placeholder="Explícanos lo necesario para localizar y atender tu solicitud."></textarea></label>
+  <input id="privacyWebsite" class="legal-honeypot" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+  <label class="legal-check"><input id="privacyConfirm" type="checkbox" required><span>Confirmo que la información enviada es correcta y entiendo que PUNTO YA CR puede solicitar verificación de identidad antes de completar la solicitud.</span></label>
+  <button id="privacySubmit" class="legal-submit" type="submit">Enviar solicitud</button>
+  <p id="privacyRequestMessage" class="legal-form-message" role="status" aria-live="polite"></p>
+</form>
+<p class="legal-note">También puedes escribir al correo oficial <a href="mailto:mieduar2215@gmail.com?subject=Solicitud%20de%20privacidad%20PUNTO%20YA%20CR">mieduar2215@gmail.com</a>.</p>
+</section>
+<nav class="legal-footer-nav" aria-label="Centro Legal"><a href="centro-legal.html">Centro Legal</a><a href="terminos.html">Términos</a><a href="privacidad.html">Privacidad</a><a href="propiedad-intelectual.html">Propiedad intelectual</a><a href="eliminar-cuenta.html">Eliminar cuenta</a></nav></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="legal.js"></script></body></html>
