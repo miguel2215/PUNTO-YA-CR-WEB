@@ -30,4 +30,4 @@ ESTADO COMERCIAL
 - Pago online: todavía no conectado; la web lo comunica.
 - Android: todavía no publicado; la web lo comunica como próximamente.
 - Facturación electrónica: permanece EN PREPARACIÓN.
-- Privacidad/Términos: base técnica presente; revisión legal profesional sigue recomendada antes del lanzamiento comercial definitivo.
+- Privacidad/Términos: base técnica presente; revisión legal profesional periódica sigue recomendada para validar cambios y cumplimiento aplicable.

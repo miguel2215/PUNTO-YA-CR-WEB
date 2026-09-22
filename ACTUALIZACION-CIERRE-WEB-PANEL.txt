@@ -35,7 +35,7 @@ PRUEBAS
 - Panel invitado.
 - Seguridad Supabase A/B y rol no-owner (se activa con GitHub Secrets).
 
-PENDIENTES EXTERNOS / NO BLOQUEANTES PARA BETA CON CÓDIGOS
+PENDIENTES EXTERNOS / MEJORAS DE PRODUCCIÓN
 - Pasarela real de pago (Tilopay/otra por definir).
 - APK / Google Play oficial.
 - Facturación electrónica 4.4 completa.

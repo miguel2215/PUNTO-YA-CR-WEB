@@ -1,9 +1,9 @@
-PUNTO YA CR — WEB + PANEL DEL EMPRENDEDOR · CIERRE BETA 2026
+PUNTO YA CR — WEB + PANEL DEL EMPRENDEDOR · PRODUCCIÓN 2026
 
 Esta versión integra la web comercial, Panel del Emprendedor, Super Admin y pruebas Playwright.
 
 WEB PÚBLICA
-- Inicio, Restaurante, Retail, Panel del Emprendedor, PRO, Beta Fundadores, Sobre nosotros, FAQ y Facturación en preparación.
+- Inicio, Restaurante, Retail, Panel del Emprendedor, PRO, Programa Fundadores, Sobre nosotros, FAQ y Facturación en preparación.
 - Precios finales: ₡6.990 mensual · ₡18.900 trimestral · ₡69.900 anual.
 - Texto visible: impuestos incluidos.
 - Login y crear negocio disponibles también en móvil.
@@ -21,7 +21,7 @@ PANEL DEL EMPRENDEDOR
 - Acceso privado al Super Admin si Supabase confirma platform_admins.
 
 SUPER ADMIN
-- Negocios, suscripciones, códigos PRO, Beta Fundadores y newsletter.
+- Negocios, suscripciones, códigos PRO, Programa Fundadores y newsletter.
 - El acceso real depende de funciones/RLS de Supabase.
 
 PRUEBAS

@@ -1,4 +1,4 @@
-PUNTO YA CR — CIERRE LEGAL WEB/PANEL (BORRADOR BETA)
+PUNTO YA CR — CIERRE LEGAL WEB/PANEL
 
 Incluido en esta versión:
 - Centro Legal público.
@@ -7,7 +7,7 @@ Incluido en esta versión:
 - DPA / Tratamiento de Datos para negocios.
 - Política de Propiedad Intelectual y contenido.
 - Política de Uso Aceptable.
-- Condiciones PRO, códigos y Beta Fundadores.
+- Condiciones PRO, códigos y Programa Fundadores.
 - Página de derechos y eliminación de cuenta.
 - Inventario público inicial de proveedores tecnológicos.
 - Procedimiento de reclamos de copyright/marca.
@@ -16,7 +16,7 @@ Incluido en esta versión:
 - Sitemap actualizado.
 - Pruebas Playwright para documentos legales y enlaces públicos.
 
-PENDIENTE ANTES DEL LANZAMIENTO COMERCIAL:
+SIGUIENTES MEJORAS DE CUMPLIMIENTO:
 1. Identidad jurídica del operador (persona física o jurídica).
 2. Número de identificación/cédula correspondiente.
 3. Domicilio contractual y medios oficiales de contacto.
