@@ -143,7 +143,7 @@ nav a{
       rgba(255,255,255,.06) 67%,
       rgba(255,255,255,0) 100%
     ),
-    url("assets/D7754774-9D5B-4AF1-B4F7-9476FD923EA1.png");
+    url("/assets/D7754774-9D5B-4AF1-B4F7-9476FD923EA1.png");
 
   background-size:cover;
   background-position:center;
@@ -1962,7 +1962,7 @@ h2{
         rgba(255,255,255,.48) 66%,
         rgba(255,255,255,.10) 100%
       ),
-      url("assets/D7754774-9D5B-4AF1-B4F7-9476FD923EA1.png");
+      url("/assets/D7754774-9D5B-4AF1-B4F7-9476FD923EA1.png");
 
     background-size:auto 100%;
     background-position:60% center;
@@ -2931,4 +2931,18 @@ h2{
 @media(max-width:980px){
   .site-header .head-actions{display:none}
   .site-header .mobile-head-actions{display:flex}
+}
+
+/* CIERRE ASSETS 2026 — fallback del logo y header estable */
+.brand{display:inline-flex;align-items:center;min-width:0;text-decoration:none}
+.brand-fallback{font-weight:900;letter-spacing:-.02em;color:var(--navy);font-size:20px;line-height:1;white-space:nowrap}
+.site-header .brand img{height:auto;max-height:52px;object-fit:contain}
+@media(max-width:680px){
+  .site-header .brand{flex:0 1 128px;max-width:128px}
+  .site-header .brand img{width:100%;max-height:42px}
+  .brand-fallback{font-size:16px}
+}
+@media(max-width:360px){
+  .site-header .brand{flex-basis:112px;max-width:112px}
+  .brand-fallback{font-size:14px}
 }
