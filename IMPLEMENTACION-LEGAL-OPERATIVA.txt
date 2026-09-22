@@ -1,0 +1,15 @@
+PUNTO YA CR · IMPLEMENTACIÓN LEGAL OPERATIVA · 2026.09
+
+Incluido en esta versión:
+- Centro Legal de producción sin avisos públicos de borrador/pre-lanzamiento.
+- Formulario de privacidad/eliminación con referencia de seguimiento.
+- Formulario de reclamos de copyright/marca con referencia de seguimiento.
+- Aceptación versionada de Términos y Privacidad en el Panel autenticado, activada cuando existen las funciones SQL.
+- Evidencia de derechos del logo guardada dentro de businesses.settings.business_profile.logo_rights y duplicada al registro legal cuando el SQL está activo.
+- Consentimiento versionado de newsletter preparado.
+- Vista Legal en Super Admin para solicitudes, reclamos, aceptaciones y contenido.
+
+IMPORTANTE:
+- Ejecutar el SQL entregado en el chat para activar persistencia y RPCs legales.
+- La creación de cuenta/negocio sigue ocurriendo en el POS externo actual. Para exigir aceptación ANTES de crear la cuenta, hay que aplicar el mismo flujo al código actual del POS.
+- Este ZIP no contiene SQL.

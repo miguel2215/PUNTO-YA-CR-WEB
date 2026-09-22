@@ -27,6 +27,81 @@ let __panelLoginInProgress = false;
 let __panelInactivityTimer = null;
 let __panelInactivityBound = false;
 const PANEL_INACTIVITY_MS = 30 * 60 * 1000;
+const PANEL_LEGAL_VERSION = "2026.09";
+let __panelLegalResolver = null;
+
+
+function panelRpcMissing(error){
+  const m=String(error?.message||"").toLowerCase();
+  return error?.code==="PGRST202" || error?.code==="42883" || m.includes("could not find the function") || m.includes("does not exist");
+}
+
+async function ensurePanelLegalAcceptance(){
+  if(!panelCloud || !panelUser) return true;
+  try{
+    const {data,error}=await panelCloud.rpc("get_my_legal_acceptance",{
+      p_document_version:PANEL_LEGAL_VERSION,
+      p_business_id:panelBusiness?.id||null
+    });
+    if(error){
+      if(panelRpcMissing(error)){ console.warn("Registro legal aún no está activo en Supabase."); return true; }
+      throw error;
+    }
+    if(data?.terms===true && data?.privacy===true) return true;
+    return await openPanelLegalAcceptance();
+  }catch(error){
+    console.error("No se pudo comprobar la aceptación legal:",error);
+    return true;
+  }
+}
+
+function openPanelLegalAcceptance(){
+  document.querySelector("#panelLegalModal")?.remove();
+  return new Promise(resolve=>{
+    __panelLegalResolver=resolve;
+    const modal=document.createElement("div");
+    modal.id="panelLegalModal";
+    modal.className="panel-legal-overlay";
+    modal.innerHTML=`<section class="panel-legal-modal" role="dialog" aria-modal="true" aria-labelledby="panelLegalTitle">
+      <span class="access-tag">PUNTO YA CR</span>
+      <h2 id="panelLegalTitle">Condiciones de uso y privacidad</h2>
+      <p>Para continuar, revisa la versión vigente de nuestros documentos legales.</p>
+      <div class="panel-legal-links"><a href="terminos.html" target="_blank" rel="noopener">Términos de Servicio</a><a href="privacidad.html" target="_blank" rel="noopener">Política de Privacidad</a><a href="centro-legal.html" target="_blank" rel="noopener">Centro Legal</a></div>
+      <label class="legal-check"><input id="panelAcceptTerms" type="checkbox"><span>Acepto los Términos de Servicio, versión <strong>${PANEL_LEGAL_VERSION}</strong>.</span></label>
+      <label class="legal-check"><input id="panelReadPrivacy" type="checkbox"><span>Confirmo que he leído la Política de Privacidad, versión <strong>${PANEL_LEGAL_VERSION}</strong>.</span></label>
+      <p id="panelLegalError" class="panel-login-error" hidden></p>
+      <div class="panel-legal-actions"><button id="panelLegalAccept" class="panel-button primary-button" type="button" onclick="acceptPanelLegalDocuments()">Aceptar y continuar</button><button class="panel-button" type="button" onclick="panelLogout()">Cerrar sesión</button></div>
+    </section>`;
+    document.body.appendChild(modal);
+  });
+}
+
+async function acceptPanelLegalDocuments(){
+  const terms=document.querySelector("#panelAcceptTerms")?.checked;
+  const privacy=document.querySelector("#panelReadPrivacy")?.checked;
+  const errorBox=document.querySelector("#panelLegalError");
+  if(!terms||!privacy){ if(errorBox){errorBox.hidden=false;errorBox.textContent="Debes aceptar los Términos y confirmar que leíste la Política de Privacidad.";} return; }
+  const btn=document.querySelector("#panelLegalAccept");
+  if(btn){btn.disabled=true;btn.textContent="Guardando…";}
+  try{
+    for(const type of ["terms","privacy_notice"]){
+      const {error}=await panelCloud.rpc("record_legal_acceptance",{
+        p_document_type:type,
+        p_document_version:PANEL_LEGAL_VERSION,
+        p_business_id:panelBusiness?.id||null,
+        p_source:"panel"
+      });
+      if(error)throw error;
+    }
+    document.querySelector("#panelLegalModal")?.remove();
+    const resolve=__panelLegalResolver; __panelLegalResolver=null; resolve?.(true);
+  }catch(error){
+    console.error("No se pudo registrar la aceptación legal:",error);
+    if(errorBox){errorBox.hidden=false;errorBox.textContent="No pudimos guardar la aceptación. Intenta de nuevo.";}
+    if(btn){btn.disabled=false;btn.textContent="Aceptar y continuar";}
+  }
+}
+window.acceptPanelLegalDocuments=acceptPanelLegalDocuments;
 
 function getPanelEntryIntent(){
   const p=new URLSearchParams(window.location.search);
@@ -241,6 +316,7 @@ async function checkPanelSession() {
     );
 
     if (panelBusiness) {
+      await ensurePanelLegalAcceptance();
       await renderPanelDashboard();
       startPanelInactivityWatch();
     } else {
@@ -361,6 +437,7 @@ function listenPanelAuth() {
       if (panelUser && (event === "SIGNED_IN" || event === "USER_UPDATED")) {
         await loadPanelBusiness(panelUser);
         if (panelBusiness) {
+          await ensurePanelLegalAcceptance();
           await renderPanelDashboard();
           startPanelInactivityWatch();
         }
@@ -617,6 +694,7 @@ async function panelLogin() {
   }
 );
 
+await ensurePanelLegalAcceptance();
 await renderPanelDashboard();
     startPanelInactivityWatch();
     await handlePanelEntryIntent(true);
@@ -924,7 +1002,7 @@ async function renderPanelDashboard() {
     <section id="ventas" class="panel-business-grid"><article class="business-data-card"><div class="data-card-head"><div><span class="dashboard-eyebrow">VENTAS</span><h2>Lo que más vendes</h2></div><span>30 días</span></div>${topHtml}</article><article id="dinero" class="business-data-card"><div class="data-card-head"><div><span class="dashboard-eyebrow">DINERO</span><h2>Cómo te pagaron</h2></div><span>30 días</span></div>${paymentHtml}<div class="money-total"><span>Crédito pendiente</span><strong>${panelMoney(m.credit)}</strong></div></article></section>
     ${isPro?`<section class="pro-zone"><div class="pro-zone-title"><span class="dashboard-eyebrow">PUNTO YA CR PRO</span><h2>Controla el dinero y haz crecer tu negocio</h2><p>Datos reales, comparaciones y reglas claras. Sin IA.</p></div><div class="pro-metric-grid"><article><span>Ventas 30 días</span><strong>${panelMoney(m.monthRevenue)}</strong><small>${panelTrendText(m.monthPct)}</small></article><article><span>Gastos registrados</span><strong>${panelMoney(m.expenseTotal)}</strong><small>Últimos 30 días</small></article><article><span>Por pagar</span><strong>${panelMoney(m.payable)}</strong><small>${m.overdue?panelMoney(m.overdue)+" vencido":"Sin vencidos registrados"}</small></article><article><span>Margen antes de otros ajustes</span><strong>${panelMoney(m.netBeforeOther)}</strong><small>Ventas − costo registrado − gastos</small></article></div><div id="crecimiento" class="growth-grid"><button class="growth-card growth-action" onclick="openDashboardSection('growth')"><span class="growth-icon">↗</span><h3>Crecimiento</h3><p>Evolución, salud, metas, oportunidades, clientes, productos y simulador.</p><b>Abrir Crecimiento →</b></button><button class="growth-card growth-action" onclick="openDashboardSection('money')"><span class="growth-icon">₡</span><h3>Dinero</h3><p>Ingresos, gastos, compras, por cobrar, por pagar y flujo.</p><b>Abrir Dinero →</b></button><button class="growth-card growth-action" onclick="openDashboardSection('accounting')"><span class="growth-icon">▤</span><h3>Contabilidad</h3><p>Comprobantes, proveedores, pagos y paquete para tu contador.</p><b>Abrir Contabilidad →</b></button><article class="growth-card"><span class="growth-icon">◎</span><h3>Salud del negocio</h3><p>${alerts.join(" ")}</p></article></div></section>`:`<section id="crecimiento" class="free-pro-preview"><div><span class="dashboard-eyebrow">PUNTO YA CR PRO</span><h2>Controla el dinero y entiende tu crecimiento.</h2><p>Pro agrega Dinero, Crecimiento y Contabilidad para tu contador.</p></div><button onclick="openDashboardSection('plan')">Conocer Pro →</button><div class="preview-grid"><span>Dinero</span><span>Crecimiento</span><span>Metas</span><span>Por pagar / cobrar</span><span>Contabilidad</span><span>Mi contador</span></div></section>`}
     <section class="panel-alert-section"><div class="data-card-head"><div><span class="dashboard-eyebrow">ATENCIÓN</span><h2>Lo que conviene revisar</h2></div></div><div class="alert-list">${alerts.map(a=>`<div><span>!</span><p>${escapePanelHTML(a)}</p></div>`).join("")}</div></section>
-    <section class="dashboard-tools admin-zone"><div class="dashboard-section-title"><div><span class="dashboard-eyebrow">ADMINISTRACIÓN</span><h2>Tu cuenta y tu negocio</h2></div></div><div class="dashboard-tool-grid">${[["business","🏪","Mi negocio","Información, contacto y ubicación."],["account","👤","Mi cuenta","Perfil y seguridad."],["devices","▣","Dispositivos","Accesos y sincronización."],["billing","₡","Facturación","Configuración fiscal."],["plan","✦",planLabel,"Estado de tu plan."],["support","?","Soporte","Ayuda de PUNTO YA CR."]].map(([id,ic,t,d])=>`<button class="dashboard-tool" onclick="openDashboardSection('${id}')"><span class="dashboard-tool-icon">${ic}</span><span><strong>${escapePanelHTML(t)}</strong><small>${escapePanelHTML(d)}</small></span><b>→</b></button>`).join("")}</div></section>
+    <section class="dashboard-tools admin-zone"><div class="dashboard-section-title"><div><span class="dashboard-eyebrow">ADMINISTRACIÓN</span><h2>Tu cuenta y tu negocio</h2></div></div><div class="dashboard-tool-grid">${[["business","🏪","Mi negocio","Información, contacto y ubicación."],["account","👤","Mi cuenta","Perfil y seguridad."],["devices","▣","Dispositivos","Accesos y sincronización."],["billing","₡","Facturación","Configuración fiscal."],["plan","✦",planLabel,"Estado de tu plan."],["support","?","Soporte","Ayuda de PUNTO YA CR."],["legal","§","Centro Legal","Términos, privacidad y tus derechos."]].map(([id,ic,t,d])=>`<button class="dashboard-tool" onclick="openDashboardSection('${id}')"><span class="dashboard-tool-icon">${ic}</span><span><strong>${escapePanelHTML(t)}</strong><small>${escapePanelHTML(d)}</small></span><b>→</b></button>`).join("")}</div></section>
     <div id="platformAdminAccess"></div>
     <section class="pos-return"><div><span class="dashboard-eyebrow">PUNTO DE VENTA</span><h2>¿Listo para trabajar?</h2><p>Vuelve a ventas, caja, pedidos y operación diaria.</p></div><a href="${PUNTO_YA_APP}">Abrir PUNTO YA CR →</a></section>
    </main><footer class="dashboard-footer"><img src="assets/logo-horizontal.png" alt="PUNTO YA CR"><p>© 2026 PUNTO YA CR · Tu negocio, más simple.</p></footer>
@@ -975,6 +1053,11 @@ function openDashboardSection(section) {
 
   if (section === "support") {
     renderSupportSection();
+    return;
+  }
+
+  if (section === "legal") {
+    window.location.href = "centro-legal.html";
     return;
   }
 
@@ -1492,7 +1575,16 @@ async function uploadPendingBusinessLogo() {
   });
   if (error) throw error;
   const { data } = panelCloud.storage.from("business-logos").getPublicUrl(path);
-  return { url: `${data.publicUrl}?v=${Date.now()}`, path };
+  return {
+    url: `${data.publicUrl}?v=${Date.now()}`,
+    path,
+    rights: {
+      confirmed_at: new Date().toISOString(),
+      confirmed_by: panelUser?.id || null,
+      legal_version: PANEL_LEGAL_VERSION,
+      basis: "owner_or_authorized"
+    }
+  };
 }
 
 async function removeBusinessLogo() {
@@ -1648,7 +1740,8 @@ const updates = {
       address,
       ...(uploadedLogo ? {
         logo_url: uploadedLogo.url,
-        logo_path: uploadedLogo.path
+        logo_path: uploadedLogo.path,
+        logo_rights: uploadedLogo.rights
       } : {})
     }
   }
@@ -1672,6 +1765,21 @@ const updates = {
 
 
     panelBusiness = data;
+
+    if (uploadedLogo) {
+      try {
+        const { error: rightsError } = await panelCloud.rpc("record_content_rights_confirmation", {
+          p_business_id: panelBusiness.id,
+          p_content_type: "business_logo",
+          p_content_reference: uploadedLogo.path,
+          p_rights_basis: "owner_or_authorized",
+          p_legal_version: PANEL_LEGAL_VERSION
+        });
+        if (rightsError && !panelRpcMissing(rightsError)) console.warn("No se pudo duplicar la evidencia de derechos en el registro legal:", rightsError);
+      } catch (rightsError) {
+        console.warn("Evidencia legal de logo:", rightsError);
+      }
+    }
 
     if (uploadedLogo && previousLogoPath && previousLogoPath !== uploadedLogo.path) {
       panelCloud.storage.from("business-logos").remove([previousLogoPath]).catch(() => {});
