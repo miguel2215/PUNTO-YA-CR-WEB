@@ -1,0 +1,32 @@
+PUNTO YA CR · CHECKLIST DE CIERRE
+
+[LISTO EN ESTA ACTUALIZACIÓN]
+✓ Web pública responsive y CTA principales conectados.
+✓ Login móvil incorporado.
+✓ Precios finales + impuestos incluidos.
+✓ Gratis / Pro / código de activación visibles.
+✓ Newsletter conectado.
+✓ Privacidad / Términos / 404.
+✓ Panel optimizado para evitar recarga masiva.
+✓ Plan PRO con vencimiento real en interfaz.
+✓ Dinero: gastos, proveedores, facturas, abonos y saldos.
+✓ Crecimiento: metas y simulador.
+✓ Contabilidad: Mi contador + CSV.
+✓ Super Admin responsive conservado.
+✓ Playwright ampliado PC/iPhone/tablet.
+✓ Pruebas agresivas y base de pruebas RLS.
+
+[REQUIERE EJECUTAR / VERIFICAR]
+□ Ejecutar SQL de cierre RLS entregado por chat.
+□ Ejecutar GitHub Actions y revisar que todas las pruebas no-seguras queden verdes.
+□ Configurar cuentas de prueba y GitHub Secrets para activar pruebas A/B, roles y FREE/PRO.
+□ Probar un código Beta de 90 días: generar → canjear → Pro → vencimiento/listado.
+□ Probar datos reales de Dinero/Contabilidad y recargar sesión para validar persistencia.
+
+[EXTERNO / POSTERIOR]
+□ Pasarela de pago.
+□ Facturación Electrónica 4.4 real.
+□ Android / Play Store final.
+□ Logo en PDFs/tickets del POS.
+□ Dominio final de la app web.
+□ Canales oficiales de soporte/redes si se publican.

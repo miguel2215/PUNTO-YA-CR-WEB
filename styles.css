@@ -2900,23 +2900,35 @@ h2{
 .pricing-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:34px}.price-card{position:relative;background:#fff;border:1px solid #dfe7e4;border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:12px}.price-card h3{font-size:2rem;margin:0}.price-card ul{padding-left:20px;line-height:1.8;flex:1}.price-card button{margin-top:auto}.featured-price{border:2px solid #1f8f65;box-shadow:0 16px 40px rgba(20,70,55,.12)}.best-value{position:absolute;right:18px;top:16px;font-size:.72rem;font-weight:800;background:#e7f6ef;color:#176847;padding:7px 10px;border-radius:999px}.pro-includes,.activation-callout,.payment-note{max-width:1120px;margin:22px auto 0}.pro-includes{text-align:center;color:#41534d}.activation-callout{display:flex;align-items:center;justify-content:space-between;gap:24px;background:#f2f8f5;border:1px solid #dcebe4;border-radius:24px;padding:24px}.activation-callout h3{margin:5px 0}.payment-note{text-align:center;font-size:.9rem;color:#687a74}.pending-payment[disabled]{opacity:.65}.code-activation-box{margin-top:20px;padding:20px;border:1px solid #dfe7e4;border-radius:18px;background:#f8fbfa}.code-row{display:flex;gap:10px;flex-wrap:wrap}.code-row input{flex:1;min-width:220px;text-transform:uppercase}.code-message{margin-top:10px;font-weight:700}.code-message.ok{color:#16704d}.code-message.error{color:#a33}.legal-page{max-width:900px;margin:0 auto;padding:110px 24px 70px;line-height:1.75}.legal-page h1{font-size:2.4rem}.legal-page h2{margin-top:32px}.legal-back{display:inline-block;margin-bottom:24px}@media(max-width:950px){.pricing-grid{grid-template-columns:1fr 1fr}}@media(max-width:620px){.pricing-grid{grid-template-columns:1fr}.activation-callout{align-items:flex-start;flex-direction:column}}
 
 
-/* Playwright/mobile accessibility fixes */
-.mobile-login-fix{
-  display:none;
+/* =========================================================
+   CIERRE WEB 2026 · ACCESO MÓVIL / ACCESIBILIDAD / PRECIOS
+   ========================================================= */
+.head-action-link,.cta-link,.price-action-link,.activation-link{
+  display:inline-flex;align-items:center;justify-content:center;text-decoration:none;
 }
-.plans-tax-note{
-  margin:.45rem 0 1rem;
-  font-size:.9rem;
-  opacity:.78;
+.mobile-head-actions{display:none;margin-left:auto;gap:7px;align-items:center}
+.mobile-head-actions a{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border-radius:10px;min-height:38px;font-size:12px;font-weight:850;padding:9px 11px;white-space:nowrap}
+.mobile-login{color:var(--navy);background:#fff;border:1px solid #aac0d4}
+.mobile-create{color:#fff;background:var(--navy)}
+.plans-tax-note{margin:10px auto 0!important;font-size:.92rem!important;font-weight:750;color:#40576c!important}
+.price-action-link{width:100%;margin-top:auto}
+:where(a,button,input,select,textarea):focus-visible{outline:3px solid rgba(8,184,159,.35);outline-offset:3px}
+@media(max-width:680px){
+  .site-header{height:auto;min-height:66px;padding:8px 12px;gap:10px}
+  .site-header .brand img{width:128px}
+  .site-header .head-actions{display:none}
+  .site-header .mobile-head-actions{display:flex}
 }
-@media (max-width: 768px){
-  .mobile-login-fix{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    text-decoration:none;
-    font:inherit;
-    font-weight:600;
-    white-space:nowrap;
-  }
+@media(max-width:360px){
+  .site-header .brand img{width:112px}
+  .mobile-head-actions a{font-size:11px;padding:8px 9px}
+}
+
+.public-notice{position:fixed;left:50%;bottom:24px;transform:translate(-50%,18px);z-index:9999;max-width:min(560px,calc(100vw - 32px));padding:14px 18px;border-radius:14px;background:#082d58;color:#fff;box-shadow:0 16px 45px rgba(8,45,88,.24);opacity:0;pointer-events:none;transition:.2s ease;font-weight:700;font-size:14px;line-height:1.45}.public-notice.show{opacity:1;transform:translate(-50%,0)}
+
+.pro-discover-link{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;width:max-content}
+.insight-link{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid #9bb8cf;background:#fff;color:var(--navy);border-radius:8px;padding:8px;font-weight:800}
+@media(max-width:980px){
+  .site-header .head-actions{display:none}
+  .site-header .mobile-head-actions{display:flex}
 }

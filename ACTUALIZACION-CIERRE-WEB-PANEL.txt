@@ -1,0 +1,45 @@
+PUNTO YA CR · ACTUALIZACIÓN GRANDE DE CIERRE
+
+VALIDACIONES REALIZADAS EN ESTA ENTREGA
+- Sintaxis JS validada para app.js, panel.js, admin.js y pruebas Playwright.
+- Referencias locales HTML revisadas: 0 archivos locales faltantes.
+- Búsqueda de service_role/secretos privados: no encontrados.
+- Login móvil presente en la web pública.
+- Precios e "Impuestos incluidos" presentes.
+- Privacidad, Términos y 404 presentes.
+- Workflow GitHub Actions presente con Node 24.
+
+WEB PÚBLICA
+- Acceso móvil real: Iniciar sesión + Crear negocio.
+- Precios finales con impuestos incluidos.
+- CTA convertidos a enlaces robustos donde corresponde.
+- Newsletter con control de estado y correo normalizado.
+- Avisos no bloqueantes para Android y pagos aún no habilitados.
+- Accesibilidad: labels, focus visible, favicon y metadatos.
+- 404 incluida.
+
+PANEL DEL EMPRENDEDOR
+- ?access=login abre login automáticamente.
+- ?access=create dirige al registro de PUNTO YA CR.
+- ?open=plan abre Plan después de iniciar sesión.
+- Cierre automático por 30 minutos de inactividad.
+- Menos re-renderizados por eventos de Auth.
+- Resumen limitado y reutilizado al abrir módulos PRO.
+- Activar código PRO movido a Plan y con refresco de caché.
+- Precios PRO e impuestos visibles en Plan.
+- Logo del negocio conectado a Storage.
+
+PRUEBAS
+- Smoke público.
+- Errores agresivos / responsive.
+- Panel invitado.
+- Seguridad Supabase A/B y rol no-owner (se activa con GitHub Secrets).
+
+PENDIENTES EXTERNOS / NO BLOQUEANTES PARA BETA CON CÓDIGOS
+- Pasarela real de pago (Tilopay/otra por definir).
+- APK / Google Play oficial.
+- Facturación electrónica 4.4 completa.
+- Dominio definitivo del POS (aún usa hostname antiguo mipuntocr...).
+- Redes sociales/contacto oficiales si todavía no están definidos.
+
+No se incluye SQL en este ZIP.

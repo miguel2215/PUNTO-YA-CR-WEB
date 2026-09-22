@@ -2680,3 +2680,16 @@ a{
 /* Identidad visual del negocio */
 .business-logo-manager{display:grid;grid-template-columns:180px 1fr;gap:28px;align-items:center;margin-top:22px}.business-logo-preview{height:130px;border:1px dashed #bfd7dc;border-radius:18px;background:#f8fbfb;display:flex;align-items:center;justify-content:center;overflow:hidden}.business-logo-preview img{max-width:90%;max-height:105px;object-fit:contain}.business-logo-placeholder{display:flex;flex-direction:column;align-items:center;gap:7px;color:#78909c}.business-logo-placeholder strong{width:58px;height:58px;border-radius:16px;display:grid;place-items:center;background:#e4f8f3;color:#00a98f;font-size:26px}.business-logo-controls p{color:#6d8195;margin:7px 0 14px;max-width:620px}.business-logo-file{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}.business-logo-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}.business-logo-upload{display:inline-flex;align-items:center;justify-content:center;cursor:pointer;width:auto}.danger-soft{color:#a53d3d;border-color:#e6caca;background:#fff}.business-logo-controls small{color:#75889a}@media(max-width:700px){.business-logo-manager{grid-template-columns:1fr}.business-logo-preview{height:120px}}
 .platform-admin-entry{margin:28px 0;padding:24px 26px;border-radius:20px;background:#062f55;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:20px}.platform-admin-entry h2{margin:5px 0 8px}.platform-admin-entry p{margin:0;color:#c9dce8}.platform-admin-entry a{background:#16c49a;color:#062f55;text-decoration:none;padding:13px 17px;border-radius:12px;font-weight:900;white-space:nowrap}@media(max-width:700px){.platform-admin-entry{align-items:flex-start;flex-direction:column}.platform-admin-entry a{width:100%;text-align:center}}
+
+
+/* =========================================================
+   CIERRE PANEL 2026 · ESTABILIDAD / PLAN / MÓVIL
+   ========================================================= */
+.code-activation-box{margin-top:20px;padding:22px;border:1px solid #dce7ef;border-radius:20px;background:#f7fbfa}
+.code-row{display:flex;gap:10px;align-items:stretch;margin-top:16px}
+.code-row input{flex:1;min-width:0;text-transform:uppercase}
+.code-message{min-height:22px;margin-top:10px;font-weight:750}.code-message.ok{color:#14724d}.code-message.error{color:#b1282e}
+.panel-link-button{text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+@media(max-width:680px){.code-row{flex-direction:column}.code-row .business-save-button{width:100%}.panel-topnav{overflow-x:auto;scrollbar-width:none}.panel-topnav::-webkit-scrollbar{display:none}}
+
+.ledger-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}.invoice-row .ledger-actions small{font-weight:800;color:#16805e}.finance-management-grid{margin-top:20px}@media(max-width:620px){.ledger-row{align-items:flex-start}.ledger-actions{justify-content:flex-start}.invoice-row{flex-direction:column}.invoice-row .ledger-actions{width:100%;justify-content:space-between}}

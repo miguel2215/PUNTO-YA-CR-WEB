@@ -3,11 +3,10 @@
   "private": true,
   "scripts": {
     "test:web": "playwright test",
-    "test:web:ui": "playwright test --ui",
-    "test:web:report": "playwright show-report",
-    "test:aggressive": "playwright test tests/errores-agresivos.spec.js",
+    "test:smoke": "playwright test tests/web-smoke.spec.js",
+    "test:aggressive": "playwright test tests/errores-agresivos.spec.js tests/panel-public.spec.js",
     "test:security": "playwright test tests/seguridad-supabase.spec.js",
-    "test:all": "playwright test"
+    "test:web:report": "playwright show-report"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0"

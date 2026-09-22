@@ -7,6 +7,13 @@
 
   <title>PUNTO YA CR — Tu negocio, más simple.</title>
 
+  <meta name="description" content="PUNTO YA CR es un punto de venta para restaurantes y comercios en Costa Rica. Vende, controla y entiende tu negocio desde un solo lugar.">
+  <meta name="theme-color" content="#082d58">
+  <meta property="og:title" content="PUNTO YA CR — Tu negocio, más simple.">
+  <meta property="og:description" content="Vende, controla y entiende tu negocio desde un solo lugar.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/icon-512.png">
+
   <!-- ESTILOS PRINCIPALES -->
   <link rel="stylesheet" href="styles.css">
 
@@ -31,15 +38,19 @@
       <a href="#restaurante">Restaurante</a>
       <a href="#retail">Retail</a>
       <a href="#panel-emprendedor">Panel</a>
-      <a href="#pro">PUNTO YA Pro</a>
+      <a href="#pro">PUNTO YA CR Pro</a>
       <a href="#beta">Beta</a>
       <a href="#nosotros">Nosotros</a>
     </nav>
 
-    <div class="head-actions">
-      <button class="ghost" onclick="window.location.href='panel.html?access=login'">Iniciar sesión</button>
-      <a class="mobile-login-fix" data-mobile-login="true" href="panel.html?access=login" aria-label="Iniciar sesión">Iniciar sesión</a>
-<button class="primary" onclick="window.location.href='panel.html?access=create'">Crear mi negocio gratis</button>
+    <div class="head-actions" aria-label="Acceso a PUNTO YA CR">
+      <a class="ghost head-action-link" href="panel.html?access=login">Iniciar sesión</a>
+      <a class="primary head-action-link" href="panel.html?access=create">Crear mi negocio gratis</a>
+    </div>
+
+    <div class="mobile-head-actions" aria-label="Acceso móvil a PUNTO YA CR">
+      <a class="mobile-login" href="panel.html?access=login" aria-label="Iniciar sesión">Entrar</a>
+      <a class="mobile-create" href="panel.html?access=create" aria-label="Crear mi negocio gratis">Crear negocio</a>
     </div>
 
   </header>
@@ -73,9 +84,9 @@
 
         <div class="cta">
 
-          <button class="primary big" onclick="window.location.href='panel.html?access=create'">
+          <a class="primary big cta-link" href="panel.html?access=create">
             Crear mi negocio gratis
-          </button>
+          </a>
 
           <button
             class="ghost big"
@@ -255,9 +266,9 @@
 
       <p>Más espacio, la misma simplicidad.</p>
 
-      <button class="primary">
+      <a class="primary device-link" href="https://mipuntocr.mieduar2215.workers.dev/" target="_blank" rel="noopener noreferrer">
         Usar en Tablet
-      </button>
+      </a>
 
       <small>PUNTO YA CR adaptado a tu pantalla</small>
 
@@ -423,9 +434,9 @@
           <li>Reportes profesionales</li>
         </ul>
 
-        <button class="green">
+        <a class="green pro-discover-link" href="#planes">
           Descubrir PUNTO YA CR Pro →
-        </button>
+        </a>
 
       </div>
 
@@ -535,9 +546,9 @@
               visibles desde un solo lugar.
             </p>
 
-            <button>
+            <a class="insight-link" href="panel.html?access=login">
               Ver mi negocio
-            </button>
+            </a>
 
           </div>
 
@@ -648,34 +659,34 @@
         <span class="eyebrow">PLANES PUNTO YA CR</span>
         <h2>Empieza gratis. Pasa a Pro cuando tu negocio lo necesite.</h2>
         <p>El mismo PUNTO YA CR, con más herramientas para entender y administrar tu negocio.</p>
-<p class="plans-tax-note">Precios con impuestos incluidos.</p>
+        <p class="plans-tax-note">Precios finales. Impuestos incluidos.</p>
       </div>
       <div class="pricing-grid">
         <article class="price-card free-card">
           <span class="plan-label">PUNTO YA CR GRATIS</span><h3>₡0</h3><small>Sin costo mensual</small>
           <ul><li>Ventas y caja</li><li>Productos e inventario</li><li>Clientes</li><li>Operación principal</li><li>Panel del Emprendedor básico</li></ul>
-          <button class="primary" onclick="window.location.href='panel.html?access=create'">Crear mi negocio gratis</button>
+          <a class="primary price-action-link" href="panel.html?access=create">Crear mi negocio gratis</a>
         </article>
         <article class="price-card">
           <span class="plan-label">PRO MENSUAL</span><h3>₡6.990</h3><small>por mes</small>
           <p>Flexibilidad para empezar con Pro.</p>
-          <button class="green pending-payment" data-cycle="monthly">Elegir mensual</button>
+          <button class="green pending-payment" data-cycle="monthly" aria-label="Elegir PUNTO YA CR Pro mensual">Elegir mensual</button>
         </article>
         <article class="price-card">
           <span class="plan-label">PRO TRIMESTRAL</span><h3>₡18.900</h3><small>₡6.300 por mes · ahorras ₡2.070</small>
           <p>Tres meses de PUNTO YA CR Pro.</p>
-          <button class="green pending-payment" data-cycle="quarterly">Elegir trimestral</button>
+          <button class="green pending-payment" data-cycle="quarterly" aria-label="Elegir PUNTO YA CR Pro trimestral">Elegir trimestral</button>
         </article>
         <article class="price-card featured-price">
           <span class="best-value">MEJOR PRECIO</span><span class="plan-label">PRO ANUAL</span><h3>₡69.900</h3><small>₡5.825 por mes · ahorras ₡13.980</small>
           <p>Un año completo con el mejor precio.</p>
-          <button class="green pending-payment" data-cycle="annual">Elegir anual</button>
+          <button class="green pending-payment" data-cycle="annual" aria-label="Elegir PUNTO YA CR Pro anual">Elegir anual</button>
         </article>
       </div>
       <div class="pro-includes"><strong>Todos los ciclos Pro incluyen:</strong> Dinero y salud del negocio · Proveedores y cuentas · Crecimiento y metas · Contabilidad organizada · Reportes avanzados.</div>
       <div class="activation-callout">
         <div><span class="eyebrow">¿YA TIENES UN CÓDIGO?</span><h3>Activa PUNTO YA CR Pro</h3><p>Los códigos de Beta Fundadores, regalos y promociones se canjean desde tu Panel del Emprendedor.</p></div>
-        <button class="primary" onclick="window.location.href='panel.html?access=login&open=plan'">Activar código PRO</button>
+        <a class="primary activation-link" href="panel.html?access=login&open=plan">Activar código PRO</a>
       </div>
       <p class="payment-note">Los pagos en línea estarán disponibles cuando conectemos la pasarela oficial. Los códigos PRO sí quedan preparados para la beta.</p>
     </section>
@@ -700,7 +711,7 @@
         <h2>Ayúdanos a construir un PUNTO YA CR cada vez mejor.</h2>
         <p>Estamos abriendo PUNTO YA CR a los primeros restaurantes y comercios que quieran probarlo antes del lanzamiento general y compartirnos su experiencia real.</p>
         <div class="beta-points"><span>Acceso anticipado</span><span>Acompañamiento</span><span>Tu opinión cuenta</span></div>
-        <button class="primary big" onclick="window.location.href='panel.html?access=create'">Quiero participar</button>
+        <a class="primary big cta-link" href="panel.html?access=create&source=beta">Quiero participar</a>
       </div>
       <div class="beta-card"><span>🇨🇷</span><h3>Construido desde Costa Rica</h3><p>Queremos aprender con negocios reales antes de dar por terminado el producto.</p></div>
     </section>
@@ -832,7 +843,7 @@
         <a href="#como">Cómo funciona</a>
         <a href="#restaurante">Restaurante</a>
         <a href="#retail">Retail</a>
-        <a href="#pro">PUNTO YA Pro</a>
+        <a href="#pro">PUNTO YA CR Pro</a>
         <a href="#descarga">Descargar</a>
 
       </div>
@@ -860,6 +871,7 @@
         <a href="#faq">Preguntas frecuentes</a>
         <a href="#facturacion">Facturación electrónica</a>
         <a href="#planes">Gratis vs Pro</a>
+        <a href="panel.html?access=login">Panel del Emprendedor</a>
 
       </div>
 
@@ -917,6 +929,7 @@
   </footer>
 
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="app.js"></script>
 
 </body>

@@ -1,25 +1,41 @@
-PUNTO YA CR — PRUEBAS AUTOMÁTICAS DE LA WEB
+PUNTO YA CR · PRUEBAS AUTOMÁTICAS
 
-1. Instala Node.js si no lo tienes.
-2. Abre una terminal dentro de esta carpeta.
-3. Ejecuta:
-   npm install
-   npx playwright install chromium webkit
-   npm run test:web
+GitHub Actions ejecuta Playwright automáticamente al hacer push a main o manualmente desde Actions.
 
-El reporte HTML queda en: playwright-report/index.html
-Para abrirlo:
-   npm run test:web:report
+Pruebas incluidas:
+- PC: Chromium
+- iPhone: WebKit
+- Tablet: WebKit
+- Web pública
+- Panel público/sin sesión
+- Acciones públicas
+- Pruebas agresivas
+- Seguridad/RLS (solo si se configuran cuentas de prueba)
 
-La prueba corre en escritorio (Chromium) y en una emulación de iPhone.
+Comandos locales si tienes Node instalado:
+  npm install
+  npx playwright install chromium webkit
+  npm run test:web
 
-Para probar la web YA PUBLICADA en vez de los archivos locales:
-Mac/Linux:
-   BASE_URL=https://TU-DOMINIO.com npm run test:web
-Windows PowerShell:
-   $env:BASE_URL="https://TU-DOMINIO.com"; npm run test:web
+Pruebas separadas:
+  npm run test:smoke
+  npm run test:aggressive
+  npm run test:security
 
-IMPORTANTE:
-- Las pruebas públicas no hacen compras ni acciones destructivas.
-- Newsletter no se envía automáticamente para no ensuciar la base de datos.
-- El Super Admin autenticado requiere una prueba separada con una cuenta de prueba/estado de sesión.
+GitHub Secrets opcionales para seguridad real:
+  SUPABASE_URL
+  SUPABASE_ANON_KEY
+  TEST_A_EMAIL
+  TEST_A_PASSWORD
+  TEST_B_EMAIL
+  TEST_B_PASSWORD
+  TEST_ROLE_EMAIL
+  TEST_ROLE_PASSWORD
+
+Recomendación de cuentas:
+- TEST_A: dueño de un negocio FREE exclusivamente de pruebas.
+- TEST_B: dueño de otro negocio distinto exclusivamente de pruebas.
+- TEST_ROLE: Caja/Cocina u otro miembro no-owner de un negocio de pruebas.
+
+Nunca uses las credenciales del negocio real en GitHub Secrets de pruebas.
+El reporte HTML se guarda como artifact “reporte-playwright-punto-ya-cr”.
