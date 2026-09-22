@@ -2475,35 +2475,214 @@ function getFiscalProfile() {
     ? (settings.fiscal_profile || {}) : {};
 }
 
+function isPanelFiscalOwner() {
+  if (!panelUser || !panelBusiness) return false;
+  const membershipRole = String(panelMembership?.role || "").toLowerCase();
+  const directOwner = panelBusiness?.owner_user_id && panelBusiness.owner_user_id === panelUser.id;
+  return directOwner || membershipRole === "owner";
+}
+
 function renderBillingSection() {
   if (!panelBusiness) return renderPanelDashboard();
+
   const fiscal = getFiscalProfile();
+  const canManageFiscalSecrets = isPanelFiscalOwner();
+
+  const fiscalConnectionBlock = canManageFiscalSecrets
+    ? `
+      <div class="business-settings-block">
+        <div class="business-settings-title">
+          <div class="business-settings-icon">🔐</div>
+          <div>
+            <h2>Conexión con Hacienda</h2>
+            <p>Guarda las credenciales fiscales de este negocio de forma cifrada y prueba el acceso.</p>
+          </div>
+        </div>
+
+        <div class="panel-info-card">
+          <strong>Ambiente de pruebas</strong>
+          <p>Durante PRE-BETA trabajamos únicamente con Sandbox. Producción permanece bloqueada.</p>
+        </div>
+
+        <div class="business-form-grid">
+          <div class="business-field">
+            <label for="fiscalEnvironment">Ambiente</label>
+            <input id="fiscalEnvironment" type="text" value="Sandbox / pruebas" readonly>
+          </div>
+
+          <div class="business-field">
+            <label for="fiscalHaciendaUsername">Usuario de Hacienda</label>
+            <input
+              id="fiscalHaciendaUsername"
+              type="text"
+              autocomplete="off"
+              autocapitalize="none"
+              spellcheck="false"
+              placeholder="Usuario fiscal">
+          </div>
+
+          <div class="business-field">
+            <label for="fiscalHaciendaPassword">Contraseña de Hacienda</label>
+            <input
+              id="fiscalHaciendaPassword"
+              type="password"
+              autocomplete="new-password"
+              placeholder="Contraseña">
+          </div>
+
+          <div class="business-field">
+            <label for="fiscalP12Pin">PIN de la llave .p12</label>
+            <input
+              id="fiscalP12Pin"
+              type="password"
+              inputmode="numeric"
+              autocomplete="new-password"
+              placeholder="PIN de la llave">
+          </div>
+
+          <div class="business-field business-field-wide">
+            <label for="fiscalP12File">Llave criptográfica (.p12)</label>
+            <input
+              id="fiscalP12File"
+              type="file"
+              accept=".p12,application/x-pkcs12,application/pkcs12">
+            <small class="account-field-help">
+              El archivo se envía directamente a la función segura. No se guarda en localStorage ni en la configuración pública del negocio.
+            </small>
+          </div>
+        </div>
+
+        <div class="account-status-card">
+          <div>
+            <span class="account-status-dot"></span>
+            <div>
+              <strong id="fiscalConnectionStatus">Conexión no probada</strong>
+              <p class="panel-inline-note">Primero guarda las credenciales y después prueba el acceso.</p>
+            </div>
+          </div>
+          <span id="fiscalEnvironmentBadge" class="account-owner-badge">SANDBOX</span>
+        </div>
+
+        <div id="fiscalCredentialsMessage" class="business-save-message" hidden></div>
+
+        <div class="business-settings-actions">
+          <button
+            id="saveFiscalCredentialsButton"
+            type="button"
+            class="business-save-button"
+            onclick="saveHaciendaCredentials()">
+            Guardar conexión fiscal
+          </button>
+
+          <button
+            id="testFiscalConnectionButton"
+            type="button"
+            class="account-secondary-button"
+            onclick="testHaciendaConnection()">
+            Probar conexión con Hacienda
+          </button>
+        </div>
+
+        <div class="panel-info-card">
+          <strong>Importante</strong>
+          <p>Esta prueba confirma el acceso OAuth al ambiente Sandbox. La firma con la llave .p12 y el envío de un XML 4.4 se validan en el siguiente paso.</p>
+        </div>
+      </div>`
+    : `
+      <div class="business-settings-block">
+        <div class="business-settings-title">
+          <div class="business-settings-icon">🔒</div>
+          <div>
+            <h2>Conexión con Hacienda</h2>
+            <p>Las credenciales fiscales solo pueden ser administradas por el propietario del negocio.</p>
+          </div>
+        </div>
+        <div class="panel-info-card">
+          <strong>Acceso protegido</strong>
+          <p>Tu usuario actual puede consultar los datos generales permitidos, pero no puede guardar, cambiar ni probar credenciales fiscales.</p>
+        </div>
+      </div>`;
+
   panelSectionShell(
     "FACTURACIÓN",
     "Facturación electrónica",
     "Administra los datos fiscales de tu negocio. La emisión de comprobantes se realiza desde PUNTO YA CR.",
     `<section class="business-settings-card">
       <div class="business-settings-block">
-        <div class="business-settings-title"><div class="business-settings-icon">₡</div><div><h2>Datos fiscales</h2><p>Información que identifica a tu negocio para facturación.</p></div></div>
+        <div class="business-settings-title">
+          <div class="business-settings-icon">₡</div>
+          <div>
+            <h2>Datos fiscales</h2>
+            <p>Información que identifica a tu negocio para facturación.</p>
+          </div>
+        </div>
+
         <div class="business-form-grid">
-          <div class="business-field"><label for="fiscalLegalName">Nombre o razón social</label><input id="fiscalLegalName" value="${escapePanelHTML(fiscal.legal_name || panelBusiness.name || "")}" placeholder="Nombre o razón social"></div>
-          <div class="business-field"><label for="fiscalIdType">Tipo de identificación</label><select id="fiscalIdType"><option value="fisica" ${fiscal.id_type === "fisica" ? "selected" : ""}>Cédula física</option><option value="juridica" ${fiscal.id_type === "juridica" ? "selected" : ""}>Cédula jurídica</option><option value="dimex" ${fiscal.id_type === "dimex" ? "selected" : ""}>DIMEX</option><option value="nite" ${fiscal.id_type === "nite" ? "selected" : ""}>NITE</option></select></div>
-          <div class="business-field"><label for="fiscalIdNumber">Número de identificación</label><input id="fiscalIdNumber" value="${escapePanelHTML(fiscal.id_number || "")}" inputmode="numeric" placeholder="Número de identificación"></div>
-          <div class="business-field"><label for="fiscalEmail">Correo para comprobantes</label><input id="fiscalEmail" type="email" value="${escapePanelHTML(fiscal.email || "")}" placeholder="facturacion@negocio.com"></div>
-          <div class="business-field"><label for="fiscalActivity">Actividad económica</label><input id="fiscalActivity" value="${escapePanelHTML(fiscal.activity || "")}" placeholder="Actividad económica"></div>
-          <div class="business-field"><label for="fiscalUsesEInvoice">¿Utiliza factura electrónica?</label><select id="fiscalUsesEInvoice"><option value="no" ${!fiscal.uses_einvoice ? "selected" : ""}>No</option><option value="yes" ${fiscal.uses_einvoice ? "selected" : ""}>Sí</option></select></div>
+          <div class="business-field">
+            <label for="fiscalLegalName">Nombre o razón social</label>
+            <input id="fiscalLegalName" value="${escapePanelHTML(fiscal.legal_name || panelBusiness.name || "")}" placeholder="Nombre o razón social">
+          </div>
+
+          <div class="business-field">
+            <label for="fiscalIdType">Tipo de identificación</label>
+            <select id="fiscalIdType">
+              <option value="fisica" ${fiscal.id_type === "fisica" ? "selected" : ""}>Cédula física</option>
+              <option value="juridica" ${fiscal.id_type === "juridica" ? "selected" : ""}>Cédula jurídica</option>
+              <option value="dimex" ${fiscal.id_type === "dimex" ? "selected" : ""}>DIMEX</option>
+              <option value="nite" ${fiscal.id_type === "nite" ? "selected" : ""}>NITE</option>
+            </select>
+          </div>
+
+          <div class="business-field">
+            <label for="fiscalIdNumber">Número de identificación</label>
+            <input id="fiscalIdNumber" value="${escapePanelHTML(fiscal.id_number || "")}" inputmode="numeric" placeholder="Número de identificación">
+          </div>
+
+          <div class="business-field">
+            <label for="fiscalEmail">Correo para comprobantes</label>
+            <input id="fiscalEmail" type="email" value="${escapePanelHTML(fiscal.email || "")}" placeholder="facturacion@negocio.com">
+          </div>
+
+          <div class="business-field">
+            <label for="fiscalActivity">Actividad económica</label>
+            <input id="fiscalActivity" value="${escapePanelHTML(fiscal.activity || "")}" placeholder="Actividad económica">
+          </div>
+
+          <div class="business-field">
+            <label for="fiscalUsesEInvoice">¿Utiliza factura electrónica?</label>
+            <select id="fiscalUsesEInvoice">
+              <option value="no" ${!fiscal.uses_einvoice ? "selected" : ""}>No</option>
+              <option value="yes" ${fiscal.uses_einvoice ? "selected" : ""}>Sí</option>
+            </select>
+          </div>
         </div>
       </div>
+
       <div id="billingSaveMessage" class="business-save-message" hidden></div>
-      <div class="business-settings-actions"><button id="saveBillingButton" type="button" class="business-save-button" onclick="saveBillingSettings()">Guardar cambios</button></div>
+
+      <div class="business-settings-actions">
+        <button
+          id="saveBillingButton"
+          type="button"
+          class="business-save-button"
+          onclick="saveBillingSettings()">
+          Guardar datos fiscales
+        </button>
+      </div>
+
+      ${fiscalConnectionBlock}
     </section>`
   );
 }
 
 async function saveBillingSettings() {
   if (!panelCloud || !panelBusiness) return;
+
   const button = document.querySelector("#saveBillingButton");
-  const currentSettings = panelBusiness.settings && typeof panelBusiness.settings === "object" && !Array.isArray(panelBusiness.settings) ? panelBusiness.settings : {};
+  const currentSettings = panelBusiness.settings && typeof panelBusiness.settings === "object" && !Array.isArray(panelBusiness.settings)
+    ? panelBusiness.settings
+    : {};
+
   const fiscal_profile = {
     ...(currentSettings.fiscal_profile || {}),
     legal_name: document.querySelector("#fiscalLegalName")?.value.trim() || "",
@@ -2513,19 +2692,266 @@ async function saveBillingSettings() {
     activity: document.querySelector("#fiscalActivity")?.value.trim() || "",
     uses_einvoice: document.querySelector("#fiscalUsesEInvoice")?.value === "yes"
   };
+
   try {
-    if (button) { button.disabled = true; button.textContent = "Guardando..."; }
-    const { data, error } = await panelCloud.from("businesses").update({ settings: { ...currentSettings, fiscal_profile }, updated_at: new Date().toISOString() }).eq("id", panelBusiness.id).select("*").single();
+    if (button) {
+      button.disabled = true;
+      button.textContent = "Guardando...";
+    }
+
+    const { data, error } = await panelCloud
+      .from("businesses")
+      .update({
+        settings: { ...currentSettings, fiscal_profile },
+        updated_at: new Date().toISOString()
+      })
+      .eq("id", panelBusiness.id)
+      .select("*")
+      .single();
+
     if (error) throw error;
+
     panelBusiness = data;
-    showPanelSectionMessage("billingSaveMessage", "Cambios guardados.", "success");
+    showPanelSectionMessage("billingSaveMessage", "Datos fiscales guardados.", "success");
+
   } catch (error) {
     console.error("No se pudo guardar Facturación:", error);
-    showPanelSectionMessage("billingSaveMessage", error?.message || "No se pudieron guardar los cambios.", "error");
+    showPanelSectionMessage(
+      "billingSaveMessage",
+      error?.message || "No se pudieron guardar los cambios.",
+      "error"
+    );
+
   } finally {
-    if (button) { button.disabled = false; button.textContent = "Guardar cambios"; }
+    if (button) {
+      button.disabled = false;
+      button.textContent = "Guardar datos fiscales";
+    }
   }
 }
+
+async function fiscalFileToBase64(file) {
+  if (!file) throw new Error("Selecciona la llave criptográfica .p12.");
+
+  const lowerName = String(file.name || "").toLowerCase();
+  if (!lowerName.endsWith(".p12")) {
+    throw new Error("La llave debe ser un archivo .p12.");
+  }
+
+  const maxBytes = 1.5 * 1024 * 1024;
+  if (file.size > maxBytes) {
+    throw new Error("El archivo .p12 es demasiado grande para esta configuración.");
+  }
+
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  let binary = "";
+  const chunkSize = 0x8000;
+
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+  }
+
+  return btoa(binary);
+}
+
+async function invokeFiscalEdgeFunction(functionName, body) {
+  if (!panelCloud) throw new Error("Supabase no está disponible.");
+
+  const { data, error } = await panelCloud.auth.getSession();
+  if (error) throw error;
+
+  const accessToken = data?.session?.access_token;
+  if (!accessToken) {
+    throw new Error("Tu sesión expiró. Inicia sesión nuevamente.");
+  }
+
+  const response = await fetch(
+    `${PANEL_SUPABASE_URL}/functions/v1/${encodeURIComponent(functionName)}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`,
+        "apikey": PANEL_SUPABASE_KEY
+      },
+      body: JSON.stringify(body)
+    }
+  );
+
+  let payload = null;
+  try {
+    payload = await response.json();
+  } catch (_) {
+    payload = null;
+  }
+
+  if (!response.ok) {
+    const message = payload?.error || payload?.message || `Error de conexión (${response.status}).`;
+    throw new Error(message);
+  }
+
+  return payload || {};
+}
+
+function clearFiscalSecretFields() {
+  const username = document.querySelector("#fiscalHaciendaUsername");
+  const password = document.querySelector("#fiscalHaciendaPassword");
+  const pin = document.querySelector("#fiscalP12Pin");
+  const file = document.querySelector("#fiscalP12File");
+
+  if (username) username.value = "";
+  if (password) password.value = "";
+  if (pin) pin.value = "";
+  if (file) file.value = "";
+}
+
+function setFiscalConnectionStatus(text) {
+  const status = document.querySelector("#fiscalConnectionStatus");
+  if (status) status.textContent = text;
+}
+
+async function saveHaciendaCredentials() {
+  if (!panelCloud || !panelBusiness?.id) return;
+
+  if (!isPanelFiscalOwner()) {
+    showPanelSectionMessage(
+      "fiscalCredentialsMessage",
+      "Solo el propietario puede administrar credenciales fiscales.",
+      "error"
+    );
+    return;
+  }
+
+  const username = document.querySelector("#fiscalHaciendaUsername")?.value.trim() || "";
+  const password = document.querySelector("#fiscalHaciendaPassword")?.value || "";
+  const pin = document.querySelector("#fiscalP12Pin")?.value || "";
+  const file = document.querySelector("#fiscalP12File")?.files?.[0] || null;
+  const button = document.querySelector("#saveFiscalCredentialsButton");
+  const testButton = document.querySelector("#testFiscalConnectionButton");
+
+  if (!username || !password || !pin || !file) {
+    showPanelSectionMessage(
+      "fiscalCredentialsMessage",
+      "Completa usuario, contraseña, PIN y selecciona tu archivo .p12.",
+      "error"
+    );
+    return;
+  }
+
+  try {
+    if (button) {
+      button.disabled = true;
+      button.textContent = "Protegiendo credenciales...";
+    }
+    if (testButton) testButton.disabled = true;
+
+    setFiscalConnectionStatus("Guardando credenciales cifradas...");
+
+    const p12Base64 = await fiscalFileToBase64(file);
+
+    const result = await invokeFiscalEdgeFunction("hacienda-credentials", {
+      business_id: panelBusiness.id,
+      environment: "sandbox",
+      username,
+      password,
+      pin,
+      p12_base64: p12Base64
+    });
+
+    if (result?.ok !== true) {
+      throw new Error(result?.error || "No se pudieron guardar las credenciales fiscales.");
+    }
+
+    clearFiscalSecretFields();
+    setFiscalConnectionStatus("Credenciales guardadas · pendiente de prueba");
+    showPanelSectionMessage(
+      "fiscalCredentialsMessage",
+      "Credenciales protegidas y guardadas. Ahora pulsa “Probar conexión con Hacienda”.",
+      "success"
+    );
+
+  } catch (error) {
+    console.error("No se pudieron guardar las credenciales fiscales:", error);
+    setFiscalConnectionStatus("No se pudo guardar la conexión");
+    showPanelSectionMessage(
+      "fiscalCredentialsMessage",
+      error?.message || "No se pudieron guardar las credenciales fiscales.",
+      "error"
+    );
+
+  } finally {
+    if (button) {
+      button.disabled = false;
+      button.textContent = "Guardar conexión fiscal";
+    }
+    if (testButton) testButton.disabled = false;
+  }
+}
+
+async function testHaciendaConnection() {
+  if (!panelCloud || !panelBusiness?.id) return;
+
+  if (!isPanelFiscalOwner()) {
+    showPanelSectionMessage(
+      "fiscalCredentialsMessage",
+      "Solo el propietario puede probar la conexión fiscal.",
+      "error"
+    );
+    return;
+  }
+
+  const button = document.querySelector("#testFiscalConnectionButton");
+  const saveButton = document.querySelector("#saveFiscalCredentialsButton");
+
+  try {
+    if (button) {
+      button.disabled = true;
+      button.textContent = "Probando conexión...";
+    }
+    if (saveButton) saveButton.disabled = true;
+
+    setFiscalConnectionStatus("Probando acceso a Hacienda...");
+
+    const result = await invokeFiscalEdgeFunction("hacienda-test-connection", {
+      business_id: panelBusiness.id,
+      environment: "sandbox"
+    });
+
+    if (result?.ok !== true) {
+      throw new Error(result?.error || "Hacienda no confirmó la conexión.");
+    }
+
+    const expirationText = Number.isFinite(Number(result.expires_in))
+      ? ` Token de prueba válido por aproximadamente ${Number(result.expires_in)} segundos.`
+      : "";
+
+    setFiscalConnectionStatus("Acceso a Hacienda verificado");
+    showPanelSectionMessage(
+      "fiscalCredentialsMessage",
+      `Conexión Sandbox correcta.${expirationText} El siguiente paso será probar firma .p12 y envío XML 4.4.`,
+      "success"
+    );
+
+  } catch (error) {
+    console.error("Prueba de conexión con Hacienda:", error);
+    setFiscalConnectionStatus("Error de conexión");
+    showPanelSectionMessage(
+      "fiscalCredentialsMessage",
+      error?.message || "No se pudo conectar con Hacienda.",
+      "error"
+    );
+
+  } finally {
+    if (button) {
+      button.disabled = false;
+      button.textContent = "Probar conexión con Hacienda";
+    }
+    if (saveButton) saveButton.disabled = false;
+  }
+}
+
+window.saveHaciendaCredentials = saveHaciendaCredentials;
+window.testHaciendaConnection = testHaciendaConnection;
 
 async function renderPlanSection() {
   if (!panelBusiness) return renderPanelDashboard();
