@@ -7,7 +7,8 @@ test('acciones comerciales principales tienen comportamiento', async ({ page }) 
   await expect(page.getByRole('link',{name:/Ver mi negocio/i})).toHaveAttribute('href',/panel\.html\?access=login/);
   await expect(page.getByRole('link',{name:/Usar en Tablet/i})).toHaveAttribute('href',/^https:\/\//);
 
-  const android = page.getByRole('button',{name:/Descargar para Android/i});
+  const android = page.getByRole('button',{name:/Android.*próximamente/i});
+  await expect(android).toBeVisible();
   await android.click();
   await expect(page.locator('#publicNotice')).toContainText(/Android|Google Play/i);
 
