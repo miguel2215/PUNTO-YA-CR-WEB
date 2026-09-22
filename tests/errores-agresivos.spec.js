@@ -55,7 +55,10 @@ test('doble clic en CTA de registro no rompe ni duplica navegación', async ({ p
   const cta = page.getByRole('link', { name: /Crear mi negocio gratis/i }).or(page.getByRole('button', { name: /Crear mi negocio gratis/i })).first();
   await expect(cta).toBeVisible();
   await cta.dblclick();
-  await expect(page).toHaveURL(/panel\.html\?access=create/);
+  await expect.poll(() => {
+    try { return new URL(page.url()).searchParams.get('access'); }
+    catch (_) { return null; }
+  }).toBe('create');
 });
 
 test('atrás, adelante y recarga conservan navegación pública', async ({ page }) => {

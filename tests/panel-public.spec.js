@@ -9,7 +9,9 @@ test('panel invitado tiene login, registro y acceso al POS', async ({ page }) =>
 
 test('modal login valida campos vacíos sin romper la página', async ({ page }) => {
   await page.goto('/panel.html?access=login');
-  await page.getByRole('button',{name:/Iniciar sesión/i}).last().click();
+  await expect(page.locator('#panelLoginModal')).toBeVisible();
+  await expect(page.locator('#panelLoginSubmit')).toBeVisible();
+  await page.locator('#panelLoginSubmit').click();
   await expect(page.locator('#panelLoginError')).toContainText(/correo y contraseña/i);
 });
 
