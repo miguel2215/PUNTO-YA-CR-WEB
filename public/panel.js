@@ -2560,11 +2560,11 @@ function renderBillingSection() {
   const fiscal = getFiscalProfile();
   panelSectionShell(
     "FACTURACIÓN",
-    "Facturación electrónica · En preparación",
-    "Administra los datos fiscales de tu negocio. La emisión electrónica todavía está en preparación y se habilitará cuando la integración esté terminada y probada.",
+    "Facturación electrónica",
+    "Administra los datos fiscales de tu negocio. La emisión de comprobantes se realiza desde PUNTO YA CR.",
     `<section class="business-settings-card">
       <div class="business-settings-block">
-        <div class="business-settings-title"><div class="business-settings-icon">₡</div><div><h2>Datos fiscales</h2><p>Puedes preparar la información fiscal. La emisión electrónica todavía no está habilitada.</p></div></div>
+        <div class="business-settings-title"><div class="business-settings-icon">₡</div><div><h2>Datos fiscales</h2><p>Información que identifica a tu negocio para facturación.</p></div></div>
         <div class="business-form-grid">
           <div class="business-field"><label for="fiscalLegalName">Nombre o razón social</label><input id="fiscalLegalName" value="${escapePanelHTML(fiscal.legal_name || panelBusiness.name || "")}" placeholder="Nombre o razón social"></div>
           <div class="business-field"><label for="fiscalIdType">Tipo de identificación</label><select id="fiscalIdType"><option value="fisica" ${fiscal.id_type === "fisica" ? "selected" : ""}>Cédula física</option><option value="juridica" ${fiscal.id_type === "juridica" ? "selected" : ""}>Cédula jurídica</option><option value="dimex" ${fiscal.id_type === "dimex" ? "selected" : ""}>DIMEX</option><option value="nite" ${fiscal.id_type === "nite" ? "selected" : ""}>NITE</option></select></div>
@@ -2629,7 +2629,7 @@ async function renderPlanSection() {
         ${isPro ? `<p class="panel-plan-date">Vigencia: ${escapePanelHTML(expires)}</p>` : (String(plan?.plan_tier||'').toLowerCase()==='pro' && plan?.expires_at ? `<p class="panel-plan-date">Tu período PRO venció el ${escapePanelHTML(expires)}.</p>` : "")}
       </div>
       <div class="business-settings-block"><div class="business-settings-title"><div class="business-settings-icon">✓</div><div><h2>Tu plan, claro</h2><p>El Panel muestra el plan registrado para este negocio.</p></div></div><div class="panel-info-card"><strong>PRO: ₡6.990 mensual · ₡18.900 trimestral · ₡69.900 anual</strong><p>Precios finales con impuestos incluidos. Los pagos en línea se habilitarán cuando conectemos la pasarela oficial.</p></div></div>
-      ${canManagePlan ? `<div class="code-activation-box"><div class="business-settings-title"><div class="business-settings-icon">⌁</div><div><h2>Activar código PRO</h2><p>Usa aquí un código de Beta Fundadores, regalo o promoción. Si ya tienes PRO vigente, el tiempo del código se suma a tu vigencia.</p></div></div><div class="code-row"><input id="proActivationCode" autocomplete="off" autocapitalize="characters" maxlength="32" placeholder="PYCR-XXXX-XXXX" aria-label="Código de activación PRO"><button id="redeemProButton" class="business-save-button" type="button" onclick="redeemProCode()">Activar PRO</button></div><div id="proCodeMessage" class="code-message" role="status" aria-live="polite"></div></div>` : `<div class="panel-info-card"><strong>Administración del plan</strong><p>Solo el propietario del negocio puede activar códigos o cambiar el plan.</p></div>`}
+      ${canManagePlan ? `<div class="code-activation-box"><div class="business-settings-title"><div class="business-settings-icon">⌁</div><div><h2>Activar código PRO</h2><p>Usa aquí un código del Programa Fundadores, regalo o promoción. Si ya tienes PRO vigente, el tiempo del código se suma a tu vigencia.</p></div></div><div class="code-row"><input id="proActivationCode" autocomplete="off" autocapitalize="characters" maxlength="32" placeholder="PYCR-XXXX-XXXX" aria-label="Código de activación PRO"><button id="redeemProButton" class="business-save-button" type="button" onclick="redeemProCode()">Activar PRO</button></div><div id="proCodeMessage" class="code-message" role="status" aria-live="polite"></div></div>` : `<div class="panel-info-card"><strong>Administración del plan</strong><p>Solo el propietario del negocio puede activar códigos o cambiar el plan.</p></div>`}
       <div class="business-settings-actions"><a class="business-save-button panel-link-button" href="${PUNTO_YA_APP}">Abrir PUNTO YA CR</a></div>
     </section>`
   );
@@ -2887,7 +2887,7 @@ async function checkPlatformAdminAccess(){
   try{
     const {data,error}=await panelCloud.rpc("is_platform_admin");
     if(error||data!==true){mount.innerHTML="";return;}
-    mount.innerHTML=`<section class="platform-admin-entry"><div><span class="dashboard-eyebrow">SUPER ADMIN · PRIVADO</span><h2>Administración PUNTO YA CR</h2><p>Negocios, suscripciones, códigos PRO, Beta Fundadores y newsletter.</p></div><a href="admin.html">Abrir administración →</a></section>`;
+    mount.innerHTML=`<section class="platform-admin-entry"><div><span class="dashboard-eyebrow">SUPER ADMIN · PRIVADO</span><h2>Administración PUNTO YA CR</h2><p>Negocios, suscripciones, códigos PRO, Programa Fundadores y newsletter.</p></div><a href="admin.html">Abrir administración →</a></section>`;
   }catch(_){mount.innerHTML="";}
 }
 window.checkPlatformAdminAccess=checkPlatformAdminAccess;

@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
-const internalSections = ['#inicio','#como','#restaurante','#retail','#panel-emprendedor','#pro','#beta','#nosotros','#faq','#facturacion','#planes','#descarga','#confianza'];
+const internalSections = ['#inicio','#como','#restaurante','#retail','#panel-emprendedor','#pro','#fundadores','#nosotros','#faq','#facturacion','#planes','#descarga','#confianza'];
 
 function collectRuntimeErrors(page) {
   const errors = [];

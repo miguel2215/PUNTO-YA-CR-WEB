@@ -38,7 +38,9 @@ for (const file of htmlFiles) {
     if (/^(?:https?:|mailto:|tel:|#|data:)/i.test(ref)) continue;
     const clean = ref.split('#')[0].split('?')[0];
     if (!clean) continue;
-    const target = path.resolve(path.dirname(file), clean);
+    const target = clean.startsWith('/')
+      ? path.resolve(pub, clean.replace(/^\/+/, ''))
+      : path.resolve(path.dirname(file), clean);
     if (!fs.existsSync(target)) errors.push(`Referencia local faltante en ${path.relative(pub,file)} -> ${ref}`);
   }
 }
