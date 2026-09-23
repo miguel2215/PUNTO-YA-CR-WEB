@@ -37,22 +37,34 @@ function panelRpcMissing(error){
 }
 
 async function ensurePanelLegalAcceptance(){
-  if(!panelCloud || !panelUser) return true;
+  if(!panelCloud || !panelUser) return false;
   try{
     const {data,error}=await panelCloud.rpc("get_my_legal_acceptance",{
       p_document_version:PANEL_LEGAL_VERSION,
       p_business_id:panelBusiness?.id||null
     });
-    if(error){
-      if(panelRpcMissing(error)){ console.warn("Registro legal aún no está activo en Supabase."); return true; }
-      throw error;
-    }
+    if(error)throw error;
     if(data?.terms===true && data?.privacy===true) return true;
     return await openPanelLegalAcceptance();
   }catch(error){
     console.error("No se pudo comprobar la aceptación legal:",error);
-    return true;
+    showPanelLegalCheckError();
+    return false;
   }
+}
+
+function showPanelLegalCheckError(){
+  document.querySelector("#panelLegalModal")?.remove();
+  const modal=document.createElement("div");
+  modal.id="panelLegalModal";
+  modal.className="panel-legal-overlay";
+  modal.innerHTML=`<section class="panel-legal-modal" role="alertdialog" aria-modal="true" aria-labelledby="panelLegalTitle">
+    <span class="access-tag">PUNTO YA CR</span>
+    <h2 id="panelLegalTitle">No pudimos verificar la aceptación legal</h2>
+    <p>Por seguridad no abriremos el Panel hasta poder comprobar la versión legal vigente. Intenta nuevamente.</p>
+    <div class="panel-legal-actions"><button class="panel-button primary-button" type="button" onclick="location.reload()">Reintentar</button><button class="panel-button" type="button" onclick="panelLogout()">Cerrar sesión</button></div>
+  </section>`;
+  document.body.appendChild(modal);
 }
 
 function openPanelLegalAcceptance(){
@@ -316,7 +328,7 @@ async function checkPanelSession() {
     );
 
     if (panelBusiness) {
-      await ensurePanelLegalAcceptance();
+      if (!(await ensurePanelLegalAcceptance())) return false;
       await renderPanelDashboard();
       startPanelInactivityWatch();
     } else {
@@ -437,7 +449,7 @@ function listenPanelAuth() {
       if (panelUser && (event === "SIGNED_IN" || event === "USER_UPDATED")) {
         await loadPanelBusiness(panelUser);
         if (panelBusiness) {
-          await ensurePanelLegalAcceptance();
+          if (!(await ensurePanelLegalAcceptance())) return;
           await renderPanelDashboard();
           startPanelInactivityWatch();
         }
@@ -694,7 +706,7 @@ async function panelLogin() {
   }
 );
 
-await ensurePanelLegalAcceptance();
+if (!(await ensurePanelLegalAcceptance())) return;
 await renderPanelDashboard();
     startPanelInactivityWatch();
     await handlePanelEntryIntent(true);

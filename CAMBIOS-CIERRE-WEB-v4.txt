@@ -1,0 +1,20 @@
+PUNTO YA CR — CIERRE WEB v4
+
+Cambios aplicados sobre la versión actual revisada:
+- Android queda únicamente como PRÓXIMAMENTE; se eliminó el botón falso de descarga.
+- Super Admin queda con noindex,nofollow.
+- Newsletter usa únicamente el RPC legal versionado 2026.09; se retiró el fallback antiguo de inserción directa.
+- Se añadió acceso visible para solicitar baja de comunicaciones mediante el formulario de privacidad existente.
+- El Panel deja de abrir si no puede comprobar la aceptación legal 2026.09; ya no falla abierto.
+- Se simplificó la descripción pública del operador sin publicar la actividad fiscal, conservando los datos de identificación/contacto mostrados para comercio electrónico.
+- Se alinearon pruebas Playwright con el texto real de Términos y el estado Android.
+- Se reforzó verify-static con comprobaciones de cierre.
+- Se eliminó el archivo SQL heredado del ZIP y el asset vacío public/assets/-.
+
+Se mantiene:
+- POS temporal en mipuntocr.mieduar2215.workers.dev hasta migrarlo a un dominio definitivo.
+- PRO por códigos; pagos online aún no conectados.
+- Facturación electrónica EN PREPARACIÓN.
+- Legal 2026.09.
+
+No se incluye SQL dentro de este ZIP.
