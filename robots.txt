@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /panel.html
+Sitemap: https://puntoyacr.com/sitemap.xml
