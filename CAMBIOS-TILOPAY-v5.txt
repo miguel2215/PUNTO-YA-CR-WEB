@@ -1,0 +1,23 @@
+PUNTO YA CR WEB · TILOPAY v5
+
+Cambios principales:
+- Planes PRO web conectados a los tres enlaces recurrentes de Tilopay.
+- Mensual 7410: ₡6.990.
+- Trimestral 7411: ₡18.900.
+- Anual 7412: ₡69.900.
+- Página pago-pro.html para continuar la activación después del checkout.
+- Panel del Emprendedor consulta de forma autenticada tilopay-my-code.
+- El comprador puede ver/copiar su código PRO pendiente y el propietario puede activarlo en el negocio.
+- Condiciones PRO, Términos y Proveedores tecnológicos actualizados para reflejar Tilopay.
+- No se incluyó ningún archivo SQL.
+- No se incluyeron credenciales privadas de Tilopay ni secretos de Supabase.
+
+Configuración externa ya requerida:
+- tilopay-webhook desplegado en Supabase.
+- tilopay-my-code desplegado en Supabase.
+- webhook_payment configurado en los planes 7410, 7411 y 7412.
+
+Pendiente antes de publicar cobros en producción:
+- Configurar en cada plan de Tilopay la URL de agradecimiento:
+  https://puntoyacr.com/pago-pro.html
+- Hacer una compra real controlada y confirmar pago -> código -> canje -> renovación.

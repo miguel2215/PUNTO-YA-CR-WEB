@@ -10,10 +10,6 @@ function showPublicNotice(message){
   box.textContent=message;box.classList.add('show');clearTimeout(showPublicNotice._t);showPublicNotice._t=setTimeout(()=>box.classList.remove('show'),4500);
 }
 
-document.querySelectorAll('.pending-payment').forEach(btn=>btn.addEventListener('click',()=>{
-  const labels={monthly:'mensual',quarterly:'trimestral',annual:'anual'};
-  showPublicNotice(`El pago ${labels[btn.dataset.cycle]||'PRO'} estará disponible cuando conectemos la pasarela oficial. Si ya tienes un código PRO, puedes activarlo desde tu Panel del Emprendedor.`);
-}));
 
 const tabletBtn=[...document.querySelectorAll('button')].find(b=>/Usar en Tablet/i.test(b.textContent));
 if(tabletBtn)tabletBtn.addEventListener('click',()=>window.open(PUBLIC_APP_URL,'_blank','noopener'));

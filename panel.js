@@ -10,6 +10,13 @@ const PANEL_SUPABASE_URL =
 const PANEL_SUPABASE_KEY =
   "sb_publishable_gRxzhxgEe3WnqSfA-fn6_w_nOtQ7sDy";
 
+const TILOPAY_CHECKOUTS = Object.freeze({
+  monthly: "https://tp.cr/l/TnpReE1nPT18MQ==",
+  quarterly: "https://tp.cr/l/TnpReE1RPT18MQ==",
+  annual: "https://tp.cr/l/TnpReE1BPT18MQ=="
+});
+
+
 const PUNTO_YA_APP =
   "https://mipuntocr.mieduar2215.workers.dev/";
 
@@ -2748,12 +2755,72 @@ async function renderPlanSection() {
         <div class="account-status-card"><div><span class="account-status-dot"></span><strong>${isPro ? "Pro activo" : "Free activo"}</strong></div><span class="account-owner-badge">${isPro ? "PRO" : "FREE"}</span></div>
         ${isPro ? `<p class="panel-plan-date">Vigencia: ${escapePanelHTML(expires)}</p>` : (String(plan?.plan_tier||'').toLowerCase()==='pro' && plan?.expires_at ? `<p class="panel-plan-date">Tu período PRO venció el ${escapePanelHTML(expires)}.</p>` : "")}
       </div>
-      <div class="business-settings-block"><div class="business-settings-title"><div class="business-settings-icon">✓</div><div><h2>Tu plan, claro</h2><p>El Panel muestra el plan registrado para este negocio.</p></div></div><div class="panel-info-card"><strong>PRO: ₡6.990 mensual · ₡18.900 trimestral · ₡69.900 anual</strong><p>Precios finales con impuestos incluidos. Los pagos en línea se habilitarán cuando conectemos la pasarela oficial.</p></div></div>
-      ${canManagePlan ? `<div class="code-activation-box"><div class="business-settings-title"><div class="business-settings-icon">⌁</div><div><h2>Activar código PRO</h2><p>Usa aquí un código del Programa Fundadores, regalo o promoción. Si ya tienes PRO vigente, el tiempo del código se suma a tu vigencia.</p></div></div><div class="code-row"><input id="proActivationCode" autocomplete="off" autocapitalize="characters" maxlength="32" placeholder="PYCR-XXXX-XXXX" aria-label="Código de activación PRO"><button id="redeemProButton" class="business-save-button" type="button" onclick="redeemProCode()">Activar PRO</button></div><div id="proCodeMessage" class="code-message" role="status" aria-live="polite"></div></div>` : `<div class="panel-info-card"><strong>Administración del plan</strong><p>Solo el propietario del negocio puede activar códigos o cambiar el plan.</p></div>`}
+      <div class="business-settings-block"><div class="business-settings-title"><div class="business-settings-icon">✓</div><div><h2>Tu plan, claro</h2><p>El Panel muestra el plan registrado para este negocio.</p></div></div><div class="panel-info-card"><strong>PRO: ₡6.990 mensual · ₡18.900 trimestral · ₡69.900 anual</strong><p>Precios finales con impuestos incluidos. Las compras realizadas en la web se procesan mediante Tilopay y generan un código PRO después de confirmar el pago.</p></div>${!isPro ? `<div class="tilopay-buy-grid"><a href="${TILOPAY_CHECKOUTS.monthly}" class="tilopay-buy-link">Mensual · ₡6.990</a><a href="${TILOPAY_CHECKOUTS.quarterly}" class="tilopay-buy-link">Trimestral · ₡18.900</a><a href="${TILOPAY_CHECKOUTS.annual}" class="tilopay-buy-link">Anual · ₡69.900</a></div><p class="panel-inline-note">Usa en Tilopay el mismo correo con el que inicias sesión en PUNTO YA CR.</p>` : ``}</div>
+      <div id="tilopayPurchaseBox" class="tilopay-purchase-box"><strong>Compra web con Tilopay</strong><p>Consulta si tienes un código PRO pendiente asociado a tu correo.</p><button class="account-secondary-button" type="button" onclick="loadTilopayPurchaseStatus()">Consultar mi compra web</button><div id="tilopayPurchaseMessage" class="code-message" role="status" aria-live="polite"></div></div>
+      ${canManagePlan ? `<div class="code-activation-box"><div class="business-settings-title"><div class="business-settings-icon">⌁</div><div><h2>Activar código PRO</h2><p>Usa aquí un código de compra web, Programa Fundadores, regalo o promoción. Si ya tienes PRO vigente, el tiempo del código se suma a tu vigencia.</p></div></div><div class="code-row"><input id="proActivationCode" autocomplete="off" autocapitalize="characters" maxlength="32" placeholder="PYCR-XXXX-XXXX" aria-label="Código de activación PRO"><button id="redeemProButton" class="business-save-button" type="button" onclick="redeemProCode()">Activar PRO</button></div><div id="proCodeMessage" class="code-message" role="status" aria-live="polite"></div></div>` : `<div class="panel-info-card"><strong>Administración del plan</strong><p>Solo el propietario del negocio puede activar códigos o cambiar el plan.</p></div>`}
       <div class="business-settings-actions"><a class="business-save-button panel-link-button" href="${PUNTO_YA_APP}">Abrir PUNTO YA CR</a></div>
     </section>`
   );
+  if (getPanelEntryIntent().source === "tilopay") {
+    setTimeout(() => loadTilopayPurchaseStatus(), 80);
+  }
 }
+
+async function loadTilopayPurchaseStatus(){
+  const box=document.getElementById("tilopayPurchaseBox");
+  const msg=document.getElementById("tilopayPurchaseMessage");
+  if(!box||!msg||!panelCloud||!panelUser)return;
+  msg.className="code-message";
+  msg.textContent="Consultando tu compra web…";
+  const buttons=[...box.querySelectorAll("button")];
+  buttons.forEach(b=>b.disabled=true);
+  try{
+    const {data,error}=await panelCloud.functions.invoke("tilopay-my-code",{body:{}});
+    if(error)throw error;
+    if(data?.pending&&data?.code){
+      const code=String(data.code).trim().toUpperCase();
+      const planLabels={monthly:"Mensual",quarterly:"Trimestral",annual:"Anual"};
+      msg.className="code-message ok tilopay-code-result";
+      msg.innerHTML=`<span>Pago confirmado · PRO ${escapePanelHTML(planLabels[data.plan_period]||data.plan_period||"")}</span><strong>${escapePanelHTML(code)}</strong><small>${Number(data.duration_days||0)} días · ${panelMoney(Number(data.amount||0))}</small><div class="tilopay-code-actions"><button class="account-secondary-button" type="button" onclick="copyTilopayCode('${escapePanelHTML(code)}')">Copiar código</button>${(panelMembership?.role === "owner" || panelBusiness?.owner_user_id === panelUser?.id) ? `<button class="business-save-button" type="button" onclick="useTilopayCode('${escapePanelHTML(code)}')">Activar en este negocio</button>` : ``}</div>`;
+      return;
+    }
+    if(data?.active){
+      msg.className="code-message ok";
+      msg.textContent="Tu compra Tilopay ya fue aplicada a PUNTO YA CR Pro.";
+      return;
+    }
+    msg.className="code-message";
+    msg.textContent=data?.message||"No tienes un código de compra web pendiente. Si acabas de pagar, espera unos segundos y vuelve a consultar.";
+  }catch(error){
+    console.error("Tilopay PRO:",error);
+    msg.className="code-message error";
+    msg.textContent="No pudimos consultar tu compra web. Intenta nuevamente.";
+  }finally{
+    buttons.forEach(b=>b.disabled=false);
+  }
+}
+
+async function copyTilopayCode(code){
+  try{
+    await navigator.clipboard.writeText(String(code||""));
+    const msg=document.getElementById("tilopayPurchaseMessage");
+    msg?.classList.add("ok");
+  }catch(_){
+    const input=document.getElementById("proActivationCode");
+    if(input){input.value=String(code||"");input.focus();input.select();}
+  }
+}
+
+async function useTilopayCode(code){
+  const input=document.getElementById("proActivationCode");
+  if(!input)return;
+  input.value=String(code||"").trim().toUpperCase();
+  await redeemProCode();
+}
+
+window.loadTilopayPurchaseStatus=loadTilopayPurchaseStatus;
+window.copyTilopayCode=copyTilopayCode;
+window.useTilopayCode=useTilopayCode;
 
 function renderSupportSection() {
   panelSectionShell(
