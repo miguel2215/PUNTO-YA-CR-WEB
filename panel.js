@@ -122,9 +122,37 @@ async function acceptPanelLegalDocuments(){
 }
 window.acceptPanelLegalDocuments=acceptPanelLegalDocuments;
 
+const PANEL_LAST_VIEW_KEY = "pycr_panel_last_view";
+const PANEL_SAVED_VIEWS = new Set(["business","account","money","growth","accounting","devices","billing","plan","support"]);
+
 function getPanelEntryIntent(){
   const p=new URLSearchParams(window.location.search);
   return {access:p.get("access")||"",open:p.get("open")||"",reason:p.get("reason")||"",source:p.get("source")||""};
+}
+
+function rememberPanelView(section){
+  if(!PANEL_SAVED_VIEWS.has(section)) return;
+  try{ localStorage.setItem(PANEL_LAST_VIEW_KEY, section); }catch(_){}
+}
+
+function clearRememberedPanelView(){
+  try{ localStorage.removeItem(PANEL_LAST_VIEW_KEY); }catch(_){}
+}
+
+function getRememberedPanelView(){
+  try{
+    const section=localStorage.getItem(PANEL_LAST_VIEW_KEY)||"";
+    return PANEL_SAVED_VIEWS.has(section)?section:"";
+  }catch(_){ return ""; }
+}
+
+async function restoreRememberedPanelView(){
+  const intent=getPanelEntryIntent();
+  const section=PANEL_SAVED_VIEWS.has(intent.open)?intent.open:getRememberedPanelView();
+  if(!section) return false;
+  rememberPanelView(section);
+  await openDashboardSection(section);
+  return true;
 }
 
 function startPanelInactivityWatch(){
@@ -336,7 +364,7 @@ async function checkPanelSession() {
 
     if (panelBusiness) {
       if (!(await ensurePanelLegalAcceptance())) return false;
-      await renderPanelDashboard();
+      if (!(await restoreRememberedPanelView())) await renderPanelDashboard();
       startPanelInactivityWatch();
     } else {
       document.body.innerHTML = `<main class="panel-main"><section class="access-card"><div class="access-heading"><span class="access-tag">PUNTO YA CR</span><h2>No encontramos un negocio asociado</h2><p>Puedes crear uno desde PUNTO YA CR o iniciar sesión con otra cuenta.</p></div><div class="access-option"><a class="panel-button green-button" href="${PUNTO_YA_APP}?access=create">Crear mi negocio</a><button class="panel-button primary-button" type="button" onclick="panelLogout()">Usar otra cuenta</button></div></section></main>`;
@@ -400,6 +428,7 @@ async function panelLogout() {
     panelMembership = null;
     clearTimeout(__panelInactivityTimer);
     clearEntrepreneurSnapshotCache();
+    clearRememberedPanelView();
 
     window.location.href = "panel.html";
 
@@ -457,7 +486,7 @@ function listenPanelAuth() {
         await loadPanelBusiness(panelUser);
         if (panelBusiness) {
           if (!(await ensurePanelLegalAcceptance())) return;
-          await renderPanelDashboard();
+          if (!(await restoreRememberedPanelView())) await renderPanelDashboard();
           startPanelInactivityWatch();
         }
       }
@@ -998,6 +1027,7 @@ function buildEntrepreneurMetrics(data) {
 let __panelDashboardRendering = false;
 async function renderPanelDashboard() {
   if (!panelUser || !panelBusiness || __panelDashboardRendering) return;
+  clearRememberedPanelView();
   __panelDashboardRendering = true;
   const businessName=panelBusiness.name||"Mi negocio";
   const ownerName=panelBusiness.owner_name||panelUser.user_metadata?.full_name||panelUser.user_metadata?.name||"";
@@ -1039,6 +1069,8 @@ function askPuntoYa(topic) {
 window.askPuntoYa=askPuntoYa;
 
 function openDashboardSection(section) {
+
+  if (PANEL_SAVED_VIEWS.has(section)) rememberPanelView(section);
 
   if (section === "business") {
     renderBusinessSection();
