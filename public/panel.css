@@ -2697,3 +2697,19 @@ a{
 .business-logo-rights{margin-top:12px;max-width:620px;font-size:.9rem;line-height:1.45}.business-logo-rights input{width:auto;min-width:auto}.business-logo-rights a{color:#0b6bcb}
 
 .panel-legal-overlay{position:fixed;inset:0;z-index:10050;background:rgba(4,22,43,.72);display:flex;align-items:center;justify-content:center;padding:20px}.panel-legal-modal{width:min(620px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:22px;padding:24px;box-shadow:0 26px 80px rgba(0,0,0,.28)}.panel-legal-modal h2{margin:8px 0 8px;color:#082d58;font-size:1.65rem}.panel-legal-modal p{color:#5e6f82}.panel-legal-links{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}.panel-legal-links a{font-weight:800;color:#0b6bcb;text-decoration:none}.panel-legal-modal .legal-check{margin:10px 0;display:flex;gap:10px;align-items:flex-start;border:1px solid #dfe7ee;border-radius:14px;padding:12px 14px;background:#f8fbfd}.panel-legal-modal .legal-check input{margin-top:4px}.panel-legal-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+
+
+/* =========================================================
+   TILOPAY · COMPRA WEB / CÓDIGO PRO
+   ========================================================= */
+.tilopay-buy-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:15px}
+.tilopay-buy-link{display:flex;align-items:center;justify-content:center;min-height:44px;padding:10px 12px;border:1px solid #bfe3d8;border-radius:12px;background:#f2fbf7;color:#08745f;text-decoration:none;font-size:12px;font-weight:900;text-align:center}
+.tilopay-buy-link:hover{background:#e9f8f3;border-color:#84cfbc}
+.tilopay-purchase-box{margin-top:20px;padding:22px;border:1px solid #cfe5df;border-radius:20px;background:#fff}
+.tilopay-purchase-box>strong{display:block;color:#07335d;font-size:16px}
+.tilopay-purchase-box>p{color:#6f8295;font-size:13px;line-height:1.5}
+.tilopay-code-result{display:flex;flex-direction:column;gap:6px;padding:16px;margin-top:14px;border:1px solid #bfe3d8;border-radius:14px;background:#f4fcf9}
+.tilopay-code-result strong{font-size:22px;letter-spacing:1px;color:#07335d}
+.tilopay-code-result small{color:#617b8e}
+.tilopay-code-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+@media(max-width:680px){.tilopay-buy-grid{grid-template-columns:1fr}.tilopay-code-actions{flex-direction:column}.tilopay-code-actions button{width:100%}}

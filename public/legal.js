@@ -45,3 +45,12 @@ async function submitIpClaim(e){
 
 document.getElementById('privacyRequestForm')?.addEventListener('submit',submitPrivacyRequest);
 document.getElementById('ipClaimForm')?.addEventListener('submit',submitIpClaim);
+
+function applyPrivacyRequestIntent(){
+  const select=document.getElementById('privacyType');
+  if(!select)return;
+  const requested=new URLSearchParams(window.location.search).get('type');
+  const allowed=new Set(['account_closure','deletion','access','rectification','marketing_optout','other']);
+  if(requested&&allowed.has(requested))select.value=requested;
+}
+applyPrivacyRequestIntent();

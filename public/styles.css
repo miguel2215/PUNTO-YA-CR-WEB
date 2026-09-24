@@ -2932,3 +2932,10 @@ h2{
   .site-header .head-actions{display:none}
   .site-header .mobile-head-actions{display:flex}
 }
+
+
+/* =========================================================
+   TILOPAY · PAGOS WEB PRO
+   ========================================================= */
+.price-card .tilopay-payment{margin-top:auto;width:100%;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;box-sizing:border-box}
+.payment-note a{color:#0b6bcb;font-weight:800}

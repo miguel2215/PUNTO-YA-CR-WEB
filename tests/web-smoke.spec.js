@@ -56,9 +56,11 @@ test('privacidad, términos y 404 cargan', async ({ page }) => {
   await page.goto('/privacidad.html');
   await expect(page.getByRole('heading', {name:/Política de Privacidad/i})).toBeVisible();
   await page.goto('/terminos.html');
-  await expect(page.getByRole('heading', {name:/Términos de uso/i})).toBeVisible();
+  await expect(page.getByRole('heading', {name:/Términos de Servicio/i})).toBeVisible();
   await page.goto('/404.html');
   await expect(page.getByRole('heading', {name:/Página no encontrada/i})).toBeVisible();
+  await page.goto('/pago-pro.html');
+  await expect(page.getByRole('heading', {name:/Continúa con tu activación PRO/i})).toBeVisible();
 });
 
 test('planes muestran precios aprobados e impuestos incluidos', async ({ page }) => {

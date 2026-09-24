@@ -45,3 +45,17 @@ test('documentos públicos no muestran mensajes de borrador o pre-lanzamiento', 
     await expect(page.locator('body')).not.toContainText(/versión de trabajo|antes de publicar comercialmente|borrador beta|antes del lanzamiento/i);
   }
 });
+
+
+test('newsletter usa salida de comunicaciones y no expone texto fiscal innecesario', async ({ page }) => {
+  await page.goto('/index.html');
+  await expect(page.getByRole('link', { name: /Privacidad y comunicaciones/i })).toHaveAttribute('href', /type=marketing_optout/);
+
+  for (const path of ['centro-legal.html','privacidad.html','terminos.html']) {
+    await page.goto('/' + path);
+    const body = await page.locator('body').innerText();
+    expect(body).not.toMatch(/Ministerio de Hacienda|actividad de programación informática|Domicilio fiscal/i);
+    expect(body).toMatch(/Identificación:/i);
+    expect(body).toMatch(/Domicilio del operador:/i);
+  }
+});

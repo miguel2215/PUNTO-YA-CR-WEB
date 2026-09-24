@@ -12,8 +12,10 @@ test('cierre comercial: dominio, marca y estados públicos correctos', async ({ 
   expect(body).not.toMatch(/Mi Punto CR/i);
   expect(body).toMatch(/Facturación electrónica/i);
   expect(body).toMatch(/EN PREPARACIÓN/i);
-  expect(body).toMatch(/pagos en línea estarán disponibles/i);
-  expect(body).toMatch(/Android — próximamente/i);
+  expect(body).toMatch(/Pagos web procesados mediante Tilopay/i);
+  expect(body).not.toMatch(/pagos en línea estarán disponibles|cuando conectemos la pasarela/i);
+  expect(body).toMatch(/Android[\s\S]{0,120}PRÓXIMAMENTE/i);
+  expect(body).not.toMatch(/Descargar para Android/i);
 });
 
 test('cierre comercial: panel y admin no deben indexarse', async ({ page }) => {
