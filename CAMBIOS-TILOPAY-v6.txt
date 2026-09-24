@@ -1,0 +1,13 @@
+PUNTO YA CR WEB + TILOPAY v6
+
+Corrección puntual sobre v5:
+- El Panel del Emprendedor recuerda la última sección abierta.
+- Al volver a panel.html con una sesión activa, restaura esa sección en lugar de mandar siempre a Inicio.
+- "Volver al panel" limpia la sección recordada y deja Inicio como destino.
+- Cerrar sesión también limpia la sección recordada.
+- No se modificó el flujo Tilopay, Edge Functions, secrets, SQL, POS/app ni capa legal.
+- No contiene archivos SQL.
+
+Validaciones:
+- npm run check:js: OK
+- npm run check:static: OK
